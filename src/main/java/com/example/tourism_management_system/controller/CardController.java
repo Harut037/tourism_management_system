@@ -1,7 +1,9 @@
 package com.example.tourism_management_system.controller;
 
 import com.example.tourism_management_system.model.entities.CardEntity;
+import com.example.tourism_management_system.model.pojos.Card;
 import com.example.tourism_management_system.service.impl.CardServiceImpl;
+import com.example.tourism_management_system.validation.card.ValidationForCard;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,6 +16,7 @@ public class CardController {
 
     private final CardServiceImpl cardService;
 
+    ValidationForCard validationForCard = new ValidationForCard();
 
     public CardController(CardServiceImpl cardService) {
         this.cardService = cardService;
@@ -32,18 +35,11 @@ public class CardController {
     }
 
     @PostMapping("/add")
-    public void addCard(@RequestBody CardEntity cardEntity){
-//        CardModel cardModel = new CardModel();
-//        cardModel.setUserId(cardEntity.getUserId());
-//        cardModel.setFirstName(cardEntity.getFirstName());
-//        cardModel.setLastName(cardEntity.getLastName());
-//        cardModel.setCardNumber(validation.cardNumberValidation(cardEntity.getCardNumber()));
-//                cardModel.setType(validation.validateForCardType(cardEntity.getType()));
-//                cardModel.setExpirationDate(validation.validateExpirationDate(cardEntity.getExpirationDate()));
-//                cardModel.setCurrency(Currency.valueOf(cardEntity.getCurrency()).toString());
-//        cardService.createCard(cardModel);
+    public void addCard(@RequestBody Card card) {
+        if (validationForCard.isValidCard(card)) {
+            cardService.createCard(card);
+        } else throw new IllegalArgumentException();
     }
-
 
 
     @PutMapping("/recharge/{cardNumber}/{balance}")

@@ -1,10 +1,11 @@
 package com.example.tourism_management_system.model.pojos;
 
 import com.example.tourism_management_system.model.entities.CardEntity;
+import com.example.tourism_management_system.model.entities.UserEntity;
 
 import java.time.LocalDate;
 
-public class CardModel {
+public class Card {
     
     private User user;
     
@@ -25,11 +26,9 @@ public class CardModel {
     private String currency;
     
     
-    public CardModel () {}
+    public Card() {}
     
-    public CardModel (CardEntity cardEntity) {
-    
-    }
+
     
     public String getCardNumber () {
         return cardNumber;
@@ -103,7 +102,7 @@ public class CardModel {
         this.user = user;
     }
     
-    public CardModel (User user, String firstName, String lastName, String cardNumber, String type, double balance, LocalDate expirationDate, String status, String currency) {
+    public Card(User user, String firstName, String lastName, String cardNumber, String type, double balance, LocalDate expirationDate, String status, String currency) {
         this.user = user;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -114,4 +113,29 @@ public class CardModel {
         this.status = status;
         this.currency = currency;
     }
+
+
+    public Card(CardEntity cardEntity) {
+        setUser(new User(cardEntity.getUser()));
+        setCardNumber(cardEntity.getCardNumber());
+        setFirstName(cardEntity.getFirstName());
+        setLastName(cardEntity.getLastName());
+        setType(cardEntity.getType());
+        setBalance(cardEntity.getBalance());
+        setExpirationDate(cardEntity.getExpirationDate());
+        setStatus(cardEntity.getStatus());
+        setCurrency(cardEntity.getCurrency());
+    }
+
+    public Card(User user, String firstName, String lastName, String cardNumber, String type, double balance, String status, String currency) {
+        this.user = user;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.cardNumber = cardNumber;
+        this.type = type;
+        this.balance = balance;
+        this.status = status;
+        this.currency = currency;
+    }
+
 }

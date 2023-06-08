@@ -3,26 +3,19 @@ package com.example.tourism_management_system.validation.card;
 
 import com.example.tourism_management_system.model.enums.enumForCard.CardType;
 import com.example.tourism_management_system.model.enums.enumForCard.Currency;
-import com.example.tourism_management_system.model.pojos.CardModel;
-import com.example.tourism_management_system.repository.CardRepository;
+import com.example.tourism_management_system.model.pojos.Card;
 
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Random;
 
 public class ValidationForCard {
 
-
-    private CardRepository cardRepository;
-
     ExchangeRate exchangeRate = new ExchangeRate();
-
-    Random random = new Random();
-
-    Crypt crypt = new Crypt();
 
     public String cardNumberValidation(String cardNumber) {
         if (cardNumber.startsWith("4") && cardNumber.length() == 16){
@@ -86,6 +79,7 @@ public class ValidationForCard {
     }
 
 
+
     public String generateTransactionNumber() {
         String timestamp = new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date());
         Random random = new Random();
@@ -127,7 +121,7 @@ public class ValidationForCard {
         return receiveAmount;
     }
 
-    public boolean isValidCard(CardModel card) {
+    public boolean isValidCard(Card card) {
         if (cardNumberValidation(card.getCardNumber()).equals("Invalid card number")
         ||  validateForCardType(card.getType()).equals("Invalid card type")
         || validateExpirationDate(card.getExpirationDate()) == null

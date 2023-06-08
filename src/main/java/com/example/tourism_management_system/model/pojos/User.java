@@ -12,7 +12,7 @@ public class User {
     
     private String email;
     
-    private CardModel card;
+    private Card card;
     
     public String getUsername () {
         return username;
@@ -22,11 +22,11 @@ public class User {
         this.username = username;
     }
     
-    public CardModel getCard () {
+    public Card getCard () {
         return card;
     }
     
-    public void setCard (CardModel card) {
+    public void setCard (Card card) {
         this.card = card;
     }
     

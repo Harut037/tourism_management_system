@@ -1,9 +1,9 @@
 package com.example.tourism_management_system.model.pojos;
 
-import java.sql.Time;
 import java.time.LocalDate;
+import java.time.LocalTime;
 
-public class TourModel {
+public class Tour {
     
     private String tourType;
     
@@ -11,7 +11,7 @@ public class TourModel {
     
     private LocalDate tourDate;
     
-    private Time startTime;
+    private LocalTime startTime;
     
     private String duration;
     
@@ -47,11 +47,11 @@ public class TourModel {
         this.tourDate = tourDate;
     }
     
-    public Time getStartTime () {
+    public LocalTime getStartTime () {
         return startTime;
     }
     
-    public void setStartTime (Time startTime) {
+    public void setStartTime (LocalTime startTime) {
         this.startTime = startTime;
     }
     
@@ -95,7 +95,7 @@ public class TourModel {
         this.cost = cost;
     }
     
-    public TourModel (String tourType, String tourName, LocalDate tourDate, Time startTime, String duration, String distance, String carType, int quantity, int cost) {
+    public Tour(String tourType, String tourName, LocalDate tourDate, LocalTime startTime, String duration, String distance, String carType, int quantity, int cost) {
         this.tourType = tourType;
         this.tourName = tourName;
         this.tourDate = tourDate;

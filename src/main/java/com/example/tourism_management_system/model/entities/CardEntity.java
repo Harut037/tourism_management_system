@@ -1,5 +1,8 @@
 package com.example.tourism_management_system.model.entities;
 
+import com.example.tourism_management_system.model.enums.enumForCard.CardType;
+import com.example.tourism_management_system.model.pojos.Card;
+import com.example.tourism_management_system.validation.card.ValidationForCard;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
@@ -51,7 +54,9 @@ public class CardEntity {
     private String currency;
 
     public CardEntity() {}
-    
+
+
+
     public UserEntity getUser() {
         return user;
     }
@@ -143,5 +148,17 @@ public class CardEntity {
         this.expirationDate = expirationDate;
         this.status = status;
         this.currency = currency;
+    }
+
+    public CardEntity(Card card) {
+        setUser(new UserEntity(card.getUser()));
+        setCardNumber(card.getCardNumber());
+        setFirstName(card.getFirstName());
+        setLastName(card.getLastName());
+        setType(card.getType());
+        setBalance(card.getBalance());
+        setExpirationDate(card.getExpirationDate());
+        setStatus(CardType.valueOf("ACTIVE").toString());
+        setCurrency(card.getCurrency());
     }
 }

@@ -1,7 +1,7 @@
 package com.example.tourism_management_system.service.impl;
 
 import com.example.tourism_management_system.model.entities.TourEntity;
-import com.example.tourism_management_system.model.pojos.TourModel;
+import com.example.tourism_management_system.model.pojos.Tour;
 import com.example.tourism_management_system.repository.TourRepository;
 import com.example.tourism_management_system.service.TourService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,12 +23,12 @@ public class TourServiceImpl implements TourService {
     }
 
     @Override
-    public String save(TourModel tourModel) {
-        TourEntity tourEntity = new TourEntity(tourModel.getTourType(),
-                tourModel.getTourName(),tourModel.getTourDate(),tourModel.getStartTime(),
-                tourModel.getDuration(),tourModel.getDistance(),
-                tourModel.getCarType(),tourModel.getQuantity(),
-                tourModel.getCost());
+    public String save(Tour tour) {
+        TourEntity tourEntity = new TourEntity(tour.getTourType(),
+                tour.getTourName(), tour.getTourDate(), tour.getStartTime(),
+                tour.getDuration(), tour.getDistance() + "km",
+                tour.getCarType(), tour.getQuantity(),
+                tour.getCost());
         tourRepository.save(tourEntity);
         return "The tour has been successfully created";
     }

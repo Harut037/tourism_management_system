@@ -1,6 +1,6 @@
 package com.example.tourism_management_system.model.pojos;
 
-public class PassInTourModel {
+public class PassInTour {
     
     private Long userId;
     
@@ -10,7 +10,7 @@ public class PassInTourModel {
     
     private int quantity;
     
-    public PassInTourModel (Long userId, Long tourId, String carType, int quantity) {
+    public PassInTour(Long userId, Long tourId, String carType, int quantity) {
         this.userId = userId;
         this.tourId = tourId;
         this.carType = carType;

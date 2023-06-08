@@ -1,13 +1,16 @@
 package com.example.tourism_management_system.validation.tour;
 
 
+import com.example.tourism_management_system.model.enums.enumForTour.PlacesForCultural;
 import com.example.tourism_management_system.model.enums.enumForTour.TourType;
 import com.example.tourism_management_system.model.enums.enumForTour.Transport;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.EnumSet;
 import java.util.List;
 
 
@@ -65,14 +68,13 @@ public class ValidationForTour {
         return null;
     }
 
-    public LocalDate validateExpirationDate(LocalDate expirationDate) {
-        LocalDate currentDate = LocalDate.now();
-        currentDate.format(DateTimeFormatter.ofPattern("MM/yy"));
-        if (currentDate.isBefore(expirationDate)) {
-            return expirationDate;
+    public LocalTime validateStartTime(LocalTime startTime) {
+        LocalTime currentTime = LocalTime.now();
+        currentTime.format(DateTimeFormatter.ofPattern("HH:mm"));
+        if (startTime.isAfter(LocalTime.of(06, 59)) && startTime.isBefore(LocalTime.NOON)) {
+            return startTime;
         } else return null;
     }
-
 
     public String carType(String carType) {
         switch (Transport.valueOf(carType)) {
@@ -116,11 +118,17 @@ public class ValidationForTour {
         }
         return -1;
     }
-    
-    public String validateForDistance(String distance) {
 
-        double forDistance = Double.parseDouble(distance);
-
-        return distance + " km";
+    public List<Object> validateTourInformation(String name){
+        List<Object> objectList = new ArrayList<>();
+        PlacesForCultural plf = PlacesForCultural.valueOf(name);
+        if (EnumSet.allOf(PlacesForCultural.class).contains(plf)){
+            objectList.add(name);
+            objectList.add(plf.getDistance());
+            objectList.add(plf.getDuration());
+            objectList.add(plf.getCost());
+        }
+        return objectList;
     }
+
 }

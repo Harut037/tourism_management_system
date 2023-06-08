@@ -3,7 +3,7 @@ package com.example.tourism_management_system.service.impl;
 import com.example.tourism_management_system.model.entities.CardEntity;
 import com.example.tourism_management_system.model.entities.UserEntity;
 import com.example.tourism_management_system.model.enums.enumForCard.Status;
-import com.example.tourism_management_system.model.pojos.CardModel;
+import com.example.tourism_management_system.model.pojos.Card;
 import com.example.tourism_management_system.repository.CardRepository;
 import com.example.tourism_management_system.service.CardService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,11 +23,8 @@ public class CardServiceImpl implements CardService {
     }
 
 
-    public void createCard(CardModel cardModel){
-        CardEntity cardEntity = new CardEntity(new UserEntity(cardModel.getUser()), cardModel.getFirstName(),
-                cardModel.getLastName(), cardModel.getCardNumber(), cardModel.getType(),
-                cardModel.getBalance(),cardModel.getExpirationDate(), Status.ACTIVE.toString(),
-                cardModel.getCurrency());
+    public void createCard(Card card){
+       CardEntity cardEntity = new CardEntity(card);
                 cardRepository.save(cardEntity);
     }
 

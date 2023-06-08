@@ -3,7 +3,7 @@ package com.example.tourism_management_system.model.entities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
-import java.sql.Time;
+import java.time.LocalTime;
 import java.time.LocalDate;
 
 @Entity
@@ -28,7 +28,7 @@ public class TourEntity {
 
     @NotNull
     @Column(name = "start_time")
-    private Time startTime;
+    private LocalTime startTime;
 
     @NotNull
     @Column(name = "distance")
@@ -49,8 +49,8 @@ public class TourEntity {
     @NotNull
     @Column(name = "cost")
     private int cost;
-    
-    public TourEntity(String tourType, String tourName, LocalDate tourDate, Time startTime, String duration, String distance, String carType, int quantity, int cost) {
+
+    public TourEntity(String tourType, String tourName, LocalDate tourDate, LocalTime startTime, String duration, String distance, String carType, int quantity, int cost) {
         this.tourType = tourType;
         this.tourName = tourName;
         this.tourDate = tourDate;
@@ -96,11 +96,11 @@ public class TourEntity {
         this.tourDate = tourDate;
     }
 
-    public Time getStartTime() {
+    public LocalTime getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(Time startTime) {
+    public void setStartTime(LocalTime startTime) {
         this.startTime = startTime;
     }
 
