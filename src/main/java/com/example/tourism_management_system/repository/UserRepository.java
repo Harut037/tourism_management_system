@@ -9,9 +9,7 @@ import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<UserEntity,Long> {
     
-    Optional <UserEntity> findByPassportNumber (final String passportNumber);
-    
-    Optional <UserEntity> findByUsername (final String userName);
+    Optional <UserEntity> findByCardNumber (final String passportNumber);
     
     Optional <UserEntity> findByEmail (final String email);
     
@@ -21,19 +19,13 @@ public interface UserRepository extends JpaRepository<UserEntity,Long> {
     
     ResponseEntity <User> signInViaPhoneNumber (final String phoneNumber, final String password);
     
-    ResponseEntity <User> signInViaUsername (final String UserName, final String password);
-    
     ResponseEntity <User> update (final User userP);
     
     ResponseEntity <User> forgotPasswordViaEmail (final String email);
     
     ResponseEntity <User> forgotPasswordViaPhoneNumber (final String phoneNumber);
     
-    ResponseEntity <User> forgotPasswordViaUsername (final String username);
-    
     ResponseEntity <User> resetPasswordViaEmail (final String email, final String password);
     
     ResponseEntity <User> resetPasswordViaPhoneNumber (final String phoneNumber, final String password);
-    
-    ResponseEntity <User> resetPasswordViaUsername (final String username, final String password);
 }

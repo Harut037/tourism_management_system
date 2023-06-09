@@ -11,10 +11,7 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "Tours")
 public class TourEntity {
-
-
-
-
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

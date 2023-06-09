@@ -1,9 +1,10 @@
 package com.example.tourism_management_system.service.impl;
 
-import com.example.tourism_management_system.model.entities.CardEntity;
-import com.example.tourism_management_system.model.entities.UserEntity;
+import com.example.tourism_management_system.model.entities.*;
+import com.example.tourism_management_system.model.pojos.Review;
 import com.example.tourism_management_system.model.pojos.SignIn;
 import com.example.tourism_management_system.model.pojos.User;
+import com.example.tourism_management_system.model.pojos.UserInTour;
 import com.example.tourism_management_system.repository.CardRepository;
 import com.example.tourism_management_system.repository.UserRepository;
 import com.example.tourism_management_system.service.CardService;
@@ -115,5 +116,25 @@ public class UserServiceImpl implements UserService {
         } else {
             return -1;
         }
+    }
+    
+    @Override
+    public ResponseEntity <UserInTour> bookTour (UserInTour userInTour) {
+        return null;
+    }
+    
+    @Override
+    public ResponseEntity <UserInTour> editTour (UserInTour userInTour) {
+        return null;
+    }
+    
+    @Override
+    public ResponseEntity <User> cancelTour (UserInTour userInTour) {
+        return null;
+    }
+    
+    @Override
+    public ResponseEntity <Review> leaveReview (ReviewEntity reviewEntity) {
+        return null;
     }
 }

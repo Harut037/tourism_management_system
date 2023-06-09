@@ -2,9 +2,7 @@ package com.example.tourism_management_system.model.entities;
 
 import com.example.tourism_management_system.model.enums.enumForCard.CardType;
 import com.example.tourism_management_system.model.pojos.Card;
-import com.example.tourism_management_system.validation.card.ValidationForCard;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 
@@ -20,37 +18,21 @@ public class CardEntity {
     @ManyToOne
     @JoinColumn(name = "User_Entity")
     private UserEntity user;
-    
-    @NotNull
-    @Column(name = "first_name")
+    @Column(name = "first_name", nullable = false)
     private String firstName;
-    
-    @NotNull
-    @Column(name = "last_name")
+    @Column(name = "last_name", nullable = false)
     private String lastName;
-    
-    @NotNull
-    @Column(name = "card_number")
+    @Column(name = "card_number", nullable = false)
     private String cardNumber;
-    
-    @NotNull
-    @Column(name = "type")
+    @Column(name = "type", nullable = false)
     private String type;
-    
-    @NotNull
-    @Column(name = "balance")
+    @Column(name = "balance", nullable = false)
     private double balance;
-    
-    @NotNull
-    @Column(name = "expiration_date")
+    @Column(name = "expiration_date", nullable = false)
     private LocalDate expirationDate;
-    
-    @NotNull
-    @Column(name = "status")
+    @Column(name = "status", nullable = false)
     private String status;
-    
-    @NotNull
-    @Column(name = "currency")
+    @Column(name = "currency", nullable = false)
     private String currency;
     
     @Column ( name = "flag", nullable = false )

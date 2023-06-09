@@ -1,7 +1,10 @@
 package com.example.tourism_management_system.service;
 
+import com.example.tourism_management_system.model.entities.ReviewEntity;
 import com.example.tourism_management_system.model.entities.TourEntity;
 import com.example.tourism_management_system.model.entities.UserEntity;
+import com.example.tourism_management_system.model.pojos.Review;
+import com.example.tourism_management_system.model.pojos.UserInTour;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import com.example.tourism_management_system.model.pojos.User;
@@ -26,13 +29,12 @@ public interface UserService {
     
     ResponseEntity <User> passwordChange (SignIn signIn, String password, int loginChoice);
     
-    public void bookTour(UserEntity userEntity, TourEntity tourEntity);
-
-    public void editeTour(UserEntity userEntity,TourEntity tourEntity);
-
-    public void cancelTour(UserEntity userEntity,TourEntity tourEntity);
-
-    public String leaveReview(UserEntity userEntity);
-
-
+    ResponseEntity <UserInTour> bookTour(UserInTour userInTour);
+    
+    ResponseEntity <UserInTour> editTour(UserInTour userInTour);
+    
+    ResponseEntity <User> cancelTour(UserInTour userInTour);
+    
+    ResponseEntity <Review> leaveReview(ReviewEntity reviewEntity);
+    
 }

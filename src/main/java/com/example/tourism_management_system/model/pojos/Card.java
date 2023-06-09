@@ -6,26 +6,17 @@ import com.example.tourism_management_system.model.entities.UserEntity;
 import java.time.LocalDate;
 
 public class Card {
+    
     private String firstName;
-    
     private String lastName;
-    
     private String cardNumber;
-    
     private String type;
-    
     private double balance;
-    
     private LocalDate expirationDate;
-    
     private String status;
-    
     private String currency;
     
-    
     public Card() {}
-    
-
     
     public String getCardNumber () {
         return cardNumber;
@@ -101,8 +92,7 @@ public class Card {
         this.status = status;
         this.currency = currency;
     }
-
-
+    
     public Card(CardEntity cardEntity) {
         setCardNumber(cardEntity.getCardNumber());
         setFirstName(cardEntity.getFirstName());
@@ -123,5 +113,4 @@ public class Card {
         this.status = status;
         this.currency = currency;
     }
-
 }
