@@ -12,7 +12,8 @@ public class TransactionEntity {
     private Long id;
     private String transactionNumber;
 
-    private String sender;
+    @ManyToOne
+    private CardEntity sender;
 
     private String receiver;
 

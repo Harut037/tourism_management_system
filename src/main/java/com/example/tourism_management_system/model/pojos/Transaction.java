@@ -1,6 +1,8 @@
 package com.example.tourism_management_system.model.pojos;
 
-public class TransactionModel {
+import com.example.tourism_management_system.model.entities.TransactionEntity;
+
+public class Transaction {
 
     private String transactionNumber;
     private Card sender;
@@ -50,4 +52,8 @@ public class TransactionModel {
         return date;
     }
 
+    public Transaction (TransactionEntity entity){
+    
+    }
+    
 }
