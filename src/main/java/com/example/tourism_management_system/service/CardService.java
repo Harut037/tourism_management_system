@@ -1,3 +1,10 @@
 package com.example.tourism_management_system.service;
 
-public interface CardService {}
+import com.example.tourism_management_system.model.entities.CardEntity;
+
+import java.util.List;
+
+public interface CardService {
+    
+    void save (List<CardEntity> cardEntities);
+}

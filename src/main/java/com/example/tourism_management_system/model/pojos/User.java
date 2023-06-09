@@ -18,17 +18,19 @@ public class User {
     private String           password;
     @Pattern ( regexp = "\\+374\\d{8}", message = "Invalid Phone Number Pattern" )
     private String           phoneNumber;
-    private List<Card> card;
+    private List<Card> cards;
     
     public User () {}
     
     public User (UserEntity user) {
+        this.setFirstName(user.getFirstName());
+        this.setLastName(user.getLastName());
         this.setAge(user.getAge());
         this.setPhoneNumber(user.getPhoneNumber());
         this.setEmail(user.getEmail());
         this.setPassword(user.getPassword());
         this.setPhoneNumber(user.getPhoneNumber());
-        this.setCard(castCards(user.getCardEntities()));
+        this.setCards(castCards(user.getCardEntities()));
     }
     
     public String getFirstName () {
@@ -79,12 +81,12 @@ public class User {
         this.phoneNumber = phoneNumber;
     }
     
-    public List <Card> getCard () {
-        return card;
+    public List <Card> getCards () {
+        return cards;
     }
     
-    public void setCard (List <Card> card) {
-        this.card = card;
+    public void setCards (List <Card> cards) {
+        this.cards = cards;
     }
     
     private List<Card> castCards(List<CardEntity> cardEntities){

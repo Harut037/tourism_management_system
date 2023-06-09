@@ -41,7 +41,7 @@ public class UserEntity {
         this.setEmail(user.getEmail());
         this.setPassword(user.getPassword());
         this.setPhoneNumber(user.getPhoneNumber());
-        this.setCardEntities(castCards(user.getCard()));
+        this.setCardEntities(castCards(user.getCards()));
         this.passwordHash = this.password.hashCode();
     }
     
