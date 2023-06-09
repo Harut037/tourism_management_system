@@ -113,8 +113,8 @@ public class Tour {
     public Tour(TourEntity tourEntity){
         setTourType(tourEntity.getTourType());
         setTourName(tourEntity.getTourName());
-//        setTourDate(tourEntity.getTourDate());
-//        setStartTime(tourEntity.getStartTime());
+        setTourDate(tourEntity.getTourDate());
+        setStartTime(tourEntity.getStartTime());
         setDuration(tourEntity.getDuration());
         setDistance(tourEntity.getDistance());
         setCarType(tourEntity.getCarType());

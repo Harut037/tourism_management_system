@@ -9,6 +9,7 @@ import com.example.tourism_management_system.service.CardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,8 +35,11 @@ public class CardServiceImpl implements CardService {
     }
 
 
-    public List<CardEntity> getAllCard() {
-        return cardRepository.findAll();
+    public List<Card> getAllCard() {
+        List<CardEntity> cardEntities = cardRepository.findAll();
+        List<Card> cards = new ArrayList<>();
+        cardEntities.forEach(card -> cards.add(new Card(card)));
+        return cards;
     }
 
 

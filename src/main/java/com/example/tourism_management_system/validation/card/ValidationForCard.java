@@ -72,7 +72,7 @@ public class ValidationForCard {
 
     public LocalDate validateExpirationDate(LocalDate expirationDate){
         LocalDate currentDate = LocalDate.now();
-        currentDate.format(DateTimeFormatter.ofPattern("MM/yy"));
+        currentDate.format(DateTimeFormatter.ofPattern("dd/MM/yy"));
         if(currentDate.isBefore(expirationDate)) {
             return  expirationDate;
         } else return null;

@@ -11,7 +11,7 @@ import java.util.Optional;
 
 
 @RestController
-@RequestMapping("/card")
+@RequestMapping("/cards")
 public class CardController {
 
     private final CardServiceImpl cardService;
@@ -30,7 +30,7 @@ public class CardController {
 
 
     @GetMapping("/getAll")
-    public List<CardEntity> getAll(){
+    public List<Card> getAll(){
         return cardService.getAllCard();
     }
 
