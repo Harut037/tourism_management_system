@@ -1,5 +1,7 @@
 package com.example.tourism_management_system.model.entities;
 
+import com.example.tourism_management_system.model.pojos.Tour;
+import com.example.tourism_management_system.validation.tour.ValidationForTour;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
@@ -7,8 +9,11 @@ import java.time.LocalTime;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "Tour")
+@Table(name = "Tours")
 public class TourEntity {
+
+
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -142,5 +147,17 @@ public class TourEntity {
 
     public void setCost(int cost) {
         this.cost = cost;
+    }
+
+    public TourEntity (Tour tour){
+        setTourType(tour.getTourType());
+        setTourName(tour.getTourName());
+        setTourDate(tour.getTourDate());
+        setStartTime(tour.getStartTime());
+        setDuration(tour.getDuration());
+        setDistance(tour.getDistance());
+        setCarType(tour.getCarType());
+        setQuantity(tour.getQuantity());
+        setCost(tour.getCost());
     }
 }

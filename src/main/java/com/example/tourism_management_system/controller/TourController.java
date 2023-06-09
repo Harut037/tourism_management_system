@@ -1,7 +1,10 @@
 package com.example.tourism_management_system.controller;
 
 import com.example.tourism_management_system.model.entities.TourEntity;
+import com.example.tourism_management_system.model.pojos.Tour;
 import com.example.tourism_management_system.service.impl.TourServiceImpl;
+import com.example.tourism_management_system.validation.tour.ValidationForTour;
+import jakarta.validation.Validation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,7 +16,7 @@ import java.util.Optional;
 public class TourController {
 
 
-    //Validation validation = new Validation();
+    ValidationForTour vft = new ValidationForTour();
 
     private final TourServiceImpl tourServiceImpl;
 
@@ -23,20 +26,11 @@ public class TourController {
     }
 
     @PostMapping("/create")
-    public void save(@RequestBody TourEntity tourEntity) {
-//        String tourName = null;
-//        if (validation.tourName(tourEntity.getTourType()).contains(tourEntity.getTourName())) {
-//            tourName = tourEntity.getTourName();
-//        } else return "You don't have a similar tour․";
-//        if (validation.validateDate(tourEntity.getTourDate()) == null){
-//           return "You can't create a tour earlier than 3 days.";
-//        }
-//        TourModel tourModel = new TourModel(validation.tourTypeValidate(tourEntity.getTourType()),
-//                tourEntity.getTourName(), validation.validateDate(tourEntity.getTourDate()),
-//                tourEntity.getStartTime(), tourEntity.getDuration(), tourEntity.getDistance(),
-//                validation.carType(tourEntity.getCarType()),
-//                validation.validateQuantity(tourEntity.getCarType()), tourEntity.getCost());
-//        return tourServiceImpl.save(tourModel);
+    public String save(@RequestBody Tour tour) {
+        if (vft.isValidTour(tour)){
+           return tourServiceImpl.save(tour);
+        }else
+            return "Error";
     }
 
     @GetMapping("/getAll")

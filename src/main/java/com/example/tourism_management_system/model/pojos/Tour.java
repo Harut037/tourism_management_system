@@ -1,5 +1,7 @@
 package com.example.tourism_management_system.model.pojos;
 
+import com.example.tourism_management_system.model.entities.TourEntity;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -22,7 +24,7 @@ public class Tour {
     private int quantity;
     
     private int cost;
-    
+
     public String getTourType () {
         return tourType;
     }
@@ -106,4 +108,20 @@ public class Tour {
         this.quantity = quantity;
         this.cost = cost;
     }
+
+
+    public Tour(TourEntity tourEntity){
+        setTourType(tourEntity.getTourType());
+        setTourName(tourEntity.getTourName());
+//        setTourDate(tourEntity.getTourDate());
+//        setStartTime(tourEntity.getStartTime());
+        setDuration(tourEntity.getDuration());
+        setDistance(tourEntity.getDistance());
+        setCarType(tourEntity.getCarType());
+        setQuantity(tourEntity.getQuantity());
+        setCost(tourEntity.getCost());
+    }
+
+
+
 }

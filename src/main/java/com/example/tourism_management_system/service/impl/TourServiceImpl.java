@@ -24,11 +24,7 @@ public class TourServiceImpl implements TourService {
 
     @Override
     public String save(Tour tour) {
-        TourEntity tourEntity = new TourEntity(tour.getTourType(),
-                tour.getTourName(), tour.getTourDate(), tour.getStartTime(),
-                tour.getDuration(), tour.getDistance() + "km",
-                tour.getCarType(), tour.getQuantity(),
-                tour.getCost());
+        TourEntity tourEntity = new TourEntity(tour);
         tourRepository.save(tourEntity);
         return "The tour has been successfully created";
     }
