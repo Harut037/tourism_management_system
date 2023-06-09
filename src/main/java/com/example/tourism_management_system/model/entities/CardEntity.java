@@ -52,6 +52,9 @@ public class CardEntity {
     @NotNull
     @Column(name = "currency")
     private String currency;
+    
+    @Column ( name = "flag", nullable = false )
+    private           Boolean               flag;
 
     public CardEntity() {}
 
@@ -151,7 +154,6 @@ public class CardEntity {
     }
 
     public CardEntity(Card card) {
-        setUser(new UserEntity(card.getUser()));
         setCardNumber(card.getCardNumber());
         setFirstName(card.getFirstName());
         setLastName(card.getLastName());

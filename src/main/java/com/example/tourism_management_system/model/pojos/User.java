@@ -1,49 +1,58 @@
 package com.example.tourism_management_system.model.pojos;
 
+import com.example.tourism_management_system.model.entities.CardEntity;
 import com.example.tourism_management_system.model.entities.UserEntity;
+import jakarta.validation.constraints.Pattern;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class User {
     
-    private String username;
+    private String           firstName;
+    private String           lastName;
+    private Integer             age;
+    @Pattern ( regexp = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z]{2,}$", message = "Invalid Email Pattern" )
+    private String           email;
+    @Pattern ( regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()_+])[a-zA-Z0-9!@#$%^&*()_+]{8,20}$", message = "Invalid Password Pattern" )
+    private String           password;
+    @Pattern ( regexp = "\\+374\\d{8}", message = "Invalid Phone Number Pattern" )
+    private String           phoneNumber;
+    private List<Card> card;
     
-    private int age;
+    public User () {}
     
-    private String phoneNumber;
-    
-    private String email;
-    
-    private Card card;
-    
-    public String getUsername () {
-        return username;
+    public User (UserEntity user) {
+        this.setAge(user.getAge());
+        this.setPhoneNumber(user.getPhoneNumber());
+        this.setEmail(user.getEmail());
+        this.setPassword(user.getPassword());
+        this.setPhoneNumber(user.getPhoneNumber());
+        this.setCard(castCards(user.getCardEntities()));
     }
     
-    public void setUsername (String username) {
-        this.username = username;
+    public String getFirstName () {
+        return firstName;
     }
     
-    public Card getCard () {
-        return card;
+    public void setFirstName (String firstName) {
+        this.firstName = firstName;
     }
     
-    public void setCard (Card card) {
-        this.card = card;
+    public String getLastName () {
+        return lastName;
     }
     
-    public int getAge () {
+    public void setLastName (String lastName) {
+        this.lastName = lastName;
+    }
+    
+    public Integer getAge () {
         return age;
     }
     
-    public void setAge (int age) {
+    public void setAge (Integer age) {
         this.age = age;
-    }
-    
-    public String getPhoneNumber () {
-        return phoneNumber;
-    }
-    
-    public void setPhoneNumber (String phoneNumber) {
-        this.phoneNumber = phoneNumber;
     }
     
     public String getEmail () {
@@ -54,10 +63,33 @@ public class User {
         this.email = email;
     }
     
-    public User (UserEntity user) {
-        this.setUsername(user.getUsername());
-        this.setAge(user.getAge());
-        this.setPhoneNumber(user.getPhoneNumber());
-        this.setEmail(user.getEmail());
+    public String getPassword () {
+        return password;
+    }
+    
+    public void setPassword (String password) {
+        this.password = password;
+    }
+    
+    public String getPhoneNumber () {
+        return phoneNumber;
+    }
+    
+    public void setPhoneNumber (String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+    
+    public List <Card> getCard () {
+        return card;
+    }
+    
+    public void setCard (List <Card> card) {
+        this.card = card;
+    }
+    
+    private List<Card> castCards(List<CardEntity> cardEntities){
+        List<Card> cards = new ArrayList <>();
+        cardEntities.forEach(card -> cards.add(new Card(card)));
+        return cards;
     }
 }

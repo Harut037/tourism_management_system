@@ -54,6 +54,9 @@ public class TourEntity {
     @NotNull
     @Column(name = "cost")
     private int cost;
+    
+    @Column ( name = "flag", nullable = false )
+    private           Boolean               flag;
 
     public TourEntity(String tourType, String tourName, LocalDate tourDate, LocalTime startTime, String duration, String distance, String carType, int quantity, int cost) {
         this.tourType = tourType;

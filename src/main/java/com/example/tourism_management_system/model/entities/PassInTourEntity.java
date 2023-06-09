@@ -27,6 +27,9 @@ public class PassInTourEntity {
     @NotNull
     @Column(name = "quantity")
     private int quantity;
+    
+    @Column ( name = "flag", nullable = false )
+    private           Boolean               flag;
 
     public PassInTourEntity(Long userId, Long tourId, String carType, int quantity) {
         this.userId = userId;

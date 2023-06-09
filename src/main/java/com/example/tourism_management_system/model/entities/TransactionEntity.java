@@ -21,6 +21,9 @@ public class TransactionEntity {
     private double balance;
 
     private String currency;
+    
+    @Column ( name = "flag", nullable = false )
+    private           Boolean               flag;
 
 
     public TransactionEntity(String transactionNumber, String sender, String receiver, String date, double balance, String currency) {
