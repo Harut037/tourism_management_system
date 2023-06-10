@@ -13,8 +13,6 @@ import java.time.LocalDate;
 public class TourEntity {
 
 
-
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -42,7 +40,7 @@ public class TourEntity {
     @NotNull
     @Column(name = "duration")
     private String duration;
-    
+
     @NotNull
     @Column(name = "car_type")
     private String carType;
@@ -55,6 +53,11 @@ public class TourEntity {
     @Column(name = "cost")
     private int cost;
 
+
+    @Column(name = "flag", nullable = false)
+    private Boolean flag;
+
+
     public Boolean getFlag() {
         return flag;
     }
@@ -63,10 +66,8 @@ public class TourEntity {
         this.flag = flag;
     }
 
-    @Column ( name = "flag", nullable = false )
-    private           Boolean               flag;
 
-    public TourEntity(String tourType, String tourName, LocalDate tourDate, LocalTime startTime, String duration, String distance, String carType, int quantity, int cost) {
+    public TourEntity(String tourType, String tourName, LocalDate tourDate, LocalTime startTime, String duration, String distance, String carType, int quantity, int cost, Boolean flag) {
         this.tourType = tourType;
         this.tourName = tourName;
         this.tourDate = tourDate;
@@ -76,10 +77,12 @@ public class TourEntity {
         this.carType = carType;
         this.quantity = quantity;
         this.cost = cost;
+        this.flag = flag;
     }
 
-    public TourEntity() {}
-    
+    public TourEntity() {
+    }
+
     public Long getId() {
         return id;
     }
@@ -160,7 +163,7 @@ public class TourEntity {
         this.cost = cost;
     }
 
-    public TourEntity (Tour tour){
+    public TourEntity(Tour tour) {
         setTourType(tour.getTourType());
         setTourName(tour.getTourName());
         setTourDate(tour.getTourDate());
@@ -170,5 +173,6 @@ public class TourEntity {
         setCarType(tour.getCarType());
         setQuantity(tour.getQuantity());
         setCost(tour.getCost());
+        setFlag(tour.getFlag());
     }
 }

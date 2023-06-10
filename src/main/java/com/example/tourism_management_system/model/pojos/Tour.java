@@ -25,6 +25,8 @@ public class Tour {
     
     private int cost;
 
+    private Boolean flag;
+
     public String getTourType () {
         return tourType;
     }
@@ -96,8 +98,16 @@ public class Tour {
     public void setCost (int cost) {
         this.cost = cost;
     }
-    
-    public Tour(String tourType, String tourName, LocalDate tourDate, LocalTime startTime, String duration, String distance, String carType, int quantity, int cost) {
+
+    public Boolean getFlag() {
+        return flag;
+    }
+
+    public void setFlag(Boolean flag) {
+        this.flag = flag;
+    }
+
+    public Tour(String tourType, String tourName, LocalDate tourDate, LocalTime startTime, String duration, String distance, String carType, int quantity, int cost, Boolean flag) {
         this.tourType = tourType;
         this.tourName = tourName;
         this.tourDate = tourDate;
@@ -107,6 +117,7 @@ public class Tour {
         this.carType = carType;
         this.quantity = quantity;
         this.cost = cost;
+        this.flag = flag;
     }
 
 
@@ -120,6 +131,7 @@ public class Tour {
         setCarType(tourEntity.getCarType());
         setQuantity(tourEntity.getQuantity());
         setCost(tourEntity.getCost());
+        setFlag(tourEntity.getFlag());
     }
 
 

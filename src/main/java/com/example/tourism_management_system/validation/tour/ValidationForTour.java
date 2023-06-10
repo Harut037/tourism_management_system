@@ -145,12 +145,7 @@ public class ValidationForTour {
         tour.setDistance(list.get(1) + " km");
         tour.setDuration(list.get(2) + " hours");
         tour.setCost((Integer) list.get(3));
+        tour.setFlag(true);
         return true;
     }
-
-    public static void main(String[] args) {
-        ValidationForTour v = new ValidationForTour();
-
-    }
-
 }

@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-
 @RestController
 @RequestMapping("/cards")
 public class CardController {
@@ -22,15 +21,13 @@ public class CardController {
         this.cardService = cardService;
     }
 
-
     @GetMapping("/get/{cardNumber}")
-    public Optional<CardEntity> getCard(@PathVariable("cardNumber")String cardNumber){
+    public Optional<CardEntity> getCard(@PathVariable("cardNumber") String cardNumber) {
         return cardService.getCard(cardNumber);
     }
 
-
     @GetMapping("/getAll")
-    public List<Card> getAll(){
+    public List<Card> getAll() {
         return cardService.getAllCard();
     }
 
@@ -41,23 +38,19 @@ public class CardController {
         } else throw new IllegalArgumentException();
     }
 
-
     @PutMapping("/recharge/{cardNumber}/{balance}")
-    public String rechargeBalance(@PathVariable("cardNumber") String cardNumber,@PathVariable("balance") double balance){
+    public String rechargeBalance(@PathVariable("cardNumber") String cardNumber, @PathVariable("balance") double balance) {
         return cardService.rechargeBalance(cardNumber, balance);
     }
 
     @GetMapping("/check/balance/{cardNumber}")
-    public String checkBalance(@PathVariable("cardNumber") String cardNumber){
+    public String checkBalance(@PathVariable("cardNumber") String cardNumber) {
         return cardService.checkBalance(cardNumber);
     }
 
     @PutMapping("/withdraw/{cardNumber}/{balance}")
     public String withdrawBalance(@PathVariable("cardNumber") String cardNumber,
-                                  @PathVariable("balance") double balance){
-        return cardService.withdrawBalance(cardNumber,balance);
+                                  @PathVariable("balance") double balance) {
+        return cardService.withdrawBalance(cardNumber, balance);
     }
-
-
-
 }

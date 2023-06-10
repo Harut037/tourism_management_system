@@ -10,6 +10,11 @@ import io.swagger.v3.oas.models.info.Info;
 @Configuration
 public class SpringdocConfig {
 
+    /**
+     * Create a bean that configures the base OpenAPI for API documentation.
+     *
+     * @return The configured OpenAPI been.
+     */
     @Bean
     public OpenAPI baseOpenAPI() {
         return new OpenAPI().info(new Info()
@@ -17,5 +22,4 @@ public class SpringdocConfig {
                 .version("1.0.0")
                 .description("Controller"));
     }
-
 }
