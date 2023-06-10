@@ -7,8 +7,8 @@ import jakarta.persistence.*;
 @Table(name = "User_In_Tour")
 public class UserInTourEntity {
     @Id
-    @GeneratedValue ( strategy = GenerationType.IDENTITY )
-    private           Long              id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     @ManyToOne
     @JoinColumn(name = "User_Entity")
     private UserEntity userEntity;
@@ -17,54 +17,56 @@ public class UserInTourEntity {
     private TourEntity tourEntity;
     @Column(name = "quantity", nullable = false)
     private Integer quantity;
-    @Column ( name = "flag", nullable = false )
-    private           Boolean               flag = true;
-    
-    public UserInTourEntity () {}
-    
-    public UserInTourEntity (UserInTour userInTour) {
+    @Column(name = "flag", nullable = false)
+    private Boolean flag = true;
+
+
+    public UserInTourEntity() {
+    }
+
+    public UserInTourEntity(UserInTour userInTour) {
         this.setUserEntity(new UserEntity(userInTour.getUser()));
         this.setTourEntity(new TourEntity(userInTour.getTour()));
         this.setQuantity(userInTour.getQuantity());
     }
-    
-    public Long getId () {
+
+    public Long getId() {
         return id;
     }
-    
-    public void setId (Long id) {
+
+    public void setId(Long id) {
         this.id = id;
     }
-    
-    public UserEntity getUserEntity () {
+
+    public UserEntity getUserEntity() {
         return userEntity;
     }
-    
-    public void setUserEntity (UserEntity userEntity) {
+
+    public void setUserEntity(UserEntity userEntity) {
         this.userEntity = userEntity;
     }
-    
-    public TourEntity getTourEntity () {
+
+    public TourEntity getTourEntity() {
         return tourEntity;
     }
-    
-    public void setTourEntity (TourEntity tourEntity) {
+
+    public void setTourEntity(TourEntity tourEntity) {
         this.tourEntity = tourEntity;
     }
-    
-    public Integer getQuantity () {
+
+    public Integer getQuantity() {
         return quantity;
     }
-    
-    public void setQuantity (Integer quantity) {
+
+    public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
-    
-    public Boolean getFlag () {
+
+    public Boolean getFlag() {
         return flag;
     }
-    
-    public void setFlag (Boolean flag) {
+
+    public void setFlag(Boolean flag) {
         this.flag = flag;
     }
 }

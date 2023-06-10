@@ -1,7 +1,6 @@
 package com.example.tourism_management_system.model.entities;
 
 import com.example.tourism_management_system.model.pojos.Tour;
-import com.example.tourism_management_system.validation.tour.ValidationForTour;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
@@ -11,7 +10,6 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "Tours")
 public class TourEntity {
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -53,19 +51,11 @@ public class TourEntity {
     @Column(name = "cost")
     private int cost;
 
-
-    @Column(name = "flag", nullable = false)
+    @Column(name = "active", nullable = false)
     private Boolean flag;
 
-
-    public Boolean getFlag() {
-        return flag;
+    public TourEntity() {
     }
-
-    public void setFlag(Boolean flag) {
-        this.flag = flag;
-    }
-
 
     public TourEntity(String tourType, String tourName, LocalDate tourDate, LocalTime startTime, String duration, String distance, String carType, int quantity, int cost, Boolean flag) {
         this.tourType = tourType;
@@ -80,7 +70,17 @@ public class TourEntity {
         this.flag = flag;
     }
 
-    public TourEntity() {
+    public TourEntity(Tour tour) {
+        setTourType(tour.getTourType());
+        setTourName(tour.getTourName());
+        setTourDate(tour.getTourDate());
+        setStartTime(tour.getStartTime());
+        setDuration(tour.getDuration());
+        setDistance(tour.getDistance());
+        setCarType(tour.getCarType());
+        setQuantity(tour.getQuantity());
+        setCost(tour.getCost());
+        setFlag(tour.getFlag());
     }
 
     public Long getId() {
@@ -123,20 +123,20 @@ public class TourEntity {
         this.startTime = startTime;
     }
 
-    public String getDuration() {
-        return duration;
-    }
-
-    public void setDuration(String duration) {
-        this.duration = duration;
-    }
-
     public String getDistance() {
         return distance;
     }
 
     public void setDistance(String distance) {
         this.distance = distance;
+    }
+
+    public String getDuration() {
+        return duration;
+    }
+
+    public void setDuration(String duration) {
+        this.duration = duration;
     }
 
     public String getCarType() {
@@ -163,16 +163,11 @@ public class TourEntity {
         this.cost = cost;
     }
 
-    public TourEntity(Tour tour) {
-        setTourType(tour.getTourType());
-        setTourName(tour.getTourName());
-        setTourDate(tour.getTourDate());
-        setStartTime(tour.getStartTime());
-        setDuration(tour.getDuration());
-        setDistance(tour.getDistance());
-        setCarType(tour.getCarType());
-        setQuantity(tour.getQuantity());
-        setCost(tour.getCost());
-        setFlag(tour.getFlag());
+    public Boolean getFlag() {
+        return flag;
+    }
+
+    public void setFlag(Boolean flag) {
+        this.flag = flag;
     }
 }

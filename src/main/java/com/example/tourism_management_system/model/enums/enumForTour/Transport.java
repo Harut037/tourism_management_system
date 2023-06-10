@@ -9,16 +9,16 @@ public enum Transport {
     private int quantityMin;
     private int quantityMax;
 
-    Transport(int quantityMin, int quantityMax) {
-        this.quantityMin = quantityMin;
-        this.quantityMax = quantityMax;
-    }
-
     public int getQuantityMin() {
         return quantityMin;
     }
 
     public int getQuantityMax() {
         return quantityMax;
+    }
+
+    Transport(int quantityMin, int quantityMax) {
+        this.quantityMin = quantityMin;
+        this.quantityMax = quantityMax;
     }
 }

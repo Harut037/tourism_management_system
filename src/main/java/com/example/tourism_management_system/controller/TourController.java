@@ -4,7 +4,6 @@ import com.example.tourism_management_system.model.entities.TourEntity;
 import com.example.tourism_management_system.model.pojos.Tour;
 import com.example.tourism_management_system.service.impl.TourServiceImpl;
 import com.example.tourism_management_system.validation.tour.ValidationForTour;
-import jakarta.validation.Validation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,7 +13,6 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/tours")
 public class TourController {
-
 
     ValidationForTour vft = new ValidationForTour();
 
@@ -27,9 +25,9 @@ public class TourController {
 
     @PostMapping("/create")
     public String save(@RequestBody Tour tour) {
-        if (vft.isValidTour(tour)){
-           return tourServiceImpl.save(tour);
-        }else
+        if (vft.isValidTour(tour)) {
+            return tourServiceImpl.save(tour);
+        } else
             return "Error";
     }
 
@@ -62,5 +60,4 @@ public class TourController {
     public List<TourEntity> sortByQuantity() {
         return tourServiceImpl.sortByQuantity();
     }
-
 }

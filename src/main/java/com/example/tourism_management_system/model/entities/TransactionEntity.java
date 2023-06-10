@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "transaction")
 public class TransactionEntity {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -22,77 +22,78 @@ public class TransactionEntity {
     private double balance;
 
     private String currency;
-    
-    @Column ( name = "flag", nullable = false )
-    private           Boolean               flag;
-    
-    public TransactionEntity() {}
-    
-    public TransactionEntity(Transaction transaction) {
-    
+
+    @Column(name = "flag", nullable = false)
+    private Boolean flag;
+
+    public TransactionEntity() {
     }
-    
-    public Long getId () {
+
+    public TransactionEntity(Transaction transaction) {
+
+    }
+
+    public Long getId() {
         return id;
     }
-    
-    public void setId (Long id) {
+
+    public void setId(Long id) {
         this.id = id;
     }
-    
-    public String getTransactionNumber () {
+
+    public String getTransactionNumber() {
         return transactionNumber;
     }
-    
-    public void setTransactionNumber (String transactionNumber) {
+
+    public void setTransactionNumber(String transactionNumber) {
         this.transactionNumber = transactionNumber;
     }
-    
-    public CardEntity getSender () {
+
+    public CardEntity getSender() {
         return sender;
     }
-    
-    public void setSender (CardEntity sender) {
+
+    public void setSender(CardEntity sender) {
         this.sender = sender;
     }
-    
-    public String getReceiver () {
+
+    public String getReceiver() {
         return receiver;
     }
-    
-    public void setReceiver (String receiver) {
+
+    public void setReceiver(String receiver) {
         this.receiver = receiver;
     }
-    
-    public String getDate () {
+
+    public String getDate() {
         return date;
     }
-    
-    public void setDate (String date) {
+
+    public void setDate(String date) {
         this.date = date;
     }
-    
-    public double getBalance () {
+
+    public double getBalance() {
         return balance;
     }
-    
-    public void setBalance (double balance) {
+
+    public void setBalance(double balance) {
         this.balance = balance;
     }
-    
-    public String getCurrency () {
+
+    public String getCurrency() {
         return currency;
     }
-    
-    public void setCurrency (String currency) {
+
+    public void setCurrency(String currency) {
         this.currency = currency;
     }
-    
-    public Boolean getFlag () {
+
+    public Boolean getFlag() {
         return flag;
     }
-    
-    public void setFlag (Boolean flag) {
+
+    public void setFlag(Boolean flag) {
         this.flag = flag;
     }
 }

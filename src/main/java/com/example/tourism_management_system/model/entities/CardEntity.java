@@ -2,12 +2,10 @@ package com.example.tourism_management_system.model.entities;
 
 import com.example.tourism_management_system.model.enums.enumForCard.CardType;
 import com.example.tourism_management_system.model.pojos.Card;
-import com.example.tourism_management_system.validation.card.ValidationForCard;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
-
 
 @Entity
 @Table(name = "Card")
@@ -58,7 +56,36 @@ public class CardEntity {
 
     public CardEntity() {}
 
+    public CardEntity(UserEntity user, String firstName, String lastName, String cardNumber, String type, double balance, LocalDate expirationDate, String status, String currency) {
+        this.user = user;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.cardNumber = cardNumber;
+        this.type = type;
+        this.balance = balance;
+        this.expirationDate = expirationDate;
+        this.status = status;
+        this.currency = currency;
+    }
 
+    public CardEntity(Card card) {
+        setCardNumber(card.getCardNumber());
+        setFirstName(card.getFirstName());
+        setLastName(card.getLastName());
+        setType(card.getType());
+        setBalance(card.getBalance());
+        setExpirationDate(card.getExpirationDate());
+        setStatus(CardType.valueOf("ACTIVE").toString());
+        setCurrency(card.getCurrency());
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public UserEntity getUser() {
         return user;
@@ -116,14 +143,6 @@ public class CardEntity {
     public void setExpirationDate(LocalDate expirationDate) {
         this.expirationDate = expirationDate;
     }
-    
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getStatus() {
         return status;
@@ -141,26 +160,11 @@ public class CardEntity {
         this.currency = currency;
     }
 
-    public CardEntity(UserEntity user, String firstName, String lastName, String cardNumber, String type, double balance, LocalDate expirationDate, String status, String currency) {
-        this.user = user;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.cardNumber = cardNumber;
-        this.type = type;
-        this.balance = balance;
-        this.expirationDate = expirationDate;
-        this.status = status;
-        this.currency = currency;
+    public Boolean getFlag() {
+        return flag;
     }
 
-    public CardEntity(Card card) {
-        setCardNumber(card.getCardNumber());
-        setFirstName(card.getFirstName());
-        setLastName(card.getLastName());
-        setType(card.getType());
-        setBalance(card.getBalance());
-        setExpirationDate(card.getExpirationDate());
-        setStatus(CardType.valueOf("ACTIVE").toString());
-        setCurrency(card.getCurrency());
+    public void setFlag(Boolean flag) {
+        this.flag = flag;
     }
 }

@@ -12,20 +12,16 @@ public class Transaction {
     
     public Transaction () {}
 
-    public String getCurrency() {
-        return currency;
-    }
+    public Transaction (TransactionEntity entity){
     
-    public void setCurrency(String currency) {
-        this.currency = currency;
-    }
-    
-    public double getBalance() {
-        return balance;
     }
 
-    public void setBalance(double balance) {
+    public Transaction(String transactionNumber, Card sender, String date, double balance, String currency) {
+        this.transactionNumber = transactionNumber;
+        this.sender = sender;
+        this.date = date;
         this.balance = balance;
+        this.currency = currency;
     }
 
     public String getTransactionNumber() {
@@ -36,10 +32,6 @@ public class Transaction {
         this.transactionNumber = transactionNumber;
     }
 
-    public void setDate(String date) {
-        this.date = date;
-    }
-    
     public Card getSender() {
         return sender;
     }
@@ -52,8 +44,23 @@ public class Transaction {
         return date;
     }
 
-    public Transaction (TransactionEntity entity){
-    
+    public void setDate(String date) {
+        this.date = date;
     }
-    
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public void setBalance(double balance) {
+        this.balance = balance;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
 }

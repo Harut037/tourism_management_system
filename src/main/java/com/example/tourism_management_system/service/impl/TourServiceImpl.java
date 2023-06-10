@@ -22,6 +22,11 @@ public class TourServiceImpl implements TourService {
         this.tourRepository = tourRepository;
     }
 
+    /**
+     * Overrides the default save behavior to save Tour objects.
+     *
+     * @param tour the Tour objects to be saved
+     */
     @Override
     public String save(Tour tour) {
         TourEntity tourEntity = new TourEntity(tour);
@@ -29,13 +34,23 @@ public class TourServiceImpl implements TourService {
         return "The tour has been successfully created";
     }
 
-
+    /**
+     * Overrides the default getAll behavior to retrieve all TourEntity objects.
+     *
+     * @return a list of all TourEntity objects
+     */
     @Override
     public List<TourEntity> getAll() {
         return tourRepository.findAll();
     }
 
 
+    /**
+     * Overrides the default getById behavior to retrieve a TourEntity object by its id.
+     *
+     * @param id the ID of the tour to be retrieved
+     * @return an Optional containing the TourEntity object if found, or an empty Optional if not found
+     */
     @Override
     public Optional<TourEntity> getById(Long id) {
         if (tourRepository.findById(id).isPresent()) {
@@ -43,6 +58,13 @@ public class TourServiceImpl implements TourService {
         } else return Optional.empty();
     }
 
+
+    /**
+     * Overrides the default deleteById behavior to delete a TourEntity object by its ID.
+     *
+     * @param id the ID of the tour to be deleted
+     * @return a string indicating the success of the deletion operation
+     */
     @Override
     public String deleteById(Long id) {
         if (tourRepository.findById(id).isPresent()) {
@@ -51,20 +73,37 @@ public class TourServiceImpl implements TourService {
         } else return "This id does not exist.";
     }
 
+
+    /**
+     * Overrides the default sortByCost behavior to retrieve all TourEntity objects sorted by cost.
+     *
+     * @return a list of TourEntity objects sorted by cost
+     */
     @Override
-    public List<TourEntity> sortByCost(){
-       return tourRepository.findAllOrderByCost();
+    public List<TourEntity> sortByCost() {
+        return tourRepository.findAllOrderByCost();
     }
 
+
+    /**
+     * Overrides the default sortByDate behavior to retrieve all TourEntity objects sorted by tour date.
+     *
+     * @return a list of TourEntity objects sorted by tour date
+     */
     @Override
     public List<TourEntity> sortByDate() {
         return tourRepository.findAllOrderByTourDate();
     }
 
+
+    /**
+     * Overrides the default sortByQuantity behavior to retrieve all TourEntity objects sorted by quantity.
+     *
+     * @return a list of TourEntity objects sorted by quantity
+     */
     @Override
     public List<TourEntity> sortByQuantity() {
         return tourRepository.findAllOrderByQuantity();
     }
-
 
 }

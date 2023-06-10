@@ -1,6 +1,5 @@
 package com.example.tourism_management_system.validation.tour;
 
-
 import com.example.tourism_management_system.model.enums.enumForTour.*;
 import com.example.tourism_management_system.model.pojos.Tour;
 
@@ -8,13 +7,10 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.List;
 
-
 public class ValidationForTour {
-
 
 //    public String tourTypeValidate(String tourType) {
 //        switch (TourType.valueOf(tourType)) {
@@ -26,7 +22,6 @@ public class ValidationForTour {
 //                tourName("CAMPAIGN");
 //                return "CAMPAIGN";
 //            }
-//
 //            case ADVENTURE -> {
 //                tourName("ADVENTURE");
 //                return "ADVENTURE";
@@ -37,11 +32,16 @@ public class ValidationForTour {
 //        }
 //    }
 
-
+    /**
+     * The tourName method returns the corresponding place name based on the provided tour type and tour name.
+     * The tour type and tour name are used to determine the enum value and retrieve the corresponding place name.
+     *
+     * @param tourType the type of the tour (CULTURAL, CAMPAIGN, or ADVENTURE)
+     * @param tourName the name of the tour
+     * @return the corresponding place name for the given tour type and tour name, or null if not found or an invalid argument is provided
+     */
     public String tourName(String tourType, String tourName) {
-
         try {
-
             switch (TourType.valueOf(tourType).toString()) {
                 case "CULTURAL": {
                     return PlacesForCultural.valueOf(tourName).toString();
@@ -60,6 +60,14 @@ public class ValidationForTour {
         }
     }
 
+    /**
+     * The ValidateDate method checks if the new tour's creation/save date is valid by comparing it to the current date.
+     * If the date provided is at least 3 days after the future date, then it is considered valid.
+     *
+     * @param date the date to be validated
+     * @return the provided date if it is after the future date, or null if it is not valid
+     * @throws IllegalArgumentException if an invalid tour type is provided
+     */
     public LocalDate validateDate(LocalDate date) {
         LocalDate currentDate = LocalDate.now();
         LocalDate futureDate = currentDate.plusDays(3);
@@ -69,27 +77,37 @@ public class ValidationForTour {
         return null;
     }
 
+    /**
+     * The validateStartTime method checks if a given start time is valid by comparing it with a predefined time range.
+     * The method validates that the start time is after 06:59 (inclusive) and before noon (exclusive).
+     *
+     * @param startTime the start time to be validated
+     * @return the provided start time if it falls within the valid time range, or null if it is not valid
+     */
     public LocalTime validateStartTime(LocalTime startTime) {
         LocalTime currentTime = LocalTime.now();
         currentTime.format(DateTimeFormatter.ofPattern("HH:mm"));
-        if (startTime.isAfter(LocalTime.of(06, 59)) && startTime.isBefore(LocalTime.NOON)) {
+        if (startTime.isAfter(LocalTime.of(6, 59)) && startTime.isBefore(LocalTime.NOON)) {
             return startTime;
         } else return null;
     }
 
+    /**
+     * The carType method returns the corresponding car type based on the provided car type string.
+     *
+     * @param carType the type of the car (BUS, MINIBUS, or MINIVAN)
+     * @return the corresponding car type as a string, or an error message if the car type is not recognized
+     */
     public String carType(String carType) {
         switch (Transport.valueOf(carType)) {
-
             case BUS -> {
                 validateQuantity(carType);
                 return "BUS";
             }
-
             case MINIBUS -> {
                 validateQuantity(carType);
                 return "MINIBUS";
             }
-
             case MINIVAN -> {
                 validateQuantity(carType);
                 return "MINIVAN";
@@ -100,7 +118,12 @@ public class ValidationForTour {
         }
     }
 
-
+    /**
+     * The validateQuantity method returns the maximum quantity of passengers allowed for a given car type.
+     *
+     * @param carType the type of the car (SEDAN, MINIVAN, MINIBUS, or BUS)
+     * @return the maximum quantity of passengers allowed for the given car type, or -1 if the car type is not recognized
+     */
     public int validateQuantity(String carType) {
         switch (Transport.valueOf(carType)) {
             case SEDAN -> {
@@ -110,15 +133,22 @@ public class ValidationForTour {
                 return 7;
             }
             case MINIBUS -> {
-                return 15;
+                return 17;
             }
             case BUS -> {
-                return 30;
+                return 50;
             }
         }
         return -1;
     }
 
+    /**
+     * The ValidateTourInformation method validates the tour name and retrieves information about the cultural tour.
+     * Finding the name of the tour, it gets the parameters about it
+     *
+     * @param tourName name the cultural tour
+     * @return a list of objects containing information about the cultural tour or void if the tour name is not recognized
+     */
     public List<Object> validateTourInformation(String tourName) {
         List<Object> objectList = null;
         PlacesForCultural placesForCultural = PlacesForCultural.valueOf(tourName);
@@ -132,13 +162,19 @@ public class ValidationForTour {
         return objectList;
     }
 
-
+    /**
+     * The isValidTour method checks if a given tour object is valid by validating its tour name, tour date, car type, and start time.
+     * If any of these validations fail, the method returns false. Otherwise, it retrieves information about the tour and updates the tour object.
+     *
+     * @param tour the tour object to be validated
+     * @return true if the tour object is valid and information is successfully retrieved, false otherwise
+     */
     public boolean isValidTour(Tour tour) {
         if (tourName(tour.getTourType(), tour.getTourName()) == null ||
                 validateDate(tour.getTourDate()) == null ||
-                carType(tour.getCarType()) == null ||
-        validateStartTime(tour.getStartTime()) == null
-        ){
+                validateStartTime(tour.getStartTime()) == null ||
+                carType(tour.getCarType()) == null
+        ) {
             return false;
         }
         List<Object> list = validateTourInformation(tour.getTourName());

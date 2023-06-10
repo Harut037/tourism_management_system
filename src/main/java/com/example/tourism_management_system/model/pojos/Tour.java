@@ -27,84 +27,7 @@ public class Tour {
 
     private Boolean flag;
 
-    public String getTourType () {
-        return tourType;
-    }
-    
-    public void setTourType (String tourType) {
-        this.tourType = tourType;
-    }
-    
-    public String getTourName () {
-        return tourName;
-    }
-    
-    public void setTourName (String tourName) {
-        this.tourName = tourName;
-    }
-    
-    public LocalDate getTourDate () {
-        return tourDate;
-    }
-    
-    public void setTourDate (LocalDate tourDate) {
-        this.tourDate = tourDate;
-    }
-    
-    public LocalTime getStartTime () {
-        return startTime;
-    }
-    
-    public void setStartTime (LocalTime startTime) {
-        this.startTime = startTime;
-    }
-    
-    public String getDuration () {
-        return duration;
-    }
-    
-    public void setDuration (String duration) {
-        this.duration = duration;
-    }
-    
-    public String getDistance () {
-        return distance;
-    }
-    
-    public void setDistance (String distance) {
-        this.distance = distance;
-    }
-    
-    public String getCarType () {
-        return carType;
-    }
-    
-    public void setCarType (String carType) {
-        this.carType = carType;
-    }
-    
-    public int getQuantity () {
-        return quantity;
-    }
-    
-    public void setQuantity (int quantity) {
-        this.quantity = quantity;
-    }
-    
-    public int getCost () {
-        return cost;
-    }
-    
-    public void setCost (int cost) {
-        this.cost = cost;
-    }
-
-    public Boolean getFlag() {
-        return flag;
-    }
-
-    public void setFlag(Boolean flag) {
-        this.flag = flag;
+    public Tour() {
     }
 
     public Tour(String tourType, String tourName, LocalDate tourDate, LocalTime startTime, String duration, String distance, String carType, int quantity, int cost, Boolean flag) {
@@ -120,7 +43,6 @@ public class Tour {
         this.flag = flag;
     }
 
-
     public Tour(TourEntity tourEntity){
         setTourType(tourEntity.getTourType());
         setTourName(tourEntity.getTourName());
@@ -134,6 +56,83 @@ public class Tour {
         setFlag(tourEntity.getFlag());
     }
 
+    public String getTourType() {
+        return tourType;
+    }
 
+    public void setTourType(String tourType) {
+        this.tourType = tourType;
+    }
 
+    public String getTourName() {
+        return tourName;
+    }
+
+    public void setTourName(String tourName) {
+        this.tourName = tourName;
+    }
+
+    public LocalDate getTourDate() {
+        return tourDate;
+    }
+
+    public void setTourDate(LocalDate tourDate) {
+        this.tourDate = tourDate;
+    }
+
+    public LocalTime getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(LocalTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public String getDuration() {
+        return duration;
+    }
+
+    public void setDuration(String duration) {
+        this.duration = duration;
+    }
+
+    public String getDistance() {
+        return distance;
+    }
+
+    public void setDistance(String distance) {
+        this.distance = distance;
+    }
+
+    public String getCarType() {
+        return carType;
+    }
+
+    public void setCarType(String carType) {
+        this.carType = carType;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public int getCost() {
+        return cost;
+    }
+
+    public void setCost(int cost) {
+        this.cost = cost;
+    }
+
+    public Boolean getFlag() {
+        return flag;
+    }
+
+    public void setFlag(Boolean flag) {
+        this.flag = flag;
+    }
 }
