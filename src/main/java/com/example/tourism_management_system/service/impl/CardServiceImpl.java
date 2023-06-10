@@ -68,4 +68,8 @@ public class CardServiceImpl implements CardService {
         return "Your current balance` " + cardEntity.get().getBalance() + " " + cardEntity.get().getCurrency();
     }
 
+    @Override
+    public void save(List<CardEntity> cardEntities) {
+
+    }
 }

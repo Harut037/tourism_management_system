@@ -136,6 +136,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResponseEntity <Review> leaveReview (ReviewEntity reviewEntity) {
         return null;
-        
+
     }
 }

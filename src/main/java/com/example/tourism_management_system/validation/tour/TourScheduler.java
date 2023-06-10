@@ -20,15 +20,13 @@ public class TourScheduler {
         this.tourService = tourService;
     }
 
+//    @Scheduled(fixedRate = 5000)
     @Scheduled(cron = "0 0 0 * * *")
     public void deletePastDateTours() {
         LocalDate currentDate = LocalDate.now();
-        LocalTime currentTime = LocalTime.now();
-
         List<TourEntity> tours = tourService.getAll();
-
         for (TourEntity tour : tours) {
-            if (tour.getTourDate().isBefore(currentDate) || tour.getTourDate().equals(currentDate) || tour.getStartTime().isBefore(currentTime)) {
+            if (tour.getTourDate().isBefore(currentDate)) {
                 tourService.deleteById(tour.getId());
             }
         }
