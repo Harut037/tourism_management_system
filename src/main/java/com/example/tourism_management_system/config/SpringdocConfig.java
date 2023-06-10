@@ -13,7 +13,7 @@ public class SpringdocConfig {
     @Bean
     public OpenAPI baseOpenAPI() {
         return new OpenAPI().info(new Info()
-                .title("Restaurant Project")
+                .title("Tourism management system")
                 .version("1.0.0")
                 .description("Controller"));
     }

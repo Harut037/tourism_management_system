@@ -54,7 +54,15 @@ public class TourEntity {
     @NotNull
     @Column(name = "cost")
     private int cost;
-    
+
+    public Boolean getFlag() {
+        return flag;
+    }
+
+    public void setFlag(Boolean flag) {
+        this.flag = flag;
+    }
+
     @Column ( name = "flag", nullable = false )
     private           Boolean               flag;
 

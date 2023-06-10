@@ -46,7 +46,8 @@ public class TourServiceImpl implements TourService {
     @Override
     public String deleteById(Long id) {
         if (tourRepository.findById(id).isPresent()) {
-            tourRepository.deleteById(id);
+//            tourRepository.deleteById(id);
+            tourRepository.flag(id);
             return "Successfully has been deleted";
         } else return "This id does not exist.";
     }

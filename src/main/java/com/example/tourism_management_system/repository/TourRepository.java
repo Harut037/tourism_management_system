@@ -29,6 +29,8 @@ public interface TourRepository extends JpaRepository<TourEntity, Long> {
     @Query("SELECT s FROM TourEntity s ORDER BY s.quantity ASC")
     List<TourEntity> findAllOrderByQuantity();
 
-
-
+    @Transactional
+    @Modifying
+    @Query("UPDATE TourEntity t set t.flag = false where t.id =:id")
+    void flag(Long id);
 }
