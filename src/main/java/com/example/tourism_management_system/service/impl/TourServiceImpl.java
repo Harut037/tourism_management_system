@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,10 +41,19 @@ public class TourServiceImpl implements TourService {
      * @return a list of all TourEntity objects
      */
     @Override
-    public List<TourEntity> getAll() {
-        return tourRepository.findAll();
+    public List<Tour> getAll() {
+        List<Tour> list = new ArrayList<>();
+        List<TourEntity> listEntity = tourRepository.findAll();
+        for(TourEntity i: listEntity){
+            list.add(new Tour(i));
+        }
+        return list;
     }
 
+    @Override
+    public List<TourEntity> getAllForSchedule() {
+        return tourRepository.findAll();
+    }
 
     /**
      * Overrides the default getById behavior to retrieve a TourEntity object by its id.
@@ -52,10 +62,11 @@ public class TourServiceImpl implements TourService {
      * @return an Optional containing the TourEntity object if found, or an empty Optional if not found
      */
     @Override
-    public Optional<TourEntity> getById(Long id) {
-        if (tourRepository.findById(id).isPresent()) {
-            return tourRepository.findById(id);
-        } else return Optional.empty();
+    public Tour getById(Long id) {
+        Optional<TourEntity> op = tourRepository.findById(id);
+        if (op.isPresent()) {
+            return  new Tour(op.get());
+        } else return null;
     }
 
 

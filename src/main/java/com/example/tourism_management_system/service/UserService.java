@@ -11,28 +11,28 @@ import com.example.tourism_management_system.model.pojos.SignIn;
 @Service
 public interface UserService {
 
-    ResponseEntity<User> signup(final User user);
+    User signup(final User user);
 
-    ResponseEntity<User> signIn(final String login, final String password, final int loginChoice);
+    User signIn(final String login, final String password, final int loginChoice);
 
-    ResponseEntity<User> editInfo(final User user);
+    User editInfo(final User user);
 
     boolean contains(final String string, final char symbol);
 
-    ResponseEntity<User> forgotPassword(final String login, final int loginChoice);
+    User forgotPassword(final String login, final int loginChoice);
 
     int loginType(final String login);
 
-    ResponseEntity<User> forgottedPasswordChange(final String login, final String password, final int loginChoice);
+    User forgottedPasswordChange(final String login, final String password, final int loginChoice);
 
-    ResponseEntity<User> passwordChange(SignIn signIn, String password, int loginChoice);
+    User passwordChange(SignIn signIn, String password, int loginChoice);
 
-    ResponseEntity<UserInTour> bookTour(UserInTour userInTour);
+    UserInTour bookTour(UserInTour userInTour);
 
-    ResponseEntity<UserInTour> editTour(UserInTour userInTour);
+    UserInTour editTour(UserInTour userInTour);
 
-    ResponseEntity<User> cancelTour(UserInTour userInTour);
+    User cancelTour(UserInTour userInTour);
 
-    ResponseEntity<Review> leaveReview(ReviewEntity reviewEntity);
+    Review leaveReview(ReviewEntity reviewEntity);
 
 }

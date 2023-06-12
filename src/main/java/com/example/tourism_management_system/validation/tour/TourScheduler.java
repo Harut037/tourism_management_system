@@ -1,6 +1,7 @@
 package com.example.tourism_management_system.validation.tour;
 
 import com.example.tourism_management_system.model.entities.TourEntity;
+import com.example.tourism_management_system.model.pojos.Tour;
 import com.example.tourism_management_system.service.TourService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -28,7 +29,7 @@ public class TourScheduler {
     @Scheduled(cron = "0 0 0 * * *")
     public void deletePastDateTours() {
         LocalDate currentDate = LocalDate.now();
-        List<TourEntity> tours = tourService.getAll();
+        List<TourEntity> tours = tourService.getAllForSchedule();
         for (TourEntity tour : tours) {
             if (tour.getTourDate().isBefore(currentDate)) {
                 tourService.deleteById(tour.getId());

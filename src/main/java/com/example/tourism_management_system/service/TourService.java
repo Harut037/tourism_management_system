@@ -10,16 +10,18 @@ public interface TourService {
 
     String save(Tour tour);
 
-    List<TourEntity> getAll();
+    List<Tour> getAll();
 
-    Optional<TourEntity> getById(Long id);
+    List<TourEntity> getAllForSchedule();
+
+    Tour getById(Long id);
 
     String deleteById(Long id);
 
-    List<TourEntity> sortByCost();
+    List<Tour> sortByCost();
 
-    List<TourEntity> sortByDate();
+    List<Tour> sortByDate();
 
-    List<TourEntity> sortByQuantity();
+    List<Tour> sortByQuantity();
 
 }
