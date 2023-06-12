@@ -6,6 +6,8 @@ public class UserInTour {
     private User user;
     private Tour tour;
     private Integer quantity;
+    private Transaction transaction;
+    private Review review;
 
     public UserInTour() {
     }
@@ -38,5 +40,21 @@ public class UserInTour {
 
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
+    }
+
+    public Transaction getTransaction() {
+        return transaction;
+    }
+
+    public void setTransaction(Transaction transaction) {
+        this.transaction = transaction;
+    }
+
+    public Review getReview() {
+        return review;
+    }
+
+    public void setReview(Review review) {
+        this.review = review;
     }
 }

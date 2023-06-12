@@ -7,8 +7,12 @@ import com.example.tourism_management_system.model.pojos.User;
 import com.example.tourism_management_system.model.pojos.UserInTour;
 import com.example.tourism_management_system.repository.UserRepository;
 import com.example.tourism_management_system.service.CardService;
+import com.example.tourism_management_system.service.TransactionService;
+import com.example.tourism_management_system.service.UserInTourService;
 import com.example.tourism_management_system.service.UserService;
+import com.example.tourism_management_system.validation.tour.ValidationForTour;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -20,11 +24,16 @@ public class UserServiceImpl implements UserService {
 
     private UserRepository userRepository;
     private CardService cardService;
+    private ValidationForTour validationForTour = new ValidationForTour();
+    private TransactionService transactionService;
+    private UserInTourService userInTourService;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, CardService cardService) {
+    public UserServiceImpl(UserRepository userRepository, CardService cardService,TransactionService transactionService,UserInTourService userInTourService) {
         this.userRepository = userRepository;
         this.cardService = cardService;
+        this.transactionService = transactionService;
+        this.userInTourService = userInTourService;
     }
 
     @Override
@@ -119,7 +128,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ResponseEntity<UserInTour> bookTour(UserInTour userInTour) {
-        return null;
+        if (validationForTour.isEnableForBooking(userInTour.getTour(), userInTour.getQuantity())){
+            if (transactionService.makeTransaction(userInTour.getTransaction())){
+               return userInTourService.save(userInTour);
+            }
+            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+        }
+        return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
     }
 
     @Override

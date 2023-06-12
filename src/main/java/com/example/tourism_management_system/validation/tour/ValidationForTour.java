@@ -112,6 +112,7 @@ public class ValidationForTour {
      * @return the maximum quantity of passengers allowed for the given car type, or -1 if the car type is not recognized
      */
     public int validateQuantity(String carType) {
+        carType = carType.toUpperCase();
         switch (Transport.valueOf(carType)) {
             case SEDAN -> {
                 return 4;
@@ -164,6 +165,7 @@ public class ValidationForTour {
     public List<Object> forCultural(String tourName){
         tourName = tourName.toUpperCase();
         List<Object> objectList = null;
+        tourName = tourName.toUpperCase();
         PlacesForCultural placesForCultural = PlacesForCultural.valueOf(tourName);
         if (EnumSet.allOf(PlacesForCultural.class).contains(placesForCultural)) {
             objectList = new ArrayList<>();
@@ -227,5 +229,9 @@ public class ValidationForTour {
         tour.setCost((Integer) list.get(3));
         tour.setFlag(true);
         return true;
+    }
+
+    public Boolean isEnableForBooking(Tour tour, int quantity) {
+        return false;
     }
 }
