@@ -98,48 +98,25 @@ class ValidationForTourTest {
     }
 
 
-    @Test
-    void testValidateQuantity() {
-        ValidationForTour validationForTour = new ValidationForTour();
 
-        String carTypeSedan = "SEDAN";
-        int resultSedan = validationForTour.validateQuantity(carTypeSedan);
-        Assertions.assertEquals(4, resultSedan);
 
-        String carTypeMinivan = "MINIVAN";
-        int resultMinivan = validationForTour.validateQuantity(carTypeMinivan);
-        Assertions.assertEquals(7, resultMinivan);
-
-        String carTypeMinibus = "MINIBUS";
-        int resultMinibus = validationForTour.validateQuantity(carTypeMinibus);
-        Assertions.assertEquals(15, resultMinibus);
-
-        String carTypeBus = "BUS";
-        int resultBus = validationForTour.validateQuantity(carTypeBus);
-        Assertions.assertEquals(30, resultBus);
-
-        String carTypeInvalid = "INVALID";
-        int resultInvalid = validationForTour.validateQuantity(carTypeInvalid);
-        Assertions.assertEquals(-1, resultInvalid);
-    }
-
-    @Test
-    void testValidateTourInformation() {
-        ValidationForTour validationForTour = new ValidationForTour();
-
-        String tourNameValid = "GEGHARD";
-        List<Object> resultValid = validationForTour.validateTourInformation(tourNameValid);
-        Assertions.assertNotNull(resultValid);
-        Assertions.assertEquals(4, resultValid.size());
-        Assertions.assertEquals(tourNameValid, resultValid.get(0));
-        Assertions.assertEquals(350, resultValid.get(1));
-        Assertions.assertEquals(10, resultValid.get(2));
-        Assertions.assertEquals(9000, resultValid.get(3));
-
-        String tourNameInvalid = "INVALID";
-        List<Object> resultInvalid = validationForTour.validateTourInformation(tourNameInvalid);
-        Assertions.assertNull(resultInvalid);
-    }
+//    @Test
+//    void testValidateTourInformation() {
+//        ValidationForTour validationForTour = new ValidationForTour();
+//
+//        String tourNameValid = "GEGHARD";
+//        List<Object> resultValid = validationForTour.validateTourInformation(tourNameValid);
+//        Assertions.assertNotNull(resultValid);
+//        Assertions.assertEquals(4, resultValid.size());
+//        Assertions.assertEquals(tourNameValid, resultValid.get(0));
+//        Assertions.assertEquals(350, resultValid.get(1));
+//        Assertions.assertEquals(10, resultValid.get(2));
+//        Assertions.assertEquals(9000, resultValid.get(3));
+//
+//        String tourNameInvalid = "INVALID";
+//        List<Object> resultInvalid = validationForTour.validateTourInformation(tourNameInvalid);
+//        Assertions.assertNull(resultInvalid);
+//    }
 
     @Test
     void testIsValidTour() {

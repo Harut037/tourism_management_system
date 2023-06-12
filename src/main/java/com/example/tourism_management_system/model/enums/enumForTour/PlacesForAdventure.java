@@ -1,7 +1,7 @@
 package com.example.tourism_management_system.model.enums.enumForTour;
 
 public enum PlacesForAdventure {
-    LASTIVER (9,280,17500),
+    LASTIVER (280,9,17500),
     RAFTING (400,10,25000);
 
     private int duration;
