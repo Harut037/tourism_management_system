@@ -12,26 +12,6 @@ import java.util.List;
 
 public class ValidationForTour {
 
-//    public String tourTypeValidate(String tourType) {
-//        switch (TourType.valueOf(tourType)) {
-//            case CULTURAL -> {
-//                tourName("CULTURAL");
-//                return "CULTURAL";
-//            }
-//            case CAMPAIGN -> {
-//                tourName("CAMPAIGN");
-//                return "CAMPAIGN";
-//            }
-//            case ADVENTURE -> {
-//                tourName("ADVENTURE");
-//                return "ADVENTURE";
-//            }
-//            default -> {
-//                return "There is not such tour type";
-//            }
-//        }
-//    }
-
     /**
      * The tourName method returns the corresponding place name based on the provided tour type and tour name.
      * The tour type and tour name are used to determine the enum value and retrieve the corresponding place name.
@@ -132,6 +112,7 @@ public class ValidationForTour {
      * @return the maximum quantity of passengers allowed for the given car type, or -1 if the car type is not recognized
      */
     public int validateQuantity(String carType) {
+        carType = carType.toUpperCase();
         switch (Transport.valueOf(carType)) {
             case SEDAN -> {
                 return 4;
@@ -156,8 +137,35 @@ public class ValidationForTour {
      * @param tourName name the cultural tour
      * @return a list of objects containing information about the cultural tour or void if the tour name is not recognized
      */
-    public List<Object> validateTourInformation(String tourName) {
+    public List<Object> validateTourInformation(String tourType,String tourName) {
+        tourName = tourName.toUpperCase();
+        tourType = tourType.toUpperCase();
+
+        try {
+            switch (TourType.valueOf(tourType)) {
+                case CULTURAL -> {
+                    return forCultural(tourName);
+                }
+                case ADVENTURE -> {
+                    return forAdventure(tourName);
+                }
+                case CAMPAIGN -> {
+                    return forCampaign(tourName);
+                }
+                default ->
+                    throw new IllegalArgumentException();
+            }
+        }catch (IllegalArgumentException e){
+            e.getMessage();
+        }
+        return null;
+    }
+
+
+    public List<Object> forCultural(String tourName){
+        tourName = tourName.toUpperCase();
         List<Object> objectList = null;
+        tourName = tourName.toUpperCase();
         PlacesForCultural placesForCultural = PlacesForCultural.valueOf(tourName);
         if (EnumSet.allOf(PlacesForCultural.class).contains(placesForCultural)) {
             objectList = new ArrayList<>();
@@ -168,6 +176,37 @@ public class ValidationForTour {
         }
         return objectList;
     }
+
+
+    public List<Object> forAdventure(String tourName){
+        tourName = tourName.toUpperCase();
+        List<Object> objectList = null;
+        PlacesForAdventure placesForAdventure = PlacesForAdventure.valueOf(tourName);
+        if (EnumSet.allOf(PlacesForAdventure.class).contains(placesForAdventure)) {
+            objectList = new ArrayList<>();
+            objectList.add(tourName);
+            objectList.add(placesForAdventure.getDistance());
+            objectList.add(placesForAdventure.getDuration());
+            objectList.add(placesForAdventure.getCost());
+        }
+        return objectList;
+    }
+
+
+
+    public List<Object> forCampaign(String tourName){
+        tourName = tourName.toUpperCase();
+        List<Object> objectList = null;
+        PlacesForCampaign placesForCampaign = PlacesForCampaign.valueOf(tourName);
+        if (EnumSet.allOf(PlacesForCampaign.class).contains(placesForCampaign)){
+        objectList.add(tourName);
+        objectList.add(placesForCampaign.getDistance());
+        objectList.add(placesForCampaign.getDuration());
+        objectList.add(placesForCampaign.getCost());
+    }
+        return objectList;
+}
+
 
     /**
      * The isValidTour method checks if a given tour object is valid by validating its tour name, tour date, car type, and start time.
@@ -184,11 +223,15 @@ public class ValidationForTour {
         ) {
             return false;
         }
-        List<Object> list = validateTourInformation(tour.getTourName());
+        List<Object> list = validateTourInformation(tour.getTourType(), tour.getTourName());
         tour.setDistance(list.get(1) + " km");
         tour.setDuration(list.get(2) + " hours");
         tour.setCost((Integer) list.get(3));
         tour.setFlag(true);
         return true;
+    }
+
+    public Boolean isEnableForBooking(Tour tour, int quantity) {
+        return false;
     }
 }

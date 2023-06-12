@@ -9,7 +9,9 @@ import java.util.List;
 
 public class User {
 
+    @Pattern(regexp = "[A-Z][a-z]+")
     private String firstName;
+    @Pattern(regexp = "[A-Z][a-z]+")
     private String lastName;
     private Integer age;
     @Pattern(regexp = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z]{2,}$", message = "Invalid Email Pattern")
