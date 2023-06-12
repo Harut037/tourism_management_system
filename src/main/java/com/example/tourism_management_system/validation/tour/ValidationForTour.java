@@ -98,23 +98,30 @@ public class ValidationForTour {
      * @param carType the type of the car (BUS, MINIBUS, or MINIVAN)
      * @return the corresponding car type as a string, or an error message if the car type is not recognized
      */
+
     public String carType(String carType) {
-        switch (Transport.valueOf(carType)) {
-            case BUS -> {
-                validateQuantity(carType);
-                return "BUS";
+        try {
+            carType = carType.toUpperCase();
+            switch (Transport.valueOf(carType)) {
+                case BUS -> {
+                    validateQuantity(carType);
+                    return "BUS";
+                }
+                case MINIBUS -> {
+                    validateQuantity(carType);
+                    return "MINIBUS";
+                }
+                case MINIVAN -> {
+                    validateQuantity(carType);
+                    return "MINIVAN";
+                }
+                default -> {
+                    throw new IllegalArgumentException("Invalid car type");
+                }
             }
-            case MINIBUS -> {
-                validateQuantity(carType);
-                return "MINIBUS";
-            }
-            case MINIVAN -> {
-                validateQuantity(carType);
-                return "MINIVAN";
-            }
-            default -> {
-                return "There is not such car type";
-            }
+        } catch (IllegalArgumentException e) {
+            System.err.println(e.getMessage());
+            return null;
         }
     }
 

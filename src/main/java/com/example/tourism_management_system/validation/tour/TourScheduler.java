@@ -18,6 +18,8 @@ public class TourScheduler {
         this.tourService = tourService;
     }
 
+
+
     /**
      * Deletes tours that have dates before the current date.
      * This method is scheduled to run at midnight every day.
