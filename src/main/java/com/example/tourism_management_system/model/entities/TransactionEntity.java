@@ -4,7 +4,7 @@ import com.example.tourism_management_system.model.pojos.Transaction;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "transaction")
+@Table(name = "Transaction")
 public class TransactionEntity {
 
     @Id

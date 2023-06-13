@@ -91,8 +91,12 @@ public class TourServiceImpl implements TourService {
      * @return a list of TourEntity objects sorted by cost
      */
     @Override
-    public List<TourEntity> sortByCost() {
-        return tourRepository.findAllOrderByCost();
+    public List<Tour> sortByCost() {
+        List<TourEntity> tourEntities = tourRepository.findAllOrderByCost();
+        List<Tour> tours = new ArrayList <>();
+        for (TourEntity i: tourEntities)
+            tours.add(new Tour(i));
+        return tours;
     }
 
 
@@ -102,8 +106,12 @@ public class TourServiceImpl implements TourService {
      * @return a list of TourEntity objects sorted by tour date
      */
     @Override
-    public List<TourEntity> sortByDate() {
-        return tourRepository.findAllOrderByTourDate();
+    public List<Tour> sortByDate() {
+        List<TourEntity> tourEntities = tourRepository.findAllOrderByTourDate();
+        List<Tour> tours = new ArrayList <>();
+        for (TourEntity i: tourEntities)
+            tours.add(new Tour(i));
+        return tours;
     }
 
 
@@ -113,8 +121,12 @@ public class TourServiceImpl implements TourService {
      * @return a list of TourEntity objects sorted by quantity
      */
     @Override
-    public List<TourEntity> sortByQuantity() {
-        return tourRepository.findAllOrderByQuantity();
+    public List<Tour> sortByQuantity() {
+        List<TourEntity> tourEntities = tourRepository.findAllOrderByQuantity();
+        List<Tour> tours = new ArrayList <>();
+        for (TourEntity i: tourEntities)
+            tours.add(new Tour(i));
+        return tours;
     }
 
 }

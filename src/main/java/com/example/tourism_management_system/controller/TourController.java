@@ -32,12 +32,12 @@ public class TourController {
     }
 
     @GetMapping("/getAll")
-    public List<TourEntity> getAll() {
+    public List<Tour> getAll() {
         return tourServiceImpl.getAll();
     }
 
     @GetMapping("/get/{tourId}")
-    public Optional<TourEntity> getById(@PathVariable("tourId") Long id) {
+    public Tour getById(@PathVariable("tourId") Long id) {
         return tourServiceImpl.getById(id);
     }
 
@@ -47,17 +47,17 @@ public class TourController {
     }
 
     @GetMapping("/get/sort/cost")
-    public List<TourEntity> sortByCost() {
+    public List<Tour> sortByCost() {
         return tourServiceImpl.sortByCost();
     }
 
     @GetMapping("/get/sort/date")
-    public List<TourEntity> sortByDate() {
+    public List<Tour> sortByDate() {
         return tourServiceImpl.sortByDate();
     }
 
     @GetMapping("/get/sort/quantity")
-    public List<TourEntity> sortByQuantity() {
+    public List<Tour> sortByQuantity() {
         return tourServiceImpl.sortByQuantity();
     }
 }

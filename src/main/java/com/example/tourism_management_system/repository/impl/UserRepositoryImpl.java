@@ -61,50 +61,50 @@ public class UserRepositoryImpl extends SimpleJpaRepository <UserEntity, Long> i
     }
     
     @Override
-    public ResponseEntity <User> signInViaEmail (final String email, final String password) {
+    public User signInViaEmail (final String email, final String password) {
         Optional <UserEntity> user = this.findByEmail(email);
         return getUserResponseEntity(password, user);
     }
     
     @Override
-    public ResponseEntity <User> signInViaPhoneNumber (final String phoneNumber, final String password) {
+    public User signInViaPhoneNumber (final String phoneNumber, final String password) {
         Optional <UserEntity> user = this.findByPhoneNumber(phoneNumber);
         return getUserResponseEntity(password, user);
     }
     
     @Override
-    public ResponseEntity <User> forgotPasswordViaEmail (final String email) {
+    public User forgotPasswordViaEmail (final String email) {
         Optional <UserEntity> user = this.findByEmail(email);
         if (user.isPresent()) {
-            return new ResponseEntity <>(HttpStatusCode.valueOf(201));
+            return null;
         } else {
-            return new ResponseEntity <>(HttpStatusCode.valueOf(401));
+            return null;
         }
     }
     
     @Override
-    public ResponseEntity <User> forgotPasswordViaPhoneNumber (final String phoneNumber) {
+    public User forgotPasswordViaPhoneNumber (final String phoneNumber) {
         Optional <UserEntity> user = this.findByPhoneNumber(phoneNumber);
         if (user.isPresent()) {
-            return new ResponseEntity <>(HttpStatusCode.valueOf(201));
+            return null;
         } else {
-            return new ResponseEntity <>(HttpStatusCode.valueOf(401));
+            return null;
         }
     }
     
     @Override
-    public ResponseEntity <User> resetPasswordViaEmail (final String email, final String password) {
+    public User resetPasswordViaEmail (final String email, final String password) {
         Optional <UserEntity> user = this.findByEmail(email);
         return getUserPResponseEntity(password, user);
     }
     
     @Override
-    public ResponseEntity <User> resetPasswordViaPhoneNumber (final String phoneNumber, final String password) {
+    public User resetPasswordViaPhoneNumber (final String phoneNumber, final String password) {
         Optional <UserEntity> user = this.findByPhoneNumber(phoneNumber);
         return getUserPResponseEntity(password, user);
     }
     
-    public ResponseEntity <User> update (final User user) {
+    public User update (final User user) {
         Optional <UserEntity> userEntity = this.findByCardNumber(user.getCards().get(0).getCardNumber());
         if (userEntity.isPresent()) {
             if (userEntity.get().getEmail() != null) {
@@ -121,32 +121,32 @@ public class UserRepositoryImpl extends SimpleJpaRepository <UserEntity, Long> i
                         .setParameter("email", userEntity.get().getEmail())
                         .executeUpdate();
             }
-            return new ResponseEntity <>(HttpStatusCode.valueOf(200));
+            return null;
         }
-        return new ResponseEntity <>(HttpStatusCode.valueOf(501));
+        return null;
     }
     
-    private ResponseEntity <User> getUserPResponseEntity (String password, Optional <UserEntity> user) {
+    private User getUserPResponseEntity (String password, Optional <UserEntity> user) {
         if (user.isPresent()) {
             entityManager
-                    .createQuery("UPDATE UserEntity u SET u.passwordHash = :newPasswordHash WHERE u.email = :username")
-                    .setParameter("newPasswordHash", password.hashCode())
+                    .createQuery("UPDATE UserEntity u SET u.password = :newPassword WHERE u.email = :username")
+                    .setParameter("newPassword", password)
                     .setParameter("email", user.get().getEmail())
                     .executeUpdate();
-            return new ResponseEntity <>(HttpStatusCode.valueOf(201));
+            return null;
         } else {
-            return new ResponseEntity <>(HttpStatusCode.valueOf(401));
+            return null;
         }
     }
     
-    private ResponseEntity <User> getUserResponseEntity (String password, Optional <UserEntity> user) {
+    private User getUserResponseEntity (String password, Optional <UserEntity> user) {
         if (user.isPresent()) {
-            if (user.get().getPasswordHash() == password.hashCode()) {
-                return new ResponseEntity <>(HttpStatusCode.valueOf(201));
+            if (user.get().getPassword().hashCode() == password.hashCode()) {
+                return null;
             } else {
-                return new ResponseEntity <>(HttpStatusCode.valueOf(401));
+                return null;
             }
         }
-        return new ResponseEntity <>(HttpStatusCode.valueOf(403));
+        return null;
     }
 }

@@ -16,7 +16,7 @@ public class CardEntity {
     private Long id;
     
     @ManyToOne
-    @JoinColumn(name = "User_Entity")
+    @JoinColumn(name = "user_id")
     private UserEntity user;
     
     @NotNull

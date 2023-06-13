@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping( value = "/Guest" )
+@RequestMapping( value = "/Home" )
 public class GuestController {
 
     private TourService tourService;
@@ -23,18 +23,18 @@ public class GuestController {
         this.tourService = tourService;
     }
 
-    @GetMapping( value = "/available_tours" )
+    @GetMapping( value = "/" )
     public @ResponseBody ResponseEntity<List<Tour>> home(){
-        return new ResponseEntity<>(tourService.getAll(), HttpStatus.OK);
+        return new ResponseEntity<>(tourService.getAll(), HttpStatus.FOUND);
     }
 
-    @GetMapping("/tour/{tourId}")
+    @GetMapping("/tours/{tourId}")
     public @ResponseBody ResponseEntity<Tour> getTourById(@PathVariable Long tourId){
-        Optional<Tour> op = tourService.getById(tourId);
-        if (op.isPresent()){
-            return new ResponseEntity<>(op.get(), HttpStatus.OK);
+        Tour tour = tourService.getById(tourId);
+        if (tour != null){
+            return new ResponseEntity<>(tour, HttpStatus.FOUND);
         }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 }

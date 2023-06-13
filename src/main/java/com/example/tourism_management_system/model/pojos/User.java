@@ -26,7 +26,7 @@ public class User {
     }
 
     public User(UserEntity user) {
-        this.setAge(user.getAge());
+        //this.setAge(user.getAge());
         this.setPhoneNumber(user.getPhoneNumber());
         this.setEmail(user.getEmail());
         this.setPassword(user.getPassword());

@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseEntity<User> signup(final User user) {
+    public void signup(final User user) {
         UserEntity userEntity = new UserEntity(user);
         boolean t = false;
         for (int i = 0; i < user.getCards().size(); i++) {
@@ -47,19 +47,14 @@ public class UserServiceImpl implements UserService {
         Optional<UserEntity> op2 = userRepository.findByEmail(user.getEmail());
         Optional<UserEntity> op4 = userRepository.findByPhoneNumber(user.getPhoneNumber());
         if (t || op2.isPresent() || op4.isPresent()) {
-            return new ResponseEntity<>(HttpStatusCode.valueOf(505));
+            return;
         }
         userRepository.save(userEntity);
-        for (CardEntity i : userEntity.getCardEntities()) {
-            i.setUser(userEntity);
-        }
-        cardService.save(userEntity.getCardEntities());
-        return new ResponseEntity<>(HttpStatusCode.valueOf(201));
     }
 
     @Override
-    public ResponseEntity<User> signIn(final String login, final String password, final int loginChoice) {
-        return switch (loginChoice) {
+    public void signIn(final String login, final String password, final int loginChoice) {
+        switch (loginChoice) {
             case 1 -> userRepository.signInViaEmail(login, password);
             case 2 -> userRepository.signInViaPhoneNumber(login, password);
             default -> new ResponseEntity<>(HttpStatusCode.valueOf(501));
@@ -67,13 +62,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseEntity<User> editInfo(final User user) {
-        return this.userRepository.update(user);
+    public void editInfo(final User user) {
+        this.userRepository.update(user);
     }
 
     @Override
-    public ResponseEntity<User> forgotPassword(String login, int loginChoice) {
-        return switch (loginChoice) {
+    public void forgotPassword(String login, int loginChoice) {
+        switch (loginChoice) {
             case 1 -> userRepository.forgotPasswordViaEmail(login);
             case 2 -> userRepository.forgotPasswordViaPhoneNumber(login);
             default -> new ResponseEntity<>(HttpStatusCode.valueOf(501));
@@ -81,8 +76,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseEntity<User> forgottedPasswordChange(String login, String password, int loginChoice) {
-        return switch (loginChoice) {
+    public void forgotPasswordChange(String login, String password, int loginChoice) {
+        switch (loginChoice) {
             case 1 -> userRepository.resetPasswordViaEmail(login, password);
             case 2 -> userRepository.resetPasswordViaPhoneNumber(login, password);
             default -> new ResponseEntity<>(HttpStatusCode.valueOf(501));
@@ -90,18 +85,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseEntity<User> passwordChange(SignIn signIn, String password, int loginChoice) {
-        int value = this.signIn(signIn.getLogin(), signIn.getPassword(), loginChoice).getStatusCode().value();
+    public void passwordChange(SignIn signIn, String password, int loginChoice) {
+        int value = 0;//this.signIn(signIn.getLogin(), signIn.getPassword(), loginChoice).getStatusCode().value();
         if (value >= 200 && value < 300) {
-            return switch (loginChoice) {
+            switch (loginChoice) {
                 case 1 -> userRepository.resetPasswordViaEmail(signIn.getLogin(), password);
                 case 2 -> userRepository.resetPasswordViaPhoneNumber(signIn.getLogin(), password);
                 default -> new ResponseEntity<>(HttpStatusCode.valueOf(501));
             };
         } else if (value >= 400 && value < 500) {
-            return new ResponseEntity<>(HttpStatusCode.valueOf(401));
+            return ;
         } else {
-            return new ResponseEntity<>(HttpStatusCode.valueOf(501));
+            return ;
         }
     }
 
@@ -127,29 +122,29 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseEntity<UserInTour> bookTour(UserInTour userInTour) {
+    public void bookTour(UserInTour userInTour) {
         if (validationForTour.isEnableForBooking(userInTour.getTour(), userInTour.getQuantity())){
             if (transactionService.makeTransaction(userInTour.getTransaction())){
-               return userInTourService.save(userInTour);
+               userInTourService.save(userInTour);
             }
-            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+            return ;
         }
-        return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+        return ;
     }
 
     @Override
-    public ResponseEntity<UserInTour> editTour(UserInTour userInTour) {
-        return null;
+    public void editTour(UserInTour userInTour) {
+    
     }
 
     @Override
-    public ResponseEntity<User> cancelTour(UserInTour userInTour) {
-        return null;
+    public void cancelTour(UserInTour userInTour) {
+    
     }
 
     @Override
-    public ResponseEntity<Review> leaveReview(ReviewEntity reviewEntity) {
-        return null;
+    public void leaveReview(ReviewEntity reviewEntity) {
+    
     }
 
 }

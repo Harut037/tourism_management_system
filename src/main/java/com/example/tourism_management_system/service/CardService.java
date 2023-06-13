@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface CardService {
 
-    void save(List<Card> card);
+    void save(List<Card> cards);
 }

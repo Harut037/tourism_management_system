@@ -15,18 +15,18 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
     Optional<UserEntity> findByPhoneNumber(final String phone);
 
-    ResponseEntity<User> signInViaEmail(final String email, final String password);
+    User signInViaEmail(final String email, final String password);
 
-    ResponseEntity<User> signInViaPhoneNumber(final String phoneNumber, final String password);
+    User signInViaPhoneNumber(final String phoneNumber, final String password);
 
-    ResponseEntity<User> update(final User userP);
+    User update(final User userP);
 
-    ResponseEntity<User> forgotPasswordViaEmail(final String email);
+    User forgotPasswordViaEmail(final String email);
 
-    ResponseEntity<User> forgotPasswordViaPhoneNumber(final String phoneNumber);
+    User forgotPasswordViaPhoneNumber(final String phoneNumber);
 
-    ResponseEntity<User> resetPasswordViaEmail(final String email, final String password);
+    User resetPasswordViaEmail(final String email, final String password);
 
-    ResponseEntity<User> resetPasswordViaPhoneNumber(final String phoneNumber, final String password);
+    User resetPasswordViaPhoneNumber(final String phoneNumber, final String password);
 
 }

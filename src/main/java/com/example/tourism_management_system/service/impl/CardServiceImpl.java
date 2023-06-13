@@ -1,6 +1,8 @@
 package com.example.tourism_management_system.service.impl;
 
 import com.example.tourism_management_system.model.entities.CardEntity;
+import com.example.tourism_management_system.model.entities.UserEntity;
+import com.example.tourism_management_system.model.enums.enumForCard.Status;
 import com.example.tourism_management_system.model.pojos.Card;
 import com.example.tourism_management_system.repository.CardRepository;
 import com.example.tourism_management_system.service.CardService;
@@ -17,7 +19,7 @@ public class CardServiceImpl implements CardService {
     private final CardRepository cardRepository;
 
     @Autowired
-    public CardServiceImpl(CardRepository cardRepository) {
+    public CardServiceImpl (CardRepository cardRepository) {
         this.cardRepository = cardRepository;
     }
 
@@ -105,7 +107,7 @@ public class CardServiceImpl implements CardService {
      * @param cardEntities the list of CardEntity objects to be saved
      */
     @Override
-    public void save(List<CardEntity> cardEntities) {
+    public void save(List<Card> cards) {
 
     }
 }
