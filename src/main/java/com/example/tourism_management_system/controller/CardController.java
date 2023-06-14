@@ -20,17 +20,7 @@ public class CardController {
     public CardController(CardServiceImpl cardService) {
         this.cardService = cardService;
     }
-
-    @GetMapping("/get/{cardNumber}")
-    public Optional<CardEntity> getCard(@PathVariable("cardNumber") String cardNumber) {
-        return cardService.getCard(cardNumber);
-    }
-
-    @GetMapping("/getAll")
-    public List<Card> getAll() {
-        return cardService.getAllCard();
-    }
-
+    
     @PostMapping("/add")
     public void addCard(@RequestBody Card card) {
         if (validationForCard.isValidCard(card)) {
@@ -41,11 +31,6 @@ public class CardController {
     @PutMapping("/recharge/{cardNumber}/{balance}")
     public String rechargeBalance(@PathVariable("cardNumber") String cardNumber, @PathVariable("balance") double balance) {
         return cardService.rechargeBalance(cardNumber, balance);
-    }
-
-    @GetMapping("/check/balance/{cardNumber}")
-    public String checkBalance(@PathVariable("cardNumber") String cardNumber) {
-        return cardService.checkBalance(cardNumber);
     }
 
     @PutMapping("/withdraw/{cardNumber}/{balance}")

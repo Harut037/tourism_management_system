@@ -67,7 +67,7 @@ public class CardServiceImpl implements CardService {
     public String rechargeBalance(String cardNumber, double balance) {
         Optional<CardEntity> cardEntity = cardRepository.findCardEntityByCardNumber(cardNumber);
         if (cardEntity.isPresent()) {
-            cardEntity.get().setBalance(cardEntity.get().getBalance() + balance);
+            cardEntity.get().setBalance((float) (cardEntity.get().getBalance() + balance));
             cardRepository.save(cardEntity.get());
         }
         return "Your balance has been successfully recharged";
@@ -83,7 +83,7 @@ public class CardServiceImpl implements CardService {
     public String withdrawBalance(String cardNumber, double balance) {
         Optional<CardEntity> cardEntity = cardRepository.findCardEntityByCardNumber(cardNumber);
         if (balance <= cardEntity.get().getBalance() && balance >= 1) {
-            cardEntity.get().setBalance(cardEntity.get().getBalance() - balance);
+            cardEntity.get().setBalance((float) (cardEntity.get().getBalance() - balance));
             cardRepository.save(cardEntity.get());
         } else return "You don't have enough money to complete the transaction";
         return "Transaction completed successfully";

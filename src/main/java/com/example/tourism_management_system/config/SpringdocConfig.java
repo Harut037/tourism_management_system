@@ -10,7 +10,7 @@ import io.swagger.v3.oas.models.info.Info;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
-
+//TODO
 @OpenAPIDefinition
 @Configuration
 public class SpringdocConfig {
@@ -26,9 +26,5 @@ public class SpringdocConfig {
                 .title("Tourism management system")
                 .version("1.0.0")
                 .description("Controller"));
-
-
-
     }
-
 }

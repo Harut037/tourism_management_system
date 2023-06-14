@@ -114,9 +114,6 @@ public class ValidationForTour {
     public int validateQuantity(String carType) {
         carType = carType.toUpperCase();
         switch (Transport.valueOf(carType)) {
-            case SEDAN -> {
-                return 4;
-            }
             case MINIVAN -> {
                 return 7;
             }

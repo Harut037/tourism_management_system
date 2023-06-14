@@ -13,8 +13,8 @@ public class UserInTour {
     }
 
     public UserInTour(UserInTourEntity userInTourEntity) {
-        this.setUser(new User(userInTourEntity.getUserEntity()));
-        this.setTour(new Tour(userInTourEntity.getTourEntity()));
+        this.setUser(new User(userInTourEntity.getUser()));
+        this.setTour(new Tour(userInTourEntity.getTour()));
         this.setQuantity(userInTourEntity.getQuantity());
     }
 

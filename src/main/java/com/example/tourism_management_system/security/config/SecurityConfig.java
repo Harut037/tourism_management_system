@@ -1,5 +1,6 @@
 package com.example.tourism_management_system.security.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -17,18 +18,29 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableMethodSecurity
 public class SecurityConfig{
     
+    private final UserDetailsServiceImpl userDetailsService;
+    
+    @Autowired
+    public SecurityConfig (UserDetailsServiceImpl userDetailsService) {this.userDetailsService = userDetailsService;}
+    
+    
     @Bean
-    //authentication
     public UserDetailsService userDetailsService() {
-        return new UserDetailsServiceImpl();
+        return userDetailsService;
     }
     
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf().disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/user/home").permitAll()
+                .requestMatchers("/Home").permitAll()
                 .and()
+                .authorizeHttpRequests()
+                .requestMatchers("/Home/**").permitAll()
+                .and()
+//                .authorizeHttpRequests()
+//                .requestMatchers("/**").permitAll()
+//                .and()
                 .authorizeHttpRequests().requestMatchers("/**")
                 .authenticated().and().formLogin().and().build();
     }
@@ -40,7 +52,7 @@ public class SecurityConfig{
     
     @Bean
     public AuthenticationProvider authenticationProvider(){
-        DaoAuthenticationProvider authenticationProvider =new DaoAuthenticationProvider();
+        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
         authenticationProvider.setUserDetailsService(userDetailsService());
         authenticationProvider.setPasswordEncoder(passwordEncoder());
         return authenticationProvider;

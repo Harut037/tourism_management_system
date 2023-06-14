@@ -13,19 +13,16 @@ import java.util.Optional;
 @Component
 public class UserDetailsServiceImpl implements UserDetailsService {
     
-    private UserRepository  userRepository;
+    
+    private final UserRepository  userRepository;
     
     @Autowired
-    public UserDetailsServiceImpl (UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
-    
-    public UserDetailsServiceImpl () {}
+    public UserDetailsServiceImpl (UserRepository userRepository) {this.userRepository = userRepository;}
     
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Optional <UserEntity>  userEntity = userRepository.findByEmail(email);
         return userEntity.map(UserDetailsImpl::new)
-                .orElseThrow(() -> new UsernameNotFoundException("user not found " + email));
+                .orElseThrow(() -> new UsernameNotFoundException("user not found by this email" + email));
     }
 }

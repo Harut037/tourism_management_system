@@ -11,7 +11,7 @@ import com.example.tourism_management_system.model.pojos.SignIn;
 @Service
 public interface UserService {
     
-    void signup(final User user);
+    String signUp(final User user);
     
     void signIn(final String login, final String password, final int loginChoice);
     
@@ -34,5 +34,9 @@ public interface UserService {
     void cancelTour(UserInTour userInTour);
     
     void leaveReview(ReviewEntity reviewEntity);
+    
+    void getHistoryOfTours(Long userId);
+    
+    void logout(Long userId);
 
 }

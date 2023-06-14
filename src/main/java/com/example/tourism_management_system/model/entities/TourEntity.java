@@ -2,75 +2,48 @@ package com.example.tourism_management_system.model.entities;
 
 import com.example.tourism_management_system.model.pojos.Tour;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalTime;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
-@Table(name = "Tour")
+@Table ( name = "Tour" )
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class TourEntity {
-
+    
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @NotNull
-    @Column(name = "tour_type")
-    private String tourType;
-
-    @NotNull
-    @Column(name = "tour_name")
-    private String tourName;
-
-    @NotNull
-    @Column(name = "tour_date")
-    private LocalDate tourDate;
-
-    @NotNull
-    @Column(name = "start_time")
-    private LocalTime startTime;
-
-    @NotNull
-    @Column(name = "distance")
-    private String distance;
-
-    @NotNull
-    @Column(name = "duration")
-    private String duration;
-
-    @NotNull
-    @Column(name = "car_type")
-    private String carType;
-
-    @NotNull
-    @Column(name = "quantity")
-    private int quantity;
-
-    @NotNull
-    @Column(name = "cost")
-    private int cost;
-
-    @Column(name = "active", nullable = false)
-    private Boolean flag;
-
-    public TourEntity() {
-    }
-
-    public TourEntity(String tourType, String tourName, LocalDate tourDate, LocalTime startTime, String duration, String distance, String carType, int quantity, int cost, Boolean flag) {
-        this.tourType = tourType;
-        this.tourName = tourName;
-        this.tourDate = tourDate;
-        this.startTime = startTime;
-        this.duration = duration;
-        this.distance = distance;
-        this.carType = carType;
-        this.quantity = quantity;
-        this.cost = cost;
-        this.flag = flag;
-    }
-
-    public TourEntity(Tour tour) {
+    @GeneratedValue ( strategy = GenerationType.IDENTITY )
+    private Long                    id;
+    @Column ( nullable = false )
+    private String                  tourType;
+    @Column ( nullable = false )
+    private String                  tourName;
+    @Column ( nullable = false )
+    private LocalDate               tourDate;
+    @Column ( nullable = false )
+    private LocalTime               startTime;
+    @Column ( nullable = false )
+    private String                  distance;
+    @Column ( nullable = false )
+    private String                  duration;
+    @Column ( nullable = false )
+    private String                  carType;
+    @Column ( nullable = false )
+    private Integer                 generalQuantity;
+    @Column ( nullable = false )
+    private Integer                 cost;
+    @Column ( name = "active", nullable = false )
+    private Boolean                 flag;
+    @OneToMany(mappedBy = "tour")
+    private List <UserInTourEntity> userInTourEntities;
+    
+    public TourEntity (Tour tour) {
         setTourType(tour.getTourType());
         setTourName(tour.getTourName());
         setTourDate(tour.getTourDate());
@@ -78,96 +51,9 @@ public class TourEntity {
         setDuration(tour.getDuration());
         setDistance(tour.getDistance());
         setCarType(tour.getCarType());
-        setQuantity(tour.getQuantity());
+        setGeneralQuantity(tour.getQuantity());
         setCost(tour.getCost());
         setFlag(tour.getFlag());
     }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getTourType() {
-        return tourType;
-    }
-
-    public void setTourType(String tourType) {
-        this.tourType = tourType;
-    }
-
-    public String getTourName() {
-        return tourName;
-    }
-
-    public void setTourName(String tourName) {
-        this.tourName = tourName;
-    }
-
-    public LocalDate getTourDate() {
-        return tourDate;
-    }
-
-    public void setTourDate(LocalDate tourDate) {
-        this.tourDate = tourDate;
-    }
-
-    public LocalTime getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(LocalTime startTime) {
-        this.startTime = startTime;
-    }
-
-    public String getDistance() {
-        return distance;
-    }
-
-    public void setDistance(String distance) {
-        this.distance = distance;
-    }
-
-    public String getDuration() {
-        return duration;
-    }
-
-    public void setDuration(String duration) {
-        this.duration = duration;
-    }
-
-    public String getCarType() {
-        return carType;
-    }
-
-    public void setCarType(String carType) {
-        this.carType = carType;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    public int getCost() {
-        return cost;
-    }
-
-    public void setCost(int cost) {
-        this.cost = cost;
-    }
-
-    public Boolean getFlag() {
-        return flag;
-    }
-
-    public void setFlag(Boolean flag) {
-        this.flag = flag;
-    }
+    
 }

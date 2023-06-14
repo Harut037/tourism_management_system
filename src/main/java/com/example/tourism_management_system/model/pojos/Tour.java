@@ -51,7 +51,7 @@ public class Tour {
         setDuration(tourEntity.getDuration());
         setDistance(tourEntity.getDistance());
         setCarType(tourEntity.getCarType());
-        setQuantity(tourEntity.getQuantity());
+        setQuantity(tourEntity.getGeneralQuantity());
         setCost(tourEntity.getCost());
         setFlag(tourEntity.getFlag());
     }

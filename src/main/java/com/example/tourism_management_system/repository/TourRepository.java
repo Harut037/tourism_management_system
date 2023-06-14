@@ -26,7 +26,7 @@ public interface TourRepository extends JpaRepository<TourEntity, Long> {
     List<TourEntity> findAllOrderByTourDate();
 
     @Transactional
-    @Query("SELECT s FROM TourEntity s ORDER BY s.quantity ASC")
+    @Query("SELECT s FROM TourEntity s ORDER BY s.generalQuantity ASC")
     List<TourEntity> findAllOrderByQuantity();
 
     @Transactional

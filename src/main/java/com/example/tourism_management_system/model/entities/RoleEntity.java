@@ -16,36 +16,38 @@ public class RoleEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "is_user")
-    private Boolean isUser;
-    @Column(name = "is_admin")
-    private Boolean isAdmin;
-    @Column(name = "is_tour_administrator")
-    private Boolean isTourAdministrator;
-    @Column(name = "is_support")
-    private Boolean isSupport;
-    @Column(name = "flag")
+    @Column(nullable = false)
+    private Boolean userRole;
+    @Column(nullable = false)
+    private Boolean adminRole;
+    @Column(nullable = false)
+    private Boolean tourAdministratorRole;
+    @Column(nullable = false)
+    private Boolean supportRole;
+    @Column(nullable = false)
     private Boolean flag = true;
     
     @Override
     public String toString () {
         StringBuilder stringBuilder = new StringBuilder();
         int t = 0;
-        if (this.isAdmin) {
+        if (this.adminRole) {
             stringBuilder.append(Role.ADMIN);
             t++;
         }
-        if (this.isTourAdministrator){
+        if (this.tourAdministratorRole){
             if (t > 0)
                 stringBuilder.append(",");
             stringBuilder.append(Role.TOUR_ADMINISTRATOR);
+            t++;
         }
-        if (this.isSupport){
+        if (this.supportRole){
             if (t > 0)
                 stringBuilder.append(",");
             stringBuilder.append(Role.SUPPORT);
+            t++;
         }
-        if (this.isUser){
+        if (this.userRole){
             if (t > 0)
                 stringBuilder.append(",");
             stringBuilder.append(Role.USER);

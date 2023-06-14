@@ -16,22 +16,21 @@ public class UserInTourEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne
-    @JoinColumn(name = "User_Entity")
-    private UserEntity userEntity;
+    @JoinColumn(name = "user_id")
+    private UserEntity user;
     @ManyToOne
-    @JoinColumn(name = "Tour")
-    private TourEntity tourEntity;
+    private TourEntity tour;
     @OneToOne
     @JoinColumn(name = "review_id")
     private ReviewEntity reviewEntity;
-    @Column(name = "quantity", nullable = false)
+    @Column(nullable = false)
     private Integer quantity;
-    @Column(name = "flag", nullable = false)
+    @Column(nullable = false)
     private Boolean flag = true;
 
     public UserInTourEntity(UserInTour userInTour) {
-        this.setUserEntity(new UserEntity(userInTour.getUser()));
-        this.setTourEntity(new TourEntity(userInTour.getTour()));
+        this.setUser(new UserEntity(userInTour.getUser()));
+        this.setTour(new TourEntity(userInTour.getTour()));
         this.setQuantity(userInTour.getQuantity());
     }
     

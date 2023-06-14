@@ -4,6 +4,7 @@ import com.example.tourism_management_system.model.entities.CardEntity;
 import com.example.tourism_management_system.model.entities.UserEntity;
 import jakarta.validation.constraints.Pattern;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +14,7 @@ public class User {
     private String firstName;
     @Pattern(regexp = "[A-Z][a-z]+")
     private String lastName;
-    private Integer age;
+    private Date   birthDate;
     @Pattern(regexp = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z]{2,}$", message = "Invalid Email Pattern")
     private String email;
     @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()_+])[a-zA-Z0-9!@#$%^&*()_+]{8,20}$", message = "Invalid Password Pattern")
@@ -21,12 +22,12 @@ public class User {
     @Pattern(regexp = "\\+374\\d{8}", message = "Invalid Phone Number Pattern")
     private String phoneNumber;
     private List<Card> cards;
+    private List <UserInTour> userInTour;
 
     public User() {
     }
 
     public User(UserEntity user) {
-        //this.setAge(user.getAge());
         this.setPhoneNumber(user.getPhoneNumber());
         this.setEmail(user.getEmail());
         this.setPassword(user.getPassword());
@@ -49,15 +50,15 @@ public class User {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
-
-    public Integer getAge() {
-        return age;
+    
+    public Date getBirthDate () {
+        return birthDate;
     }
-
-    public void setAge(Integer age) {
-        this.age = age;
+    
+    public void setBirthDate (Date birthDate) {
+        this.birthDate = birthDate;
     }
-
+    
     public String getEmail() {
         return email;
     }
@@ -89,7 +90,15 @@ public class User {
     public void setCards(List<Card> cards) {
         this.cards = cards;
     }
-
+    
+    public List <UserInTour> getUserInTour () {
+        return userInTour;
+    }
+    
+    public void setUserInTour (List <UserInTour> userInTour) {
+        this.userInTour = userInTour;
+    }
+    
     private List<Card> castCards(List<CardEntity> cardEntities) {
         List<Card> cards = new ArrayList<>();
         cardEntities.forEach(card -> cards.add(new Card(card)));
