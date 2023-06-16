@@ -19,7 +19,6 @@ public class GuestController {
     private final TourService tourService;
     private final UserService userService;
     
-    
     @Autowired
     public GuestController(TourService tourService, UserService userService){
         this.tourService = tourService;
@@ -48,5 +47,4 @@ public class GuestController {
         }
         return new RedirectView("/Home/CouldNotSignUp");
     }
-
 }

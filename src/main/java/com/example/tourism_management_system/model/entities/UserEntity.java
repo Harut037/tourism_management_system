@@ -58,6 +58,10 @@ public class UserEntity {
         //this.setRoleEntity(new RoleEntity(user.getRole()));
     }
     
+    public void setPassword(String password){
+        this.password = new BCryptPasswordEncoder().encode(password);
+    }
+    
     private List <UserInTourEntity> castUserInTour (List <UserInTour> userInTour) {
         if ( userInTour != null ){
             List <UserInTourEntity> userInTourEntities = new ArrayList <>();

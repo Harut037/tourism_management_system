@@ -1,14 +1,10 @@
 package com.example.tourism_management_system.controller;
 
-import com.example.tourism_management_system.model.entities.TourEntity;
 import com.example.tourism_management_system.model.pojos.Tour;
 import com.example.tourism_management_system.service.impl.TourServiceImpl;
 import com.example.tourism_management_system.validation.tour.ValidationForTour;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/tours")

@@ -1,6 +1,7 @@
 package com.example.tourism_management_system.repository.impl;
 
 import com.example.tourism_management_system.model.entities.UserEntity;
+import com.example.tourism_management_system.model.pojos.EditInfo;
 import com.example.tourism_management_system.model.pojos.User;
 import com.example.tourism_management_system.repository.UserRepository;
 import jakarta.persistence.EntityManager;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,16 +29,16 @@ public class UserRepositoryImpl extends SimpleJpaRepository <UserEntity, Long> i
         this.entityManager = entityManager;
     }
     
-    @Override
-    public Optional <UserEntity> findByCardNumber (final String cardNumber) {
-        String jpql = "SELECT u FROM UserEntity u inner join CardEntity p WHERE p.cardNumber = :cardNumber";
-        return entityManager
-                .createQuery(jpql, UserEntity.class)
-                .setParameter("cardNumber", cardNumber)
-                .getResultList()
-                .stream()
-                .findFirst();
-    }
+//    @Override
+//    public Optional <UserEntity> findByCardNumber (final String cardNumber) {
+//        String jpql = "SELECT u FROM UserEntity u inner join CardEntity p WHERE p.cardNumber = :cardNumber";
+//        return entityManager
+//                .createQuery(jpql, UserEntity.class)
+//                .setParameter("cardNumber", cardNumber)
+//                .getResultList()
+//                .stream()
+//                .findFirst();
+//    }
     
     @Override
     public Optional <UserEntity> findByEmail (final String email) {
@@ -61,92 +63,78 @@ public class UserRepositoryImpl extends SimpleJpaRepository <UserEntity, Long> i
     }
     
     @Override
-    public User signInViaEmail (final String email, final String password) {
-        Optional <UserEntity> user = this.findByEmail(email);
-        return getUserResponseEntity(password, user);
-    }
-    
-    @Override
-    public User signInViaPhoneNumber (final String phoneNumber, final String password) {
-        Optional <UserEntity> user = this.findByPhoneNumber(phoneNumber);
-        return getUserResponseEntity(password, user);
-    }
-    
-    @Override
-    public User forgotPasswordViaEmail (final String email) {
+    public String signIn (final String email, final String password) {
         Optional <UserEntity> user = this.findByEmail(email);
         if (user.isPresent()) {
-            return null;
-        } else {
-            return null;
-        }
-    }
-    
-    @Override
-    public User forgotPasswordViaPhoneNumber (final String phoneNumber) {
-        Optional <UserEntity> user = this.findByPhoneNumber(phoneNumber);
-        if (user.isPresent()) {
-            return null;
-        } else {
-            return null;
-        }
-    }
-    
-    @Override
-    public User resetPasswordViaEmail (final String email, final String password) {
-        Optional <UserEntity> user = this.findByEmail(email);
-        return getUserPResponseEntity(password, user);
-    }
-    
-    @Override
-    public User resetPasswordViaPhoneNumber (final String phoneNumber, final String password) {
-        Optional <UserEntity> user = this.findByPhoneNumber(phoneNumber);
-        return getUserPResponseEntity(password, user);
-    }
-    
-    public User update (final User user) {
-        Optional <UserEntity> userEntity = this.findByCardNumber(user.getCards().get(0).getCardNumber());
-        if (userEntity.isPresent()) {
-            if (userEntity.get().getEmail() != null) {
-                entityManager
-                        .createQuery("UPDATE UserEntity u SET u.email = :newemail WHERE u.email = :username")
-                        .setParameter("newemail", user.getEmail())
-                        .setParameter("email", userEntity.get().getEmail())
-                        .executeUpdate();
+            if (user.get().getPassword().equals(new BCryptPasswordEncoder().encode(password))) {
+                return "Success";
             }
-            if (userEntity.get().getPhoneNumber() != null) {
-                entityManager
-                        .createQuery("UPDATE UserEntity u SET u.phoneNumber = :newphoneNumber WHERE u.email = :username")
-                        .setParameter("newphoneNumber", user.getPhoneNumber())
-                        .setParameter("email", userEntity.get().getEmail())
-                        .executeUpdate();
-            }
-            return null;
+            return "Invalid Password";
         }
-        return null;
+        return "User Not Found By This Email";
     }
     
-    private User getUserPResponseEntity (String password, Optional <UserEntity> user) {
+    @Override
+    public String forgotPassword (final String email) {
+        Optional <UserEntity> user = this.findByEmail(email);
         if (user.isPresent()) {
+            //TODO Mail Sender
+            return "Email Sent";
+        }
+        return "User Not Found By This Email";
+    }
+    
+    @Override
+    public String resetPassword (final String email, final String password) {
+        Optional <UserEntity> op = this.findByEmail(email);
+        if (op.isPresent()) {
             entityManager
-                    .createQuery("UPDATE UserEntity u SET u.password = :newPassword WHERE u.email = :username")
+                    .createQuery("" +
+                            " UPDATE UserEntity u SET" +
+                            " u.password = :newPassword" +
+                            " WHERE u.email = :email")
                     .setParameter("newPassword", password)
-                    .setParameter("email", user.get().getEmail())
+                    .setParameter("email", email)
                     .executeUpdate();
-            return null;
-        } else {
-            return null;
+            return "Successfully Updated";
         }
+        return "Not Found Such User By This Email";
     }
     
-    private User getUserResponseEntity (String password, Optional <UserEntity> user) {
-        if (user.isPresent()) {
-            if (user.get().getPassword().hashCode() == password.hashCode()) {
-                return null;
-            } else {
-                return null;
-            }
+    public String update (final EditInfo editInfo) {
+        Optional <UserEntity> op = this.findByEmail(editInfo.getEmail());
+        if (op.isPresent()) {
+                entityManager
+                        .createQuery("" +
+                                " UPDATE UserEntity u SET" +
+                                " u.firstName = :newFirstName," +
+                                " u.lastName = :newLastName," +
+                                " u.birthDate = : newBirthDate" +
+                                " WHERE u.email = :email")
+                        .setParameter("newFirstName", editInfo.getFirstName())
+                        .setParameter("newLastName", editInfo.getLastName())
+                        .setParameter("newBirthDate", editInfo.getBirthDate())
+                        .setParameter("email", op.get().getEmail())
+                        .executeUpdate();
+            return "Successfully Updated";
         }
-        return null;
+        return "Not Successful";
+    }
+    
+    @Override
+    public String updateEmail (String email, String newEmail) {
+        Optional <UserEntity> op = this.findByEmail(email);
+        if (op.isPresent()) {
+            entityManager
+                    .createQuery("" +
+                            " UPDATE UserEntity u SET" +
+                            " u.email = :newEmail" +
+                            " WHERE u.email = :email")
+                    .setParameter("newEmail", newEmail)
+                    .setParameter("email", email)
+                    .executeUpdate();
+            return "Successfully Updated";
+        }
+        return "Not Found Such User By This Email";
     }
 }

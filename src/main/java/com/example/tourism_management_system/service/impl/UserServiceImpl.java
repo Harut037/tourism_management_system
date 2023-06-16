@@ -1,9 +1,7 @@
 package com.example.tourism_management_system.service.impl;
 
 import com.example.tourism_management_system.model.entities.*;
-import com.example.tourism_management_system.model.pojos.SignIn;
-import com.example.tourism_management_system.model.pojos.User;
-import com.example.tourism_management_system.model.pojos.UserInTour;
+import com.example.tourism_management_system.model.pojos.*;
 import com.example.tourism_management_system.repository.UserRepository;
 import com.example.tourism_management_system.service.*;
 import com.example.tourism_management_system.validation.tour.ValidationForTour;
@@ -12,6 +10,9 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -50,8 +51,8 @@ public class UserServiceImpl implements UserService {
         RoleEntity roleEntity = new RoleEntity();
         roleEntity.setAdminRole(false);
         roleEntity.setUserRole(true);
-        roleEntity.setTourAdministratorRole(false);
-        roleEntity.setSupportRole(false);
+//        roleEntity.setTourAdministratorRole(false);
+//        roleEntity.setSupportRole(false);
         userEntity.setRoleEntity(roleEntity);
         roleService.saveRole(roleEntity);
         userRepository.save(userEntity);
@@ -59,72 +60,36 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void signIn(final String login, final String password, final int loginChoice) {
-        switch (loginChoice) {
-            case 1 -> userRepository.signInViaEmail(login, password);
-            case 2 -> userRepository.signInViaPhoneNumber(login, password);
-            default -> new ResponseEntity<>(HttpStatusCode.valueOf(501));
-        };
+    public String signIn(final String email, final String password) {
+        return userRepository.signIn(email, password);
     }
 
     @Override
-    public void editInfo(final User user) {
-        this.userRepository.update(user);
-    }
-
-    @Override
-    public void forgotPassword(String login, int loginChoice) {
-        switch (loginChoice) {
-            case 1 -> userRepository.forgotPasswordViaEmail(login);
-            case 2 -> userRepository.forgotPasswordViaPhoneNumber(login);
-            default -> new ResponseEntity<>(HttpStatusCode.valueOf(501));
-        };
-    }
-
-    @Override
-    public void forgotPasswordChange(String login, String password, int loginChoice) {
-        switch (loginChoice) {
-            case 1 -> userRepository.resetPasswordViaEmail(login, password);
-            case 2 -> userRepository.resetPasswordViaPhoneNumber(login, password);
-            default -> new ResponseEntity<>(HttpStatusCode.valueOf(501));
-        };
-    }
-
-    @Override
-    public void passwordChange(SignIn signIn, String password, int loginChoice) {
-        int value = 0;//this.signIn(signIn.getLogin(), signIn.getPassword(), loginChoice).getStatusCode().value();
-        if (value >= 200 && value < 300) {
-            switch (loginChoice) {
-                case 1 -> userRepository.resetPasswordViaEmail(signIn.getLogin(), password);
-                case 2 -> userRepository.resetPasswordViaPhoneNumber(signIn.getLogin(), password);
-                default -> new ResponseEntity<>(HttpStatusCode.valueOf(501));
-            };
-        } else if (value >= 400 && value < 500) {
-            return ;
-        } else {
-            return ;
+    public String editInfo(final EditInfo editInfo) {
+        Optional<UserEntity> op = userRepository.findByEmail(editInfo.getEmail());
+        if (op.isEmpty()) {
+            return "User Not Found";
         }
+        return userRepository.update(editInfo);
+    }
+    
+    @Override
+    public String passwordChange(SignIn signIn, String password) {
+        String result = this.signIn(signIn.getEmail(), password);
+        if (result.equals("Success")) {
+            return userRepository.resetPassword(signIn.getEmail(), password);
+        }
+        return result;
     }
 
     @Override
-    public boolean contains(final String string, final char symbol) {
-        for (int i = 0; i < string.length(); i++) {
-            if (string.charAt(i) == symbol) {
-                return true;
-            }
-        }
-        return false;
+    public String forgotPassword(String email) {
+        return userRepository.forgotPassword(email);
     }
 
     @Override
-    public int loginType(String login) {
-        if (this.contains(login, '@')) {
-            return 1;
-        } else if (this.contains(login, '+')) {
-            return 2;
-        } else {
-            return -1;
-        }
+    public String forgotPasswordChange(String email, String password) {
+        return userRepository.resetPassword(email, password);
     }
 
     @Override
@@ -154,12 +119,40 @@ public class UserServiceImpl implements UserService {
     }
     
     @Override
-    public void getHistoryOfTours (Long userId) {
-    
+    public List <Tour> getHistoryOfTours (Long userId) {
+        List<Tour> tours = new ArrayList <>();
+        List<UserInTour> userInTours = userInTourService.findByUserId(userId);
+        if (userInTours == null)
+            return Collections.emptyList();
+        for (UserInTour userInTour : userInTours) {
+            tours.add(userInTour.getTour());
+        }
+        return tours;
     }
     
     @Override
     public void logout (Long userId) {
     
+    }
+    
+    @Override
+    public Long getIdByEmail (String email) {
+        Optional<UserEntity> op = userRepository.findByEmail(email);
+        return op.map(UserEntity::getId).orElse(null);
+    }
+    
+    @Override
+    public User getInfo (Long userId) {
+        Optional<UserEntity> op = userRepository.findById(userId);
+        return op.map(User::new).orElse(null);
+    }
+    
+    @Override
+    public String changeEmail (SignIn signIn, String newEmail) {
+        String result = this.signIn(signIn.getEmail(), signIn.getPassword());
+        if (result.equals("Success")){
+            return userRepository.updateEmail(signIn.getEmail(), newEmail);
+        }
+        return result;
     }
 }

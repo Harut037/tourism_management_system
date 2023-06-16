@@ -1,31 +1,26 @@
 package com.example.tourism_management_system.service;
 
 import com.example.tourism_management_system.model.entities.ReviewEntity;
-import com.example.tourism_management_system.model.pojos.Review;
-import com.example.tourism_management_system.model.pojos.UserInTour;
+import com.example.tourism_management_system.model.pojos.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import com.example.tourism_management_system.model.pojos.User;
-import com.example.tourism_management_system.model.pojos.SignIn;
+
+import java.util.List;
 
 @Service
 public interface UserService {
     
     String signUp(final User user);
     
-    void signIn(final String login, final String password, final int loginChoice);
+    String signIn(final String email, final String password);
     
-    void editInfo(final User user);
-
-    boolean contains(final String string, final char symbol);
+    String editInfo(final EditInfo editInfo);
     
-    void forgotPassword(final String login, final int loginChoice);
-
-    int loginType(final String login);
+    String forgotPassword(final String email);
     
-    void forgotPasswordChange(final String login, final String password, final int loginChoice);
+    String forgotPasswordChange(final String email, final String password);
     
-    void passwordChange(SignIn signIn, String password, int loginChoice);
+    String passwordChange(SignIn signIn, String password);
     
     void bookTour(UserInTour userInTour);
     
@@ -35,8 +30,13 @@ public interface UserService {
     
     void leaveReview(ReviewEntity reviewEntity);
     
-    void getHistoryOfTours(Long userId);
+    List <Tour> getHistoryOfTours(Long userId);
     
     void logout(Long userId);
-
+    
+    Long getIdByEmail (String email);
+    
+    User getInfo (Long userId);
+    
+    String changeEmail (SignIn signIn, String email);
 }
