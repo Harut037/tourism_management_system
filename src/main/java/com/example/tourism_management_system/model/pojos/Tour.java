@@ -1,10 +1,17 @@
 package com.example.tourism_management_system.model.pojos;
 
 import com.example.tourism_management_system.model.entities.TourEntity;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Tour {
     
     private String tourType;
@@ -27,22 +34,6 @@ public class Tour {
 
     private Boolean flag;
 
-    public Tour() {
-    }
-
-    public Tour(String tourType, String tourName, LocalDate tourDate, LocalTime startTime, String duration, String distance, String carType, int quantity, int cost, Boolean flag) {
-        this.tourType = tourType;
-        this.tourName = tourName;
-        this.tourDate = tourDate;
-        this.startTime = startTime;
-        this.duration = duration;
-        this.distance = distance;
-        this.carType = carType;
-        this.quantity = quantity;
-        this.cost = cost;
-        this.flag = flag;
-    }
-
     public Tour(TourEntity tourEntity){
         setTourType(tourEntity.getTourType());
         setTourName(tourEntity.getTourName());
@@ -56,83 +47,4 @@ public class Tour {
         setFlag(tourEntity.getFlag());
     }
 
-    public String getTourType() {
-        return tourType;
-    }
-
-    public void setTourType(String tourType) {
-        this.tourType = tourType;
-    }
-
-    public String getTourName() {
-        return tourName;
-    }
-
-    public void setTourName(String tourName) {
-        this.tourName = tourName;
-    }
-
-    public LocalDate getTourDate() {
-        return tourDate;
-    }
-
-    public void setTourDate(LocalDate tourDate) {
-        this.tourDate = tourDate;
-    }
-
-    public LocalTime getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(LocalTime startTime) {
-        this.startTime = startTime;
-    }
-
-    public String getDuration() {
-        return duration;
-    }
-
-    public void setDuration(String duration) {
-        this.duration = duration;
-    }
-
-    public String getDistance() {
-        return distance;
-    }
-
-    public void setDistance(String distance) {
-        this.distance = distance;
-    }
-
-    public String getCarType() {
-        return carType;
-    }
-
-    public void setCarType(String carType) {
-        this.carType = carType;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    public int getCost() {
-        return cost;
-    }
-
-    public void setCost(int cost) {
-        this.cost = cost;
-    }
-
-    public Boolean getFlag() {
-        return flag;
-    }
-
-    public void setFlag(Boolean flag) {
-        this.flag = flag;
-    }
 }
