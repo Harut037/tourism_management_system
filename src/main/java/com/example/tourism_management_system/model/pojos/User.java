@@ -3,11 +3,18 @@ package com.example.tourism_management_system.model.pojos;
 import com.example.tourism_management_system.model.entities.CardEntity;
 import com.example.tourism_management_system.model.entities.UserEntity;
 import jakarta.validation.constraints.Pattern;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
 
     @Pattern(regexp = "[A-Z][a-z]+")
@@ -24,8 +31,7 @@ public class User {
     private List<Card> cards;
     private List <UserInTour> userInTour;
 
-    public User() {
-    }
+
 
     public User(UserEntity user) {
         this.setPhoneNumber(user.getPhoneNumber());
@@ -35,69 +41,7 @@ public class User {
         this.setCards(castCards(user.getCardEntities()));
     }
 
-    public String getFirstName() {
-        return firstName;
-    }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-    
-    public Date getBirthDate () {
-        return birthDate;
-    }
-    
-    public void setBirthDate (Date birthDate) {
-        this.birthDate = birthDate;
-    }
-    
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public List<Card> getCards() {
-        return cards;
-    }
-
-    public void setCards(List<Card> cards) {
-        this.cards = cards;
-    }
-    
-    public List <UserInTour> getUserInTour () {
-        return userInTour;
-    }
-    
-    public void setUserInTour (List <UserInTour> userInTour) {
-        this.userInTour = userInTour;
-    }
     
     private List<Card> castCards(List<CardEntity> cardEntities) {
         List<Card> cards = new ArrayList<>();

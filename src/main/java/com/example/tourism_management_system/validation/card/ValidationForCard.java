@@ -10,6 +10,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ValidationForCard {
 
@@ -22,27 +24,24 @@ public class ValidationForCard {
      * @return the validated card number if it is valid and recognized, or an error message if it is invalid or unrecognized
      */
     public String cardNumberValidation(String cardNumber) {
-        if (cardNumber.startsWith("4") && cardNumber.length() == 16) {
+        String visaRegex = "^4[0-9]{12}(?:[0-9]{3})?$";
+        String mastercardRegex = "^(5[1-5][0-9]{14})|(56[0-9]{14})$";
+        String amexRegex = "^3[47][0-9]{13}$";
+
+        if (Pattern.matches(visaRegex, cardNumber)) {
             validateForCardType("VISA");
             return cardNumber;
-        } else if (cardNumber.startsWith("51") ||
-                cardNumber.startsWith("52") ||
-                cardNumber.startsWith("53") ||
-                cardNumber.startsWith("54") ||
-                cardNumber.startsWith("55") ||
-                cardNumber.startsWith("56") && cardNumber.length() == 16) {
+        } else if (Pattern.matches(mastercardRegex, cardNumber)) {
             validateForCardType("MASTER_CARD");
             return cardNumber;
-        } else if (cardNumber.startsWith("34") ||
-                cardNumber.startsWith("35") ||
-                cardNumber.startsWith("36") ||
-                cardNumber.startsWith("37") ||
-                cardNumber.startsWith("38") && cardNumber.length() == 15) {
+        } else if (Pattern.matches(amexRegex, cardNumber)) {
             validateForCardType("AMERICAN_EXPRESS");
             return cardNumber;
-        } else
+        } else {
             return "Invalid card number";
+        }
     }
+
 
     /**
      * The validateForCardType method validates a given card type and returns the corresponding card type string.

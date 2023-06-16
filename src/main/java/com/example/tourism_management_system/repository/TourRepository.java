@@ -31,6 +31,11 @@ public interface TourRepository extends JpaRepository<TourEntity, Long> {
 
     @Transactional
     @Modifying
+    @Query("SELECT s FROM TourEntity s ORDER BY s.distance ASC ")
+    List<TourEntity> findAllOrderByDistance();
+
+    @Transactional
+    @Modifying
     @Query("UPDATE TourEntity t set t.flag = false where t.id =:id")
     void flag(Long id);
 }
