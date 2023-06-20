@@ -2,8 +2,10 @@ package com.example.tourism_management_system.model.enums.enumForTour;
 
 public enum PlacesForCampaign {
     DIMAC (220,12,10000),
-    HATIS (100,8,7000),
-    AGHMAGHAN(275,11,8000);
+    ARAGATS (130,13,12000),
+    AGHMAGHAN(275,11,8000),
+    AZHDAHAK(100, 10, 7000),
+    SMBATABERD(310, 13, 13000);
 
     private int duration;
     private int distance;
