@@ -108,4 +108,9 @@ public class CardServiceImpl implements CardService {
     public void save(List<Card> cards) {
 
     }
+    
+    @Override
+    public String addCard (Card card) {
+        return null;
+    }
 }

@@ -1,5 +1,6 @@
 package com.example.tourism_management_system.service;
 
+import com.example.tourism_management_system.bank.api.model.pojo.Card;
 import com.example.tourism_management_system.model.entities.ReviewEntity;
 import com.example.tourism_management_system.model.pojos.*;
 import org.springframework.http.ResponseEntity;
@@ -22,13 +23,13 @@ public interface UserService {
     
     String passwordChange(SignIn signIn, String password);
     
-    void bookTour(UserInTour userInTour);
+    String bookTour(UserInTour userInTour);
     
-    void editTour(UserInTour userInTour);
+    String editTour(UserInTour userInTour);
     
-    void cancelTour(UserInTour userInTour);
+    String cancelTour(UserInTour userInTour);
     
-    void leaveReview(ReviewEntity reviewEntity);
+    String leaveReview(ReviewEntity reviewEntity);
     
     List <Tour> getHistoryOfTours(Long userId);
     
@@ -39,4 +40,8 @@ public interface UserService {
     User getInfo (Long userId);
     
     String changeEmail (SignIn signIn, String email);
+    
+    String changePhoneNumber (SignIn signIn, String phoneNumber);
+    
+    String addCard (Card card, User user);
 }

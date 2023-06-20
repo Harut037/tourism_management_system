@@ -9,5 +9,7 @@ import java.util.List;
 @Repository
 public interface UserInTourRepository extends JpaRepository<UserInTourEntity, Long> {
     
+    //TODO
     List<UserInTourEntity> findByUserId (Long userId);
+    
 }

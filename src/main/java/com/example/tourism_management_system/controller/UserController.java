@@ -56,12 +56,12 @@ public class UserController {
         return userService.getInfo(userId);
     }
 
-    @PutMapping ( value = "/editInfo" )
+    @PutMapping ( "/editInfo" )
     public String editInfo (@Valid @RequestBody @NonNull EditInfo editInfo) {
         return userService.editInfo(editInfo);
     }
     
-    @PutMapping ( value = "/changePassword" )
+    @PutMapping ( "/changePassword" )
     public String changePassword (@Valid @RequestBody @NonNull PasswordChange passwordChange) {
         if (passwordChange.getNew1().equals(passwordChange.getNew2())) {
             return userService.passwordChange(passwordChange.getSignIn(), passwordChange.getNew1());
@@ -70,14 +70,14 @@ public class UserController {
         }
     }
     
-    @GetMapping ( value = "/forgotPassword" )
+    @GetMapping ( "/forgotPassword" )
     public String forgotPassword (String email) {
         if (!email.matches(EMAIL_REGEXP))
             throw new IllegalArgumentException("Invalid email");
         return userService.forgotPassword(email);
     }
 
-    @PutMapping ( value = "/changeForgotPassword" )
+    @PutMapping ( "/changeForgotPassword" )
     public String changeForgotPassword (@Valid @RequestBody @NonNull ForgotPasswordChange forgotPasswordChange) {
         if (forgotPasswordChange.getNew1().equals(forgotPasswordChange.getNew2())) {
             return userService.forgotPasswordChange(forgotPasswordChange.getEmail(), forgotPasswordChange.getNew1());
@@ -86,8 +86,19 @@ public class UserController {
         }
     }
     
-    @PutMapping ( value = "/changeEmail" )
+    @PutMapping ( "/changeEmail" )
     public String changeEmail (@Valid @RequestBody @NonNull EmailChange emailChange) {
         return userService.changeEmail(emailChange.getSignIn(), emailChange.getEmail());
     }
+    
+    @PutMapping ( "/changePhoneNumber" )
+    public String changePhoneNumber (@Valid @RequestBody @NonNull PhoneNumberChange phoneNumberChange) {
+        return userService.changePhoneNumber(phoneNumberChange.getSignIn(), phoneNumberChange.getPhoneNumber());
+    }
+    
+    @PostMapping("/bookTour")
+    public String bookTour (@Valid @RequestBody @NonNull UserInTour userInTour) {
+        return userService.bookTour(userInTour);
+    }
+    
 }

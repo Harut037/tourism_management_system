@@ -26,6 +26,10 @@ public class UserInTourEntity {
     @Column(nullable = false)
     private Integer quantity;
     @Column(nullable = false)
+    private Double price;
+    @Column(nullable = false)
+    private String transactionNumber;
+    @Column(nullable = false)
     private Boolean flag = true;
 
     public UserInTourEntity(UserInTour userInTour) {

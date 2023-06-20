@@ -42,8 +42,9 @@ public class UserEntity {
     @OneToOne
     @JoinColumn ( name = "role_id" )
     private RoleEntity        roleEntity;
-//    @OneToMany(mappedBy = "user")
-//    private List <CardEntity> cardEntities;
+    @OneToOne
+    @JoinColumn(name = "card_id" )
+    private CardEntity cardEntity;
     @OneToMany(mappedBy = "user")
     private List <UserInTourEntity> userInTourEntities;
     
@@ -54,7 +55,7 @@ public class UserEntity {
         this.setBirthDate(user.getBirthDate());
         this.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         this.setPhoneNumber(user.getPhoneNumber());
-//        this.setCardEntities(castCards(user.getCards()));
+        this.setCardEntity(new CardEntity(user.getCard()));
         this.setUserInTourEntities(castUserInTour(user.getUserInTour()));
         //this.setRoleEntity(new RoleEntity(user.getRole()));
     }
@@ -68,15 +69,6 @@ public class UserEntity {
             List <UserInTourEntity> userInTourEntities = new ArrayList <>();
             userInTour.forEach(userInTourEntity -> userInTourEntities.add(new UserInTourEntity(userInTourEntity)));
             return userInTourEntities;
-        }
-        return Collections.emptyList();
-    }
-    
-    private List <CardEntity> castCards (List <Card> cards) {
-        if (cards != null) {
-            List <CardEntity> cardEntities = new ArrayList <>();
-            cards.forEach(card -> cardEntities.add(new CardEntity(card)));
-            return cardEntities;
         }
         return Collections.emptyList();
     }

@@ -29,7 +29,7 @@ public class User {
     private String password;
     @Pattern(regexp = "\\+374\\d{8}", message = "Invalid Phone Number Pattern")
     private String phoneNumber;
-    private List<Card> cards;
+    private Card card;
     private List <UserInTour> userInTour;
 
 
@@ -39,14 +39,6 @@ public class User {
         this.setEmail(user.getEmail());
         this.setPassword(user.getPassword());
         this.setPhoneNumber(user.getPhoneNumber());
-//        this.setCards(castCards(user.getCardEntities()));
-    }
-
-
-    
-    private List<Card> castCards(List<CardEntity> cardEntities) {
-        List<Card> cards = new ArrayList<>();
-        cardEntities.forEach(card -> cards.add(new Card(card)));
-        return cards;
+        this.setCard(new Card(user.getCardEntity()));
     }
 }

@@ -227,8 +227,12 @@ public class ValidationForTour {
         tour.setFlag(true);
         return true;
     }
-
+    //TODO
     public Boolean isEnableForBooking(Tour tour, int quantity) {
         return false;
+    }
+    //TODO
+    public boolean isEnableForCanceling (Tour tour) {
+        return true;
     }
 }

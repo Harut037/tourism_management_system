@@ -1,15 +1,11 @@
 package com.example.tourism_management_system.config;
 
-import com.example.tourism_management_system.model.enums.enumForTour.PlacesForCampaign;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 
-import java.util.ArrayList;
-import java.util.EnumSet;
-import java.util.List;
 //TODO
 @OpenAPIDefinition
 @Configuration

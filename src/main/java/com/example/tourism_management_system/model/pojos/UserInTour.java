@@ -13,7 +13,8 @@ public class UserInTour {
     private User user;
     private Tour tour;
     private Integer quantity;
-    private Transaction transaction;
+    private Double price;
+    private String transactionNumber;
     private Review review;
 
     public UserInTour(UserInTourEntity userInTourEntity) {

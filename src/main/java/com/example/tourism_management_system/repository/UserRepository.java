@@ -23,4 +23,6 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
     String resetPassword(final String email, final String password);
     
     String updateEmail (String email, String newEmail);
+    
+    String updatePhoneNumber (String email, String newPhoneNumber);
 }

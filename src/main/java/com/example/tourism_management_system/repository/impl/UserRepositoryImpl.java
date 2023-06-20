@@ -137,4 +137,21 @@ public class UserRepositoryImpl extends SimpleJpaRepository <UserEntity, Long> i
         }
         return "Not Found Such User By This Email";
     }
+    
+    @Override
+    public String updatePhoneNumber (String email, String newPhoneNumber) {
+        Optional <UserEntity> op = this.findByEmail(email);
+        if (op.isPresent()) {
+            entityManager
+                    .createQuery("" +
+                            " UPDATE UserEntity u SET" +
+                            " u.phoneNumber = :newPhoneNumber" +
+                            " WHERE u.email = :email")
+                    .setParameter("newPhoneNumber", newPhoneNumber)
+                    .setParameter("email", email)
+                    .executeUpdate();
+            return "Successfully Updated";
+        }
+        return "Not Found Such User By This Email";
+    }
 }

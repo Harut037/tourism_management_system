@@ -7,4 +7,6 @@ import java.util.List;
 public interface CardService {
 
     void save(List<Card> cards);
+    
+    String addCard(Card card);
 }

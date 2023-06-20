@@ -1,10 +1,11 @@
 package com.example.tourism_management_system.service.impl;
 
-import com.example.tourism_management_system.bank.api.service.CardService;
+import com.example.tourism_management_system.bank.api.model.pojo.Card;
 import com.example.tourism_management_system.model.entities.*;
 import com.example.tourism_management_system.model.pojos.*;
 import com.example.tourism_management_system.repository.UserRepository;
 import com.example.tourism_management_system.service.*;
+import com.example.tourism_management_system.bank.api.service.TransactionService;
 import com.example.tourism_management_system.validation.tour.ValidationForTour;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,6 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-    private final CardService cardService;
     private final ValidationForTour validationForTour = new ValidationForTour();
     private final TransactionService transactionService;
     private final UserInTourService userInTourService;
@@ -26,9 +26,8 @@ public class UserServiceImpl implements UserService {
     private final RoleService roleService;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, CardService cardService, TransactionService transactionService, UserInTourService userInTourService, RoleService roleService) {
+    public UserServiceImpl(UserRepository userRepository, TransactionService transactionService, UserInTourService userInTourService, RoleService roleService) {
         this.userRepository = userRepository;
-        this.cardService = cardService;
         this.transactionService = transactionService;
         this.userInTourService = userInTourService;
         this.roleService = roleService;
@@ -92,29 +91,38 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void bookTour(UserInTour userInTour) {
+    public String bookTour(UserInTour userInTour) {
         if (validationForTour.isEnableForBooking(userInTour.getTour(), userInTour.getQuantity())){
-            if (transactionService.makeTransaction(userInTour.getTransaction())){
-               userInTourService.save(userInTour);
+            if (userInTour.getUser().getCard() == null){
+                return "Please Add a Card";
             }
-            return ;
+            String transactionNumber = transactionService.makeTransaction(userInTour.getUser().getCard(), userInTour.getPrice());
+            if(transactionNumber == null || transactionNumber.equals("Not Successful")){
+                return "Not Successful";
+            }
+            userInTour.setTransactionNumber(transactionNumber);
+            userInTourService.save(userInTour);
+            return "Successful";
         }
-        return ;
+        return "Not Enable For Booking";
     }
 
     @Override
-    public void editTour(UserInTour userInTour) {
-    
+    public String editTour(UserInTour userInTour) {
+        return null;
     }
 
     @Override
-    public void cancelTour(UserInTour userInTour) {
-    
+    public String cancelTour(UserInTour userInTour) {
+        if(validationForTour.isEnableForCanceling(userInTour.getTour())){
+            return transactionService.revertTransaction(userInTour.getTransactionNumber());
+        }
+        return "Not Available For Canceling";
     }
 
     @Override
-    public void leaveReview(ReviewEntity reviewEntity) {
-    
+    public String leaveReview(ReviewEntity reviewEntity) {
+        return null;
     }
     
     @Override
@@ -128,7 +136,7 @@ public class UserServiceImpl implements UserService {
         }
         return tours;
     }
-    
+    //TODO
     @Override
     public void logout (Long userId) {
     
@@ -153,5 +161,19 @@ public class UserServiceImpl implements UserService {
             return userRepository.updateEmail(signIn.getEmail(), newEmail);
         }
         return result;
+    }
+    
+    @Override
+    public String changePhoneNumber (SignIn signIn, String newPhoneNumber) {
+        String result = this.signIn(signIn.getEmail(), signIn.getPassword());
+        if (result.equals("Success")){
+            return userRepository.updatePhoneNumber(signIn.getEmail(), newPhoneNumber);
+        }
+        return result;
+    }
+    
+    @Override
+    public String addCard (Card card, User user) {
+        return null;
     }
 }
