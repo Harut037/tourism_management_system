@@ -1,6 +1,10 @@
 package com.example.tourism_management_system.validation.tour;
 
-import com.example.tourism_management_system.model.enums.enumForTour.*;
+import com.example.tourism_management_system.model.enums.enumForTour.PlacesForAdventure;
+import com.example.tourism_management_system.model.enums.enumForTour.PlacesForCampaign;
+import com.example.tourism_management_system.model.enums.enumForTour.PlacesForCultural;
+import com.example.tourism_management_system.model.enums.enumForTour.TourType;
+import com.example.tourism_management_system.model.enums.enumForTour.Transport;
 import com.example.tourism_management_system.model.pojos.Tour;
 
 import java.time.LocalDate;
@@ -23,17 +27,18 @@ public class ValidationForTour {
     public String tourName(String tourType, String tourName) {
         try {
             switch (TourType.valueOf(tourType).toString()) {
-                case "CULTURAL": {
+                case "CULTURAL" -> {
                     return PlacesForCultural.valueOf(tourName).toString();
                 }
-                case "CAMPAIGN": {
+                case "CAMPAIGN" -> {
                     return PlacesForCampaign.valueOf(tourName).toString();
                 }
-                case "ADVENTURE": {
+                case "ADVENTURE" -> {
                     return PlacesForAdventure.valueOf(tourName).toString();
                 }
-                default:
+                default -> {
                     return null;
+                }
             }
         } catch (IllegalArgumentException i) {
             return null;
@@ -158,7 +163,6 @@ public class ValidationForTour {
         return null;
     }
 
-
     public List<Object> forCultural(String tourName){
         tourName = tourName.toUpperCase();
         List<Object> objectList = null;
@@ -174,10 +178,9 @@ public class ValidationForTour {
         return objectList;
     }
 
-
     public List<Object> forAdventure(String tourName){
         tourName = tourName.toUpperCase();
-        List<Object> objectList = null;
+        List<Object>       objectList         = null;
         PlacesForAdventure placesForAdventure = PlacesForAdventure.valueOf(tourName);
         if (EnumSet.allOf(PlacesForAdventure.class).contains(placesForAdventure)) {
             objectList = new ArrayList<>();
@@ -188,12 +191,10 @@ public class ValidationForTour {
         }
         return objectList;
     }
-
-
-
+    
     public List<Object> forCampaign(String tourName){
         tourName = tourName.toUpperCase();
-        List<Object> objectList = null;
+        List<Object>      objectList        = null;
         PlacesForCampaign placesForCampaign = PlacesForCampaign.valueOf(tourName);
         if (EnumSet.allOf(PlacesForCampaign.class).contains(placesForCampaign)){
         objectList.add(tourName);

@@ -2,6 +2,7 @@ package com.example.tourism_management_system.service;
 
 import com.example.tourism_management_system.model.entities.TourEntity;
 import com.example.tourism_management_system.model.pojos.Tour;
+import com.example.tourism_management_system.model.pojos.UserInTour;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,5 +24,6 @@ public interface TourService {
     List<Tour> sortByDate();
 
     List<Tour> sortByQuantity();
-
+    
+    String update (UserInTour userInTour);
 }

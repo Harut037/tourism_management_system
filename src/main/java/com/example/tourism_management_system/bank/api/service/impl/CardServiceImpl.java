@@ -1,9 +1,10 @@
 package com.example.tourism_management_system.bank.api.service.impl;
 
 import com.example.tourism_management_system.bank.api.model.entity.CardEntity;
-import com.example.tourism_management_system.bank.api.model.pojo.Card;
 import com.example.tourism_management_system.bank.api.repository.CardRepository;
 import com.example.tourism_management_system.bank.api.service.CardService;
+import com.example.tourism_management_system.model.entities.CardEntityForUser;
+import com.example.tourism_management_system.model.pojos.CardForUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,10 +25,10 @@ public class CardServiceImpl implements CardService {
     /**
      * The createCard method creates a new card by converting a Card object into a CardEntity and saving it to the cardRepository.
      *
-     * @param card the Card object containing the card information to be created
+     * @param cardForUser the Card object containing the card information to be created
      */
-    public void createCard(Card card) {
-        CardEntity cardEntity = new CardEntity(card);
+    public void createCard(CardForUser cardForUser) {
+        CardEntity cardEntity = new CardEntity(cardForUser);
         cardRepository.save(cardEntity);
     }
 
@@ -47,11 +48,11 @@ public class CardServiceImpl implements CardService {
      *
      * @return a list of Card objects containing all the cards retrieved from the cardRepository
      */
-    public List<Card> getAllCard() {
-        List<CardEntity> cardEntities = cardRepository.findAll();
-        List<Card> cards = new ArrayList<>();
-        cardEntities.forEach(card -> cards.add(new Card(card)));
-        return cards;
+    public List<CardForUser> getAllCards() {
+        List<CardEntity>  cardEntities = cardRepository.findAll();
+        List<CardForUser> cardForUsers = new ArrayList<>();
+        cardEntities.forEach(card -> cardForUsers.add(new CardForUser(new CardEntityForUser(card))));
+        return cardForUsers;
     }
 
 
@@ -102,15 +103,15 @@ public class CardServiceImpl implements CardService {
     /**
      * Overrides the default save behavior to save a list of CardEntity objects.
      *
-     * @param cardEntities the list of CardEntity objects to be saved
+     * @param cardForUsers the list of CardEntity objects to be saved
      */
     @Override
-    public void save(List<Card> cards) {
+    public void save(List<CardForUser> cardForUsers) {
 
     }
     
     @Override
-    public String addCard (Card card) {
+    public String addCard (CardForUser cardForUser) {
         return null;
     }
 }

@@ -1,9 +1,7 @@
 package com.example.tourism_management_system.bank.api.model.entity;
 
-import com.example.tourism_management_system.bank.api.enumForCard.CardType;
 import com.example.tourism_management_system.bank.api.enumForCard.Status;
-import com.example.tourism_management_system.model.entities.UserEntity;
-import com.example.tourism_management_system.bank.api.model.pojo.Card;
+import com.example.tourism_management_system.model.pojos.CardForUser;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,7 +10,7 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDate;
 
 @Entity
-@Table ( name = "Card" )
+@Table ( name = "BankCard" )
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -36,14 +34,10 @@ public class CardEntity {
     @Column ( nullable = false )
     private String     currency;
     
-    public CardEntity (Card card) {
-        setCardNumber(card.getCardNumber());
-        setOwner(card.getOwner());
-        setType(card.getType());
-        setBalance((float) card.getBalance());
-        setExpirationDate(card.getExpirationDate());
+    public CardEntity (CardForUser cardForUser) {
+        setCardNumber(cardForUser.getCardNumber());
+        setExpirationDate(cardForUser.getExpirationDate());
         setStatus(Status.valueOf("ACTIVE").toString());
-        setCurrency(card.getCurrency());
     }
     
 }

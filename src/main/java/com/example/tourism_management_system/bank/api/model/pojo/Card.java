@@ -1,6 +1,7 @@
 package com.example.tourism_management_system.bank.api.model.pojo;
 
 import com.example.tourism_management_system.bank.api.model.entity.CardEntity;
+import com.example.tourism_management_system.model.pojos.CardForUser;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,10 +23,7 @@ public class Card {
     private LocalDate expirationDate;
     private String status;
     private String currency;
-
-
-
-
+    
     public Card(CardEntity cardEntity) {
         setCardNumber(cardEntity.getCardNumber());
         setOwner(cardEntity.getOwner());
@@ -35,5 +33,8 @@ public class Card {
         setStatus(cardEntity.getStatus());
         setCurrency(cardEntity.getCurrency());
     }
-
+    
+    public Card (CardForUser card) {
+    
+    }
 }

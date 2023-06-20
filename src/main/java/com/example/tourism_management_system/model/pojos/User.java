@@ -1,7 +1,5 @@
 package com.example.tourism_management_system.model.pojos;
 
-import com.example.tourism_management_system.bank.api.model.entity.CardEntity;
-import com.example.tourism_management_system.bank.api.model.pojo.Card;
 import com.example.tourism_management_system.model.entities.UserEntity;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
@@ -9,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -28,8 +25,8 @@ public class User {
     @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()_+])[a-zA-Z0-9!@#$%^&*()_+]{8,20}$", message = "Invalid Password Pattern")
     private String password;
     @Pattern(regexp = "\\+374\\d{8}", message = "Invalid Phone Number Pattern")
-    private String phoneNumber;
-    private Card card;
+    private String            phoneNumber;
+    private CardForUser       cardForUser;
     private List <UserInTour> userInTour;
 
 
@@ -39,6 +36,6 @@ public class User {
         this.setEmail(user.getEmail());
         this.setPassword(user.getPassword());
         this.setPhoneNumber(user.getPhoneNumber());
-        this.setCard(new Card(user.getCardEntity()));
+        this.setCardForUser(new CardForUser(user.getCardEntityForUser()));
     }
 }

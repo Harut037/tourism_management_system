@@ -8,7 +8,9 @@ import java.util.List;
 
 @Service
 public interface UserInTourService {
-    ResponseEntity<UserInTour> save(UserInTour userInTour);
+    String save(UserInTour userInTour);
     
     List<UserInTour> findByUserId (Long userId);
+    
+    String cancel (UserInTour userInTour);
 }

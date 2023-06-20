@@ -1,9 +1,6 @@
 package com.example.tourism_management_system.service;
 
-import com.example.tourism_management_system.bank.api.model.pojo.Card;
-import com.example.tourism_management_system.model.entities.ReviewEntity;
 import com.example.tourism_management_system.model.pojos.*;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,11 +26,11 @@ public interface UserService {
     
     String cancelTour(UserInTour userInTour);
     
-    String leaveReview(ReviewEntity reviewEntity);
+    String leaveReview(UserInTour userInTour);
     
     List <Tour> getHistoryOfTours(Long userId);
     
-    void logout(Long userId);
+    String logout(User user);
     
     Long getIdByEmail (String email);
     
@@ -43,5 +40,7 @@ public interface UserService {
     
     String changePhoneNumber (SignIn signIn, String phoneNumber);
     
-    String addCard (Card card, User user);
+    String addCard (CardForUser cardForUser, User user);
+    
+    String deleteCard (CardForUser cardForUser, User user);
 }
