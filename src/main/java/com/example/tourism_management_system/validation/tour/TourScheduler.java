@@ -1,7 +1,6 @@
 package com.example.tourism_management_system.validation.tour;
 
 import com.example.tourism_management_system.model.entities.TourEntity;
-import com.example.tourism_management_system.model.pojos.Tour;
 import com.example.tourism_management_system.service.TourService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -18,8 +17,6 @@ public class TourScheduler {
     public TourScheduler(TourService tourService) {
         this.tourService = tourService;
     }
-
-
 
     /**
      * Deletes tours that have dates before the current date.
