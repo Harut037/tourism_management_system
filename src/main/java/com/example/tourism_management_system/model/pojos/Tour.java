@@ -28,7 +28,9 @@ public class Tour {
     
     private String carType;
     
-    private int quantity;
+    private Integer generalQuantity;
+
+    private Integer maxQuantity;
     
     private int cost;
 
@@ -42,7 +44,7 @@ public class Tour {
         setDuration(tourEntity.getDuration());
         setDistance(tourEntity.getDistance());
         setCarType(tourEntity.getCarType());
-        setQuantity(tourEntity.getGeneralQuantity());
+        setGeneralQuantity((tourEntity.getGeneralQuantity()));
         setCost(tourEntity.getCost());
         setFlag(tourEntity.getFlag());
     }

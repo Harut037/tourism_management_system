@@ -229,10 +229,24 @@ public class ValidationForTour {
     }
     //TODO
     public Boolean isEnableForBooking(Tour tour, int quantity) {
-        return false;
+        LocalDate currentDate = LocalDate.now();
+        LocalDate beforeDate = currentDate.minusDays(1);
+        LocalDate tourDate = tour.getTourDate();
+        if (tourDate.isAfter(beforeDate) && quantity + tour.getGeneralQuantity() > tour.getMaxQuantity()){
+            return false;
+        }
+        return true;
     }
+
+
     //TODO
     public boolean isEnableForCanceling (Tour tour) {
-        return true;
+        LocalDate currentDate = LocalDate.now();
+        LocalDate beforeDate = currentDate.minusDays(1);
+        LocalDate tourDate = tour.getTourDate();
+        if (tourDate.isAfter(beforeDate)) {
+            return true;
+        }
+        return false;
     }
 }
