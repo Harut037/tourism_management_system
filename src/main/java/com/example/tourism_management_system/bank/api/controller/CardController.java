@@ -1,13 +1,12 @@
-package com.example.tourism_management_system.controller;
+package com.example.tourism_management_system.bank.api.controller;
 
-import com.example.tourism_management_system.model.entities.CardEntity;
-import com.example.tourism_management_system.model.pojos.Card;
-import com.example.tourism_management_system.service.impl.CardServiceImpl;
-import com.example.tourism_management_system.validation.card.ValidationForCard;
+import com.example.tourism_management_system.bank.api.model.pojo.Card;
+import com.example.tourism_management_system.bank.api.service.impl.CardServiceImpl;
+import com.example.tourism_management_system.bank.api.validation.ValidationForCard;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/cards")
@@ -20,9 +19,15 @@ public class CardController {
     public CardController(CardServiceImpl cardService) {
         this.cardService = cardService;
     }
-    
+
+
+    @GetMapping("/getAll")
+    public List<Card> getAllCards() {
+        return cardService.getAllCard();
+    }
+
     @PostMapping("/add")
-    public void addCard(@RequestBody Card card) {
+    public void addCard(@Valid @RequestBody Card card) {
         if (validationForCard.isValidCard(card)) {
             cardService.createCard(card);
         } else throw new IllegalArgumentException();

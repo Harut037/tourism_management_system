@@ -1,5 +1,6 @@
 package com.example.tourism_management_system.model.pojos;
 
+import com.example.tourism_management_system.bank.api.model.pojo.Card;
 import com.example.tourism_management_system.model.entities.TransactionEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,6 +1,7 @@
 package com.example.tourism_management_system.model.entities;
 
-import com.example.tourism_management_system.model.pojos.Card;
+import com.example.tourism_management_system.bank.api.model.entity.CardEntity;
+import com.example.tourism_management_system.bank.api.model.pojo.Card;
 import com.example.tourism_management_system.model.pojos.User;
 import com.example.tourism_management_system.model.pojos.UserInTour;
 import jakarta.persistence.*;
@@ -41,8 +42,8 @@ public class UserEntity {
     @OneToOne
     @JoinColumn ( name = "role_id" )
     private RoleEntity        roleEntity;
-    @OneToMany(mappedBy = "user")
-    private List <CardEntity> cardEntities;
+//    @OneToMany(mappedBy = "user")
+//    private List <CardEntity> cardEntities;
     @OneToMany(mappedBy = "user")
     private List <UserInTourEntity> userInTourEntities;
     
@@ -53,7 +54,7 @@ public class UserEntity {
         this.setBirthDate(user.getBirthDate());
         this.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         this.setPhoneNumber(user.getPhoneNumber());
-        this.setCardEntities(castCards(user.getCards()));
+//        this.setCardEntities(castCards(user.getCards()));
         this.setUserInTourEntities(castUserInTour(user.getUserInTour()));
         //this.setRoleEntity(new RoleEntity(user.getRole()));
     }

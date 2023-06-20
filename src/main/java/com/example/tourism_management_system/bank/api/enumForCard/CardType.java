@@ -1,4 +1,4 @@
-package com.example.tourism_management_system.model.enums.enumForCard;
+package com.example.tourism_management_system.bank.api.enumForCard;
 
 public enum CardType {
     VISA,

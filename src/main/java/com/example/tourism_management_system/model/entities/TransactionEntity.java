@@ -1,5 +1,6 @@
 package com.example.tourism_management_system.model.entities;
 
+import com.example.tourism_management_system.bank.api.model.entity.CardEntity;
 import com.example.tourism_management_system.model.pojos.Transaction;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

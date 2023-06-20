@@ -1,6 +1,6 @@
-package com.example.tourism_management_system.repository;
+package com.example.tourism_management_system.bank.api.repository;
 
-import com.example.tourism_management_system.model.entities.CardEntity;
+import com.example.tourism_management_system.bank.api.model.entity.CardEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

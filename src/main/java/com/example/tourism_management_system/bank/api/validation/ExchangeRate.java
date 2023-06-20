@@ -1,4 +1,4 @@
-package com.example.tourism_management_system.validation.card;
+package com.example.tourism_management_system.bank.api.validation;
 
 public class ExchangeRate {
 

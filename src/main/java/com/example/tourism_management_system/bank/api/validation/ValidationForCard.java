@@ -1,8 +1,8 @@
-package com.example.tourism_management_system.validation.card;
+package com.example.tourism_management_system.bank.api.validation;
 
-import com.example.tourism_management_system.model.enums.enumForCard.CardType;
-import com.example.tourism_management_system.model.enums.enumForCard.Currency;
-import com.example.tourism_management_system.model.pojos.Card;
+import com.example.tourism_management_system.bank.api.enumForCard.CardType;
+import com.example.tourism_management_system.bank.api.enumForCard.Currency;
+import com.example.tourism_management_system.bank.api.model.pojo.Card;
 
 import java.text.Format;
 import java.text.SimpleDateFormat;
@@ -10,7 +10,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Random;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ValidationForCard {

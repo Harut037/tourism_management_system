@@ -1,6 +1,7 @@
 package com.example.tourism_management_system.model.pojos;
 
-import com.example.tourism_management_system.model.entities.CardEntity;
+import com.example.tourism_management_system.bank.api.model.entity.CardEntity;
+import com.example.tourism_management_system.bank.api.model.pojo.Card;
 import com.example.tourism_management_system.model.entities.UserEntity;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
@@ -38,7 +39,7 @@ public class User {
         this.setEmail(user.getEmail());
         this.setPassword(user.getPassword());
         this.setPhoneNumber(user.getPhoneNumber());
-        this.setCards(castCards(user.getCardEntities()));
+//        this.setCards(castCards(user.getCardEntities()));
     }
 
 
