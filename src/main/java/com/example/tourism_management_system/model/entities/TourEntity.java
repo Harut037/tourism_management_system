@@ -37,6 +37,8 @@ public class TourEntity {
     @Column ( nullable = false )
     private Integer                 generalQuantity;
     @Column ( nullable = false )
+    private Integer                 maxQuantity;
+    @Column ( nullable = false )
     private Integer                 cost;
     @Column ( name = "active", nullable = false )
     private Boolean                 flag;
@@ -55,5 +57,4 @@ public class TourEntity {
         setCost(tour.getCost());
         setFlag(tour.getFlag());
     }
-    
 }

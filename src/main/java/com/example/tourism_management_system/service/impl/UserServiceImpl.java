@@ -106,7 +106,7 @@ public class UserServiceImpl implements UserService {
         }
         return "Not Enable For Booking";
     }
-
+    //TODO
     @Override
     public String editTour(UserInTour userInTour) {
         return null;
@@ -119,7 +119,7 @@ public class UserServiceImpl implements UserService {
         }
         return "Not Available For Canceling";
     }
-
+    //TODO
     @Override
     public String leaveReview(ReviewEntity reviewEntity) {
         return null;
