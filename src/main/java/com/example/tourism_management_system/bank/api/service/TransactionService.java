@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 @Service
 public interface TransactionService {
     
-    String makeTransaction (Card card, Double price);
+    String makeTransaction (Card card, double price);
     
     String revertTransaction(String transactionNumber);
 }

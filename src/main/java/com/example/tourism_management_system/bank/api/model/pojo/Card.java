@@ -24,8 +24,6 @@ public class Card {
     private String currency;
 
 
-
-
     public Card(CardEntity cardEntity) {
         setCardNumber(cardEntity.getCardNumber());
         setOwner(cardEntity.getOwner());
@@ -35,5 +33,4 @@ public class Card {
         setStatus(cardEntity.getStatus());
         setCurrency(cardEntity.getCurrency());
     }
-
 }
