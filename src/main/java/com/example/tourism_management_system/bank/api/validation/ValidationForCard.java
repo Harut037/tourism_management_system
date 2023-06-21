@@ -133,15 +133,4 @@ public class ValidationForCard {
         String formattedRandomNumber = String.format("%0" + 4 + "d", randomNumber);
         return timestamp + formattedRandomNumber;
     }
-
-
-    /**
-     * The validateDateForTransaction method validates the current date and returns it formatted as "MM/yy".
-     *
-     * @return the validated current date formatted as "MM/yy"
-     */
-    public String validateDateForTransaction() {
-        Format f = new SimpleDateFormat("MM/yy");
-        return f.format(new Date());
-    }
 }

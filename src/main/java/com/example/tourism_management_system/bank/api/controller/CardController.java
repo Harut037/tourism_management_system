@@ -1,7 +1,9 @@
 package com.example.tourism_management_system.bank.api.controller;
 
+import com.example.tourism_management_system.bank.api.model.entity.CardEntity;
 import com.example.tourism_management_system.bank.api.model.pojo.Card;
 import com.example.tourism_management_system.bank.api.service.impl.CardServiceImpl;
+import com.example.tourism_management_system.bank.api.service.impl.TransactionServiceImpl;
 import com.example.tourism_management_system.bank.api.validation.ValidationForCard;
 import com.example.tourism_management_system.model.pojos.CardForUser;
 import jakarta.validation.Valid;
@@ -15,10 +17,13 @@ public class CardController {
 
     private final CardServiceImpl cardService;
 
+    private final TransactionServiceImpl transactionService;
+
     ValidationForCard validationForCard = new ValidationForCard();
 
-    public CardController(CardServiceImpl cardService) {
+    public CardController(CardServiceImpl cardService, TransactionServiceImpl transactionService) {
         this.cardService = cardService;
+        this.transactionService = transactionService;
     }
 
 
@@ -33,6 +38,10 @@ public class CardController {
             cardService.createCard(new CardForUser(card));
         } else throw new IllegalArgumentException();
     }
+
+
+
+
 
     @PutMapping("/recharge/{cardNumber}/{balance}")
     public String rechargeBalance(@PathVariable("cardNumber") String cardNumber, @PathVariable("balance") double balance) {

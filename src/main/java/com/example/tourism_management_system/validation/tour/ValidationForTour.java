@@ -1,10 +1,6 @@
 package com.example.tourism_management_system.validation.tour;
 
-import com.example.tourism_management_system.model.enums.enumForTour.PlacesForAdventure;
-import com.example.tourism_management_system.model.enums.enumForTour.PlacesForCampaign;
-import com.example.tourism_management_system.model.enums.enumForTour.PlacesForCultural;
-import com.example.tourism_management_system.model.enums.enumForTour.TourType;
-import com.example.tourism_management_system.model.enums.enumForTour.Transport;
+import com.example.tourism_management_system.model.enums.enumForTour.*;
 import com.example.tourism_management_system.model.pojos.Tour;
 
 import java.time.LocalDate;
@@ -27,18 +23,17 @@ public class ValidationForTour {
     public String tourName(String tourType, String tourName) {
         try {
             switch (TourType.valueOf(tourType).toString()) {
-                case "CULTURAL" -> {
+                case "CULTURAL": {
                     return PlacesForCultural.valueOf(tourName).toString();
                 }
-                case "CAMPAIGN" -> {
+                case "CAMPAIGN": {
                     return PlacesForCampaign.valueOf(tourName).toString();
                 }
-                case "ADVENTURE" -> {
+                case "ADVENTURE": {
                     return PlacesForAdventure.valueOf(tourName).toString();
                 }
-                default -> {
+                default:
                     return null;
-                }
             }
         } catch (IllegalArgumentException i) {
             return null;
@@ -139,7 +134,7 @@ public class ValidationForTour {
      * @param tourName name the cultural tour
      * @return a list of objects containing information about the cultural tour or void if the tour name is not recognized
      */
-    public List<Object> validateTourInformation(String tourType,String tourName) {
+    public List<Object> validateTourInformation(String tourType, String tourName) {
         tourName = tourName.toUpperCase();
         tourType = tourType.toUpperCase();
 
@@ -154,16 +149,16 @@ public class ValidationForTour {
                 case CAMPAIGN -> {
                     return forCampaign(tourName);
                 }
-                default ->
-                    throw new IllegalArgumentException();
+                default -> throw new IllegalArgumentException();
             }
-        }catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             e.getMessage();
         }
         return null;
     }
 
-    public List<Object> forCultural(String tourName){
+
+    public List<Object> forCultural(String tourName) {
         tourName = tourName.toUpperCase();
         List<Object> objectList = null;
         tourName = tourName.toUpperCase();
@@ -178,9 +173,10 @@ public class ValidationForTour {
         return objectList;
     }
 
-    public List<Object> forAdventure(String tourName){
+
+    public List<Object> forAdventure(String tourName) {
         tourName = tourName.toUpperCase();
-        List<Object>       objectList         = null;
+        List<Object> objectList = null;
         PlacesForAdventure placesForAdventure = PlacesForAdventure.valueOf(tourName);
         if (EnumSet.allOf(PlacesForAdventure.class).contains(placesForAdventure)) {
             objectList = new ArrayList<>();
@@ -191,19 +187,20 @@ public class ValidationForTour {
         }
         return objectList;
     }
-    
-    public List<Object> forCampaign(String tourName){
+
+
+    public List<Object> forCampaign(String tourName) {
         tourName = tourName.toUpperCase();
-        List<Object>      objectList        = null;
+        List<Object> objectList = null;
         PlacesForCampaign placesForCampaign = PlacesForCampaign.valueOf(tourName);
-        if (EnumSet.allOf(PlacesForCampaign.class).contains(placesForCampaign)){
-        objectList.add(tourName);
-        objectList.add(placesForCampaign.getDistance());
-        objectList.add(placesForCampaign.getDuration());
-        objectList.add(placesForCampaign.getCost());
-    }
+        if (EnumSet.allOf(PlacesForCampaign.class).contains(placesForCampaign)) {
+            objectList.add(tourName);
+            objectList.add(placesForCampaign.getDistance());
+            objectList.add(placesForCampaign.getDuration());
+            objectList.add(placesForCampaign.getCost());
+        }
         return objectList;
-}
+    }
 
 
     /**
@@ -228,20 +225,20 @@ public class ValidationForTour {
         tour.setFlag(true);
         return true;
     }
-    //TODO
+
+
     public Boolean isEnableForBooking(Tour tour, int quantity) {
         LocalDate currentDate = LocalDate.now();
         LocalDate beforeDate = currentDate.minusDays(1);
         LocalDate tourDate = tour.getTourDate();
-        if (tourDate.isAfter(beforeDate) && quantity + tour.getGeneralQuantity() > tour.getMaxQuantity()){
+        if (tourDate.isAfter(beforeDate) && quantity + tour.getGeneralQuantity() > tour.getMaxQuantity()) {
             return false;
         }
         return true;
     }
 
 
-    //TODO
-    public boolean isEnableForCanceling (Tour tour) {
+    public boolean isEnableForCanceling(Tour tour) {
         LocalDate currentDate = LocalDate.now();
         LocalDate beforeDate = currentDate.minusDays(1);
         LocalDate tourDate = tour.getTourDate();
