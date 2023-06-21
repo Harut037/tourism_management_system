@@ -134,4 +134,16 @@ public class TourServiceImpl implements TourService {
     public String update (UserInTour userInTour) {
         return null;
     }
+    
+    //TODO
+    @Override
+    public String updateTour (Tour tour) {
+        return null;
+    }
+    
+    //TODO
+    @Override
+    public String removeTour (Tour tour) {
+        return null;
+    }
 }

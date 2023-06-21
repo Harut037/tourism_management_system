@@ -24,12 +24,6 @@ public class UserController {
         this.userService = userService;
         this.tourService = tourService;
     }
-
-//    @GetMapping ( "/profile" )
-//    public String getProfile () {
-//        //return userService.signIn(signIn.getLogin(), signIn.getPassword(), userService.loginType(signIn.getLogin()));
-//        return "Hiiiii ";
-//    }
     
     @GetMapping( "/activeTours")
     public List <Tour> getActiveTours () {
@@ -125,7 +119,7 @@ public class UserController {
     public String deleteCard (@Valid @RequestBody @NonNull CardForUser cardForUser, @Valid @RequestBody @NonNull User user) {
         return userService.deleteCard(cardForUser, user);
     }
-    
+    //TODO logout
     @GetMapping("/logout")
     public String logout (@Valid @RequestBody @NonNull User user) {
         return userService.logout(user);

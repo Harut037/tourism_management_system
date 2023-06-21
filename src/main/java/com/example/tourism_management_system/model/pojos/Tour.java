@@ -13,7 +13,7 @@ import java.time.LocalTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Tour {
-    
+    //TODO unique field
     private String tourType;
     
     private String tourName;

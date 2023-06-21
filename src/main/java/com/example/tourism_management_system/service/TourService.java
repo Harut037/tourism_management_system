@@ -26,4 +26,8 @@ public interface TourService {
     List<Tour> sortByQuantity();
     
     String update (UserInTour userInTour);
+    
+    String updateTour (Tour tour);
+    
+    String removeTour (Tour tour);
 }
