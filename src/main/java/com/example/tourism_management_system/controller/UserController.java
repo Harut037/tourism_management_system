@@ -103,4 +103,33 @@ public class UserController {
         return userService.bookTour(userInTour);
     }
     
+    @PostMapping("/editTour")
+    public String editTour (@Valid @RequestBody @NonNull UserInTour userInTour) {
+        return userService.editTour(userInTour);
+    }
+    
+    @PutMapping("/cancelTour")
+    public String cancelTour (@Valid @RequestBody @NonNull UserInTour userInTour) {
+        return userService.cancelTour(userInTour);
+    }
+    
+    @PutMapping("/leaveReview")
+    public String leaveReview (@Valid @RequestBody @NonNull UserInTour userInTour) {
+        return userService.leaveReview(userInTour);
+    }
+    
+    @PostMapping("/addCard")
+    public String addCard (@Valid @RequestBody @NonNull CardForUser cardForUser, @Valid @RequestBody @NonNull User user) {
+        return userService.addCard(cardForUser, user);
+    }
+    
+    @PutMapping("/deleteCard")
+    public String deleteCard (@Valid @RequestBody @NonNull CardForUser cardForUser, @Valid @RequestBody @NonNull User user) {
+        return userService.deleteCard(cardForUser, user);
+    }
+    
+    @GetMapping("/logout")
+    public String logout (@Valid @RequestBody @NonNull User user) {
+        return userService.logout(user);
+    }
 }

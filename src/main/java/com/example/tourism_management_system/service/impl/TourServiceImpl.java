@@ -2,6 +2,7 @@ package com.example.tourism_management_system.service.impl;
 
 import com.example.tourism_management_system.model.entities.TourEntity;
 import com.example.tourism_management_system.model.pojos.Tour;
+import com.example.tourism_management_system.model.pojos.UserInTour;
 import com.example.tourism_management_system.repository.TourRepository;
 import com.example.tourism_management_system.service.TourService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -128,5 +129,9 @@ public class TourServiceImpl implements TourService {
             tours.add(new Tour(i));
         return tours;
     }
-
+    
+    @Override
+    public String update (UserInTour userInTour) {
+        return null;
+    }
 }

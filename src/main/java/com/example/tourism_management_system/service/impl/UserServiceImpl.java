@@ -1,6 +1,5 @@
 package com.example.tourism_management_system.service.impl;
 
-import com.example.tourism_management_system.bank.api.model.pojo.Card;
 import com.example.tourism_management_system.model.entities.*;
 import com.example.tourism_management_system.model.pojos.*;
 import com.example.tourism_management_system.repository.UserRepository;
@@ -22,14 +21,16 @@ public class UserServiceImpl implements UserService {
     private final ValidationForTour validationForTour = new ValidationForTour();
     private final TransactionService transactionService;
     private final UserInTourService userInTourService;
+    private final TourService tourService;
     
     private final RoleService roleService;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, TransactionService transactionService, UserInTourService userInTourService, RoleService roleService) {
+    public UserServiceImpl(UserRepository userRepository, TransactionService transactionService, UserInTourService userInTourService, TourService tourService, RoleService roleService) {
         this.userRepository = userRepository;
         this.transactionService = transactionService;
         this.userInTourService = userInTourService;
+        this.tourService = tourService;
         this.roleService = roleService;
     }
 
@@ -93,10 +94,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public String bookTour(UserInTour userInTour) {
         if (validationForTour.isEnableForBooking(userInTour.getTour(), userInTour.getQuantity())){
-            if (userInTour.getUser().getCard() == null){
+            if (userInTour.getUser().getCardForUser() == null){
                 return "Please Add a Card";
             }
-            String transactionNumber = transactionService.makeTransaction(userInTour.getUser().getCard(), userInTour.getPrice());
+            String transactionNumber = transactionService.makeTransaction(userInTour.getUser().getCardForUser(), userInTour.getPrice());
             if(transactionNumber == null || transactionNumber.equals("Not Successful")){
                 return "Not Successful";
             }
@@ -115,13 +116,17 @@ public class UserServiceImpl implements UserService {
     @Override
     public String cancelTour(UserInTour userInTour) {
         if(validationForTour.isEnableForCanceling(userInTour.getTour())){
-            return transactionService.revertTransaction(userInTour.getTransactionNumber());
+            String result = transactionService.revertTransaction(userInTour.getTransactionNumber());
+            if(result.equals("Success")){
+                return userInTourService.cancel(userInTour);
+            }
+            return result;
         }
         return "Not Available For Canceling";
     }
     //TODO
     @Override
-    public String leaveReview(ReviewEntity reviewEntity) {
+    public String leaveReview(UserInTour userInTour) {
         return null;
     }
     
@@ -138,8 +143,8 @@ public class UserServiceImpl implements UserService {
     }
     //TODO
     @Override
-    public void logout (Long userId) {
-    
+    public String logout (User user) {
+        return null;
     }
     
     @Override
@@ -171,9 +176,14 @@ public class UserServiceImpl implements UserService {
         }
         return result;
     }
-    
+    //TODO
     @Override
-    public String addCard (Card card, User user) {
+    public String addCard (CardForUser cardForUser, User user) {
+        return null;
+    }
+    //TODO
+    @Override
+    public String deleteCard (CardForUser cardForUser, User user) {
         return null;
     }
 }
