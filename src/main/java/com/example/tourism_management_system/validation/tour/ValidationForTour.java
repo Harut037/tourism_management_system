@@ -231,7 +231,7 @@ public class ValidationForTour {
         LocalDate currentDate = LocalDate.now();
         LocalDate beforeDate = currentDate.minusDays(1);
         LocalDate tourDate = tour.getTourDate();
-        if (tourDate.isAfter(beforeDate) && quantity + tour.getGeneralQuantity() > tour.getMaxQuantity()) {
+        if (tourDate.isAfter(beforeDate) && (quantity + tour.getGeneralQuantity()) > tour.getMaxQuantity()) {
             return false;
         }
         return true;

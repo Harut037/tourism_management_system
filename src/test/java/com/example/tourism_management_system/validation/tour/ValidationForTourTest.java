@@ -2,12 +2,17 @@ package com.example.tourism_management_system.validation.tour;
 
 import com.example.tourism_management_system.model.pojos.Tour;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
-import static org.junit.jupiter.api.Assertions.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 class ValidationForTourTest {
 
@@ -97,7 +102,15 @@ class ValidationForTourTest {
     }
 
 
-//    @Test
+    @Test
+    void validateQuantity() {
+    }
+
+    @Test
+    void validateTourInformation() {
+    }
+
+    //    @Test
 //    void testValidateTourInformation() {
 //        ValidationForTour validationForTour = new ValidationForTour();
 //
@@ -115,6 +128,19 @@ class ValidationForTourTest {
 //        Assertions.assertNull(resultInvalid);
 //    }
 
+
+    @Test
+    void forCultural() {
+    }
+
+    @Test
+    void forAdventure() {
+    }
+
+    @Test
+    void forCampaign() {
+    }
+
     @Test
     void testIsValidTour() {
         ValidationForTour validationForTour = new ValidationForTour();
@@ -126,7 +152,7 @@ class ValidationForTourTest {
         validTour.setCarType("MINIVAN");
         validTour.setStartTime(LocalTime.of(8, 0));
         boolean resultValid = validationForTour.isValidTour(validTour);
-        Assertions.assertTrue(resultValid);
+        assertTrue(resultValid);
         Assertions.assertEquals("450 km", validTour.getDistance());
         Assertions.assertEquals("14 hours", validTour.getDuration());
         Assertions.assertEquals(16000, validTour.getCost());
@@ -138,7 +164,7 @@ class ValidationForTourTest {
         invalidTourType.setCarType("MINIVAN");
         invalidTourType.setStartTime(LocalTime.of(8, 0));
         boolean resultInvalidType = validationForTour.isValidTour(invalidTourType);
-        Assertions.assertFalse(resultInvalidType);
+        assertFalse(resultInvalidType);
 
         Tour invalidStartTime = new Tour();
         invalidStartTime.setTourType("ADVENTURE");
@@ -147,15 +173,15 @@ class ValidationForTourTest {
         invalidStartTime.setCarType("MINIVAN");
         invalidStartTime.setStartTime(LocalTime.of(5, 0));
         boolean resultInvalidTime = validationForTour.isValidTour(invalidStartTime);
-        Assertions.assertFalse(resultInvalidTime);
+        assertFalse(resultInvalidTime);
     }
 
 
     @Test
-    void isEnableForBooking_() {
+    void isEnableForBooking() {
         ValidationForTour validationForTour = new ValidationForTour();
-        Tour tour = new Tour();
 
+        Tour tour = new Tour();
         LocalDate tourDate = LocalDate.now().minusDays(1);
         tour.setTourDate(tourDate);
         tour.setGeneralQuantity(5);
@@ -163,10 +189,57 @@ class ValidationForTourTest {
         boolean result = validationForTour.isEnableForBooking(tour, 5);
         assertTrue(result);
 
+        Tour tour1 = new Tour();
+        LocalDate tourDate1 = LocalDate.now().minusDays(2);
+        tour1.setTourDate(tourDate1);
+        tour1.setGeneralQuantity(4);
+        tour1.setMaxQuantity(7);
+        boolean result1 = validationForTour.isEnableForBooking(tour1, 4);
+        assertTrue(result1);
+
+        Tour tour2 = new Tour();
+        LocalDate tourDate2 = LocalDate.now();
+        tour2.setTourDate(tourDate2);
+        tour2.setGeneralQuantity(7);
+        tour2.setMaxQuantity(10);
+        boolean result2 = validationForTour.isEnableForBooking(tour2, 7);
+        assertFalse(result2);
+
+        Tour tour3 = new Tour();
+        LocalDate tourDate3 = LocalDate.now().plusDays(1);
+        tour3.setTourDate(tourDate3);
+        tour3.setGeneralQuantity(13);
+        tour3.setMaxQuantity(15);
+        boolean result3 = validationForTour.isEnableForBooking(tour3, 13);
+        assertFalse(result3);
     }
 
+    @Test
+    void isEnableForCanceling() {
+        ValidationForTour validationForTour = new ValidationForTour();
+
+        Tour tour = new Tour();
+        LocalDate tourDate = LocalDate.now().minusDays(1);
+        tour.setTourDate(tourDate);
+        boolean result = validationForTour.isEnableForCanceling(tour);
+        assertTrue(result);
+
+        Tour tour1 = new Tour();
+        LocalDate tourDate1 = LocalDate.now().minusDays(2);
+        tour1.setTourDate(tourDate1);
+        boolean result1 = validationForTour.isEnableForCanceling(tour1);
+        assertTrue(result1);
+
+        Tour tour2 = new Tour();
+        LocalDate tourDate2 = LocalDate.now();
+        tour2.setTourDate(tourDate2);
+        boolean result2 = validationForTour.isEnableForCanceling(tour2);
+        assertFalse(result2);
+
+        Tour tour3 = new Tour();
+        LocalDate tourDate3 = LocalDate.now().plusDays(1);
+        tour3.setTourDate(tourDate3);
+        boolean result3 = validationForTour.isEnableForCanceling(tour3);
+        assertFalse(result3);
+    }
 }
-
-
-
-
