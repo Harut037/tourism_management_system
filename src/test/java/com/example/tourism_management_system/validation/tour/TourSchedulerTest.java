@@ -81,8 +81,9 @@ class TourSchedulerTest {
         tour2.setTourDate(LocalDate.of(2023, 6, 19));
         tours.add(tour2);
 
-        when(tourService.getAllForSchedule()).thenReturn(tours);
         tourScheduler.deletePastDateTours();
+        verify(tourService, never()).deleteById(1L);
+        verify(tourService, never()).deleteById(2L);
         verify(tourService, never()).deleteById(anyLong());
     }
 

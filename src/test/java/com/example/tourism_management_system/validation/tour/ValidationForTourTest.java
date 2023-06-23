@@ -152,4 +152,17 @@ class ValidationForTourTest {
         boolean resultInvalidTime = validationForTour.isValidTour(invalidStartTime);
         Assertions.assertFalse(resultInvalidTime);
     }
+
+
+    @Test
+    void isEnableForBooking_() {
+        ValidationForTour validationForTour = new ValidationForTour();
+        Tour tour = new Tour();
+        LocalDate tourDate = LocalDate.now().minusDays(1);
+
+
+
+
+
+    }
 }

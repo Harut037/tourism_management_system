@@ -1,5 +1,6 @@
 package com.example.tourism_management_system.model.entities;
 
+import com.example.tourism_management_system.model.pojos.CardForUser;
 import com.example.tourism_management_system.model.pojos.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -25,4 +26,7 @@ public class CardEntityForUser {
     private String    cvv;
     @Column(nullable = false)
     private LocalDate expirationDate;
+
+    public CardEntityForUser(CardForUser cardForUser) {
+    }
 }

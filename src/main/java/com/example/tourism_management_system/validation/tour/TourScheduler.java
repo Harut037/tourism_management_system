@@ -22,8 +22,8 @@ public class TourScheduler {
      * Deletes tours that have dates before the current date.
      * This method is scheduled to run at midnight every day.
      */
-    //    @Scheduled(fixedRate = 5000)
-    @Scheduled(cron = "0 0 0 * * *")
+//        @Scheduled(fixedRate = 5000)
+    @Scheduled(cron = "0 0 * * * *")
     public void deletePastDateTours() {
         LocalDate currentDate = LocalDate.now();
         List<TourEntity> tours = tourService.getAllForSchedule();

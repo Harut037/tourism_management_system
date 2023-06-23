@@ -1,5 +1,6 @@
 package com.example.tourism_management_system.service.impl;
 
+import com.example.tourism_management_system.bank.api.model.pojo.Card;
 import com.example.tourism_management_system.model.entities.*;
 import com.example.tourism_management_system.model.pojos.*;
 import com.example.tourism_management_system.repository.UserRepository;
@@ -97,7 +98,7 @@ public class UserServiceImpl implements UserService {
             if (userInTour.getUser().getCardForUser() == null){
                 return "Please Add a Card";
             }
-            String transactionNumber = transactionService.makeTransaction(userInTour.getUser().getCardForUser(), userInTour.getPrice());
+            String transactionNumber = transactionService.makeTransaction(new Card(userInTour.getUser().getCardForUser()), userInTour.getPrice());
             if(transactionNumber == null || transactionNumber.equals("Not Successful")){
                 return "Not Successful";
             }

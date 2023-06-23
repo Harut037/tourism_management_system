@@ -11,7 +11,8 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/tours
     username: postgres
-    password: h01112002
+    password: Mariam2905
+
 
   jpa:
     hibernate:

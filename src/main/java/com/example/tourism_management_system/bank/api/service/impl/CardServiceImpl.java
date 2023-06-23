@@ -1,6 +1,7 @@
 package com.example.tourism_management_system.bank.api.service.impl;
 
 import com.example.tourism_management_system.bank.api.model.entity.CardEntity;
+import com.example.tourism_management_system.bank.api.model.pojo.Card;
 import com.example.tourism_management_system.bank.api.repository.CardRepository;
 import com.example.tourism_management_system.bank.api.service.CardService;
 import com.example.tourism_management_system.model.entities.CardEntityForUser;
@@ -51,7 +52,7 @@ public class CardServiceImpl implements CardService {
     public List<CardForUser> getAllCards() {
         List<CardEntity>  cardEntities = cardRepository.findAll();
         List<CardForUser> cardForUsers = new ArrayList<>();
-        cardEntities.forEach(card -> cardForUsers.add(new CardForUser(new CardEntityForUser(card))));
+        cardEntities.forEach(card -> cardForUsers.add(new CardForUser(new Card(card))));
         return cardForUsers;
     }
 
