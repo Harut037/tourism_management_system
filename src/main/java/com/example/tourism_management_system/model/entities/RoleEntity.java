@@ -16,15 +16,15 @@ public class RoleEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable = false)
+    @Column(name = "user_role", nullable = false)
     private Boolean userRole;
-    @Column(nullable = false)
+    @Column(name = "admin_role", nullable = false)
     private Boolean adminRole;
 //    @Column(nullable = false)
 //    private Boolean tourAdministratorRole;
 //    @Column(nullable = false)
 //    private Boolean supportRole;
-    @Column(nullable = false)
+    @Column(name = "flag", nullable = false)
     private Boolean flag = true;
     
     @Override

@@ -19,12 +19,11 @@ public class CardEntityForUser {
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long      id;
 
-
-    @Column(nullable = false)
+    @Column(name = "card_number", nullable = false)
     private String    cardNumber;
-    @Column(nullable = false)
+    @Column(name = "cvv", nullable = false)
     private String    cvv;
-    @Column(nullable = false)
+    @Column(name = "expiration_date", nullable = false)
     private LocalDate expirationDate;
 
     public CardEntityForUser(CardForUser cardForUser) {

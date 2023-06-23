@@ -32,7 +32,6 @@ class ValidationForTourTest {
     }
 
 
-
     @Test
     void testValidateDate() {
         ValidationForTour validationForTour = new ValidationForTour();
@@ -98,8 +97,6 @@ class ValidationForTourTest {
     }
 
 
-
-
 //    @Test
 //    void testValidateTourInformation() {
 //        ValidationForTour validationForTour = new ValidationForTour();
@@ -158,11 +155,18 @@ class ValidationForTourTest {
     void isEnableForBooking_() {
         ValidationForTour validationForTour = new ValidationForTour();
         Tour tour = new Tour();
+
         LocalDate tourDate = LocalDate.now().minusDays(1);
-
-
-
-
+        tour.setTourDate(tourDate);
+        tour.setGeneralQuantity(5);
+        tour.setMaxQuantity(10);
+        boolean result = validationForTour.isEnableForBooking(tour, 5);
+        assertTrue(result);
 
     }
+
 }
+
+
+
+

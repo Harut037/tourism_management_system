@@ -20,32 +20,29 @@ public class TransactionEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable = false)
+    @Column(name = "transaction_number", nullable = false)
     private String transactionNumber;
-
+    @Column(name = "sender", nullable = false)
     private String sender;
-    @Column(nullable = false)
+    @Column(name = "receiver", nullable = false)
     private String receiver;
-    @Column(nullable = false)
+    @Column(name = "date", nullable = false)
     private String date;
-    @Column(nullable = false)
+    @Column(name = "price", nullable = false)
     private double price;
-    @Column(nullable = false)
+    @Column(name = "currency", nullable = false)
     private String currency;
-    @Column(nullable = false)
+    @Column(name = "flag", nullable = false)
     private Boolean flag;
 
 
-
-    public TransactionEntity(Card card, double price){
+    public TransactionEntity(Card card, double price) {
         setSender(card.getCardNumber());
-     setReceiver("4847040004125360");
+        setReceiver("4847040004125360");
         setDate(LocalDate.now().toString());
-      setCurrency(card.getCurrency());
+        setCurrency(card.getCurrency());
         setPrice(price);
         setCurrency(card.getCurrency());
         setFlag(true);
     }
-
-
 }

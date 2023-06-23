@@ -6,26 +6,26 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table ( name = "Review" )
+@Table(name = "Review")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class ReviewEntity {
-    
+
     @Id
-    @GeneratedValue ( strategy = GenerationType.IDENTITY )
-    private Long    id;
-    private String  feedback;
-    @Column ( nullable = false )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String feedback;
+    @Column(name = "driver", nullable = false)
     private Integer driver;
-    @Column ( nullable = false )
+    @Column(name = "guide", nullable = false)
     private Integer guide;
-    @Column ( nullable = false )
+    @Column(name = "support", nullable = false)
     private Integer support;
-    @Column ( nullable = false )
+    @Column(name = "tour", nullable = false)
     private Integer tour;
-    @Column ( nullable = false )
+    @Column(name = "company", nullable = false)
     private Integer company;
-    @Column ( nullable = false )
+    @Column(name = "flag", nullable = false)
     private Boolean flag = true;
 }

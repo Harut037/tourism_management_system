@@ -23,13 +23,13 @@ public class UserInTourEntity {
     @OneToOne
     @JoinColumn(name = "review_id")
     private ReviewEntity reviewEntity;
-    @Column(nullable = false)
+    @Column(name = "quantity", nullable = false)
     private Integer quantity;
-    @Column(nullable = false)
+    @Column(name = "price", nullable = false)
     private Double price;
-    @Column(nullable = false, unique = true)
+    @Column(name = "transaction_number", nullable = false, unique = true)
     private String transactionNumber;
-    @Column(nullable = false)
+    @Column(name = "flag", nullable = false)
     private Boolean flag = true;
 
     public UserInTourEntity(UserInTour userInTour) {
