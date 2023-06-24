@@ -26,7 +26,7 @@ public class ValidationForCard {
         String visa = "^4[0-9]{12}(?:[0-9]{3})?$";
         String masterCard = "^(5[1-5][0-9]{14})|(56[0-9]{14})$";
         String americanExpress = "^3[47][0-9]{13}$";
-        String arca = "^90\\d{14}$";
+        String arca = "^90[0-9]{14}$";
 
         if (Pattern.matches(visa, cardNumber)) {
             validateForCardType("VISA");
@@ -59,7 +59,6 @@ public class ValidationForCard {
         }
 
         try {
-
             switch (CardType.valueOf(cardType)) {
                 case VISA -> {
                     return "VISA";
@@ -80,6 +79,11 @@ public class ValidationForCard {
         } catch (IllegalArgumentException e) {
             return "Invalid card type";
         }
+    }
+
+    public static void main(String[] args) {
+        ValidationForCard validationForCard = new ValidationForCard();
+        System.out.println(validationForCard.cardNumberValidation("9011222233334444"));
     }
 
     /**
