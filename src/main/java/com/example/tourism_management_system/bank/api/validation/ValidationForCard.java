@@ -23,24 +23,27 @@ public class ValidationForCard {
      * @return the validated card number if it is valid and recognized, or an error message if it is invalid or unrecognized
      */
     public String cardNumberValidation(String cardNumber) {
-        String visaRegex = "^4[0-9]{12}(?:[0-9]{3})?$";
-        String mastercardRegex = "^(5[1-5][0-9]{14})|(56[0-9]{14})$";
-        String amexRegex = "^3[47][0-9]{13}$";
+        String visa = "^4[0-9]{12}(?:[0-9]{3})?$";
+        String masterCard = "^(5[1-5][0-9]{14})|(56[0-9]{14})$";
+        String americanExpress = "^3[47][0-9]{13}$";
+        String arca = "^90\\d{14}$";
 
-        if (Pattern.matches(visaRegex, cardNumber)) {
+        if (Pattern.matches(visa, cardNumber)) {
             validateForCardType("VISA");
             return cardNumber;
-        } else if (Pattern.matches(mastercardRegex, cardNumber)) {
+        } else if (Pattern.matches(masterCard, cardNumber)) {
             validateForCardType("MASTER_CARD");
             return cardNumber;
-        } else if (Pattern.matches(amexRegex, cardNumber)) {
+        } else if (Pattern.matches(americanExpress, cardNumber)) {
             validateForCardType("AMERICAN_EXPRESS");
+            return cardNumber;
+        } else if (Pattern.matches(arca, cardNumber)) {
+            validateForCardType("ARCA");
             return cardNumber;
         } else {
             return "Invalid card number";
         }
     }
-
 
     /**
      * The validateForCardType method validates a given card type and returns the corresponding card type string.
@@ -49,19 +52,33 @@ public class ValidationForCard {
      * @return the validated card type as a string, or an error message if the card type is invalid or unrecognized
      */
     public String validateForCardType(String cardType) {
-        switch (CardType.valueOf(cardType)) {
-            case VISA -> {
-                return "VISA";
+        if (cardType.equals("MASTERCARD")) {
+            cardType = "MASTER_CARD";
+        } else if (cardType.equals("AMERICANEXPRESS")) {
+            cardType = "AMERICAN_EXPRESS";
+        }
+
+        try {
+
+            switch (CardType.valueOf(cardType)) {
+                case VISA -> {
+                    return "VISA";
+                }
+                case MASTER_CARD -> {
+                    return "MASTER_CARD";
+                }
+                case AMERICAN_EXPRESS -> {
+                    return "AMERICAN_EXPRESS";
+                }
+                case ARCA -> {
+                    return "ARCA";
+                }
+                default -> {
+                    return "Invalid card type";
+                }
             }
-            case MASTER_CARD -> {
-                return "MASTER_CARD";
-            }
-            case AMERICAN_EXPRESS -> {
-                return "AMERICAN_EXPRESS";
-            }
-            default -> {
-                return "Invalid card type";
-            }
+        } catch (IllegalArgumentException e) {
+            return "Invalid card type";
         }
     }
 
@@ -74,9 +91,13 @@ public class ValidationForCard {
     public LocalDate validateExpirationDate(LocalDate expirationDate) {
         LocalDate currentDate = LocalDate.now();
         currentDate.format(DateTimeFormatter.ofPattern("dd/MM/yy"));
-        if (currentDate.isBefore(expirationDate)) {
-            return expirationDate;
-        } else return null;
+        try {
+            if (currentDate.isBefore(expirationDate)) {
+                return expirationDate;
+            } else throw new NullPointerException();
+        } catch (NullPointerException e) {
+            return null;
+        }
     }
 
     /**
@@ -87,12 +108,16 @@ public class ValidationForCard {
      * @return true if the card object is valid, false otherwise
      */
     public boolean isValidCard(Card card) {
-        if (cardNumberValidation(card.getCardNumber()).equals("Invalid card number")
-                || validateForCardType(card.getType()).equals("Invalid card type")
-                || validateExpirationDate(card.getExpirationDate()) == null
-                || Currency.valueOf(card.getCurrency()).toString() == null)
+        try {
+            if (cardNumberValidation(card.getCardNumber()).equals("Invalid card number")
+                    || validateForCardType(card.getType()).equals("Invalid card type")
+                    || validateExpirationDate(card.getExpirationDate()) == null
+                    || Currency.valueOf(card.getCurrency()).toString() == null)
+                return false;
+            return true;
+        } catch (IllegalArgumentException e) {
             return false;
-        return true;
+        }
     }
 
     /**
