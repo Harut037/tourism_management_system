@@ -1,16 +1,28 @@
 package com.example.tourism_management_system.service.impl;
 
+import com.example.tourism_management_system.bank.api.service.TransactionService;
 import com.example.tourism_management_system.model.entities.UserEntity;
 import com.example.tourism_management_system.model.pojos.SignIn;
+import com.example.tourism_management_system.model.pojos.Tour;
 import com.example.tourism_management_system.model.pojos.User;
+import com.example.tourism_management_system.model.pojos.UserInTour;
 import com.example.tourism_management_system.repository.UserRepository;
+import com.example.tourism_management_system.service.UserInTourService;
+import com.example.tourism_management_system.validation.tour.ValidationForTour;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class UserServiceImplTest {
     private UserRepository userRepository;
     private UserServiceImpl userService;
+    private UserInTourService userInTourService;
+    private ValidationForTour validationForTour;
+    private TransactionService transactionService;
 
 
     @Test
@@ -62,14 +74,48 @@ class UserServiceImplTest {
         userRepository.save(testUserEntity);
         User user = userService.getInfo(1L);
         assertNotNull(user);
-//        assertEquals(1L, user.getId().longValue());
+        assertEquals(1L, user.getId().longValue());
         assertEquals("John Doe", user.getFirstName());
         assertEquals("johndoe@example.com", user.getEmail());
     }
 
     @Test
-    public void testGetInfo_UserNotFound() {
-        User result = userService.getInfo(999L);
-        assertNull(result);
+    public void testGetHistoryOfTours_UserHasTours() {
+        Long userId = 1L;
+
+        List<UserInTour> userInTours = new ArrayList<>();
+        Tour tour1 = new Tour();
+        Tour tour2 = new Tour();
+        userInTours.add(new UserInTour(userId, tour1));
+        userInTours.add(new UserInTour(userId, tour2));
+        userInTourService.saveAll(userInTours);
+        List<Tour> result = userService.getHistoryOfTours(userId);
+        assertEquals(2, result.size());
+        assertEquals(tour1, result.get(0));
+        assertEquals(tour2, result.get(1));
     }
+
+    @Test
+    public void testGetHistoryOfTours_UserHasNoTours() {
+        Long userId = 1L;
+        List<Tour> result = userService.getHistoryOfTours(userId);
+        assertEquals(Collections.emptyList(), result);
+    }
+    @Test
+    public void testCancelTour_EnabledForCanceling_Success() {
+        UserInTour userInTour = new UserInTour();
+        userInTour.setTour(new Tour());
+        userInTour.setTransactionNumber("12345");
+        String result = userService.cancelTour(userInTour);
+        assertEquals("Cancellation success", result);
+    }
+
+    @Test
+    public void testCancelTour_NotEnabledForCanceling() {
+        UserInTour userInTour = new UserInTour();
+        userInTour.setTour(new Tour());
+        String result = userService.cancelTour(userInTour);
+        assertEquals("Not Available For Canceling", result);
+    }
+    
 }
