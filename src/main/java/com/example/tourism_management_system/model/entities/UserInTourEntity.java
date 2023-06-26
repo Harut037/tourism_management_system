@@ -7,7 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "User_In_Tour")
+@Table(name = "user_in_tour")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -36,6 +36,7 @@ public class UserInTourEntity {
         this.setUser(new UserEntity(userInTour.getUser()));
         this.setTour(new TourEntity(userInTour.getTour()));
         this.setQuantity(userInTour.getQuantity());
+        this.setPrice((double)this.quantity*this.tour.getCost());
     }
     
 }

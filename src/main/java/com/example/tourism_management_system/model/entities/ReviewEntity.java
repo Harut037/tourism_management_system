@@ -6,12 +6,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "Review")
+@Table ( name = "review" )
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class ReviewEntity {
-
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

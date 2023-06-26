@@ -23,8 +23,8 @@ public class Card {
     private LocalDate expirationDate;
     private String status;
     private String currency;
-
-
+    
+    //TODO copy constructor
     public Card(CardEntity cardEntity) {
         setCardNumber(cardEntity.getCardNumber());
         setOwner(cardEntity.getOwner());
@@ -34,7 +34,15 @@ public class Card {
         setStatus(cardEntity.getStatus());
         setCurrency(cardEntity.getCurrency());
     }
-
+    
+    //TODO copy constructor
     public Card(CardForUser cardForUser) {
+        setCardNumber(cardForUser.getCardNumber());
+        //setOwner(cardForUser.getOwner());
+        //setType(cardForUser.getType());
+        //setBalance(cardForUser.getBalance());
+        setExpirationDate(cardForUser.getExpirationDate());
+        //setStatus(cardForUser.getStatus());
+        //setCurrency(cardForUser.getCurrency());
     }
 }

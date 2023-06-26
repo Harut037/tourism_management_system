@@ -35,21 +35,24 @@ public class GuestController {
         return tourService.getById(tourId);
     }
     
-    
-    //TODO ??????
-    @GetMapping("/CouldNotSignUp")
-    public String couldNotSignUp(){
-        return "Couldn't sign up";
-    }
-    
     //TODO SignUp
     @PostMapping ("/signUp" )
     public RedirectView signUp (@Valid @RequestBody @NonNull User user) {
         if (userService.signUp(user).equals("Success")) {
-            return new RedirectView("/User/profile");
+            return new RedirectView("/login");
         }
-        return new RedirectView("/Home/CouldNotSignUp");
+        return new RedirectView("/Home");
     }
     
     //TODO SignIn
+    @GetMapping ("/signIn" )
+    public RedirectView signIn () {
+        return new RedirectView("/login");
+    }
+    
+    //TODO
+    @GetMapping ("/login" )
+    public RedirectView login () {
+        return new RedirectView("/Home");
+    }
 }

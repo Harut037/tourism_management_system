@@ -92,8 +92,6 @@ public class UserController {
     
     @PostMapping("/bookTour")
     public String bookTour (@Valid @RequestBody @NonNull UserInTour userInTour) {
-
-
         return userService.bookTour(userInTour);
     }
     

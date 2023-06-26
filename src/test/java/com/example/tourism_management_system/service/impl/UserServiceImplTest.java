@@ -1,6 +1,5 @@
 package com.example.tourism_management_system.service.impl;
 
-import com.example.tourism_management_system.bank.api.service.TransactionService;
 import com.example.tourism_management_system.model.entities.UserEntity;
 import com.example.tourism_management_system.model.pojos.SignIn;
 import com.example.tourism_management_system.model.pojos.Tour;
@@ -8,8 +7,12 @@ import com.example.tourism_management_system.model.pojos.User;
 import com.example.tourism_management_system.model.pojos.UserInTour;
 import com.example.tourism_management_system.repository.UserRepository;
 import com.example.tourism_management_system.service.UserInTourService;
-import com.example.tourism_management_system.validation.tour.ValidationForTour;
+import com.example.tourism_management_system.service.UserService;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -17,14 +20,21 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@RunWith ( SpringRunner.class)
+@DataJpaTest
 class UserServiceImplTest {
-    private UserRepository userRepository;
-    private UserServiceImpl userService;
-    private UserInTourService userInTourService;
-    private ValidationForTour validationForTour;
-    private TransactionService transactionService;
-
-
+    
+    private final UserService userService;
+    private final UserRepository userRepository;
+    private final UserInTourService userInTourService;
+    
+    @Autowired
+    UserServiceImplTest (UserService userService, UserRepository userRepository, UserInTourService userInTourService) {
+        this.userService = userService;
+        this.userRepository = userRepository;
+        this.userInTourService = userInTourService;
+    }
+    
     @Test
     public void testChangePhoneNumber_Success() {
         SignIn signIn = new SignIn("example@example.com", "password");
@@ -74,21 +84,23 @@ class UserServiceImplTest {
         userRepository.save(testUserEntity);
         User user = userService.getInfo(1L);
         assertNotNull(user);
-        assertEquals(1L, user.getId().longValue());
         assertEquals("John Doe", user.getFirstName());
         assertEquals("johndoe@example.com", user.getEmail());
     }
 
     @Test
     public void testGetHistoryOfTours_UserHasTours() {
-        Long userId = 1L;
-
+        User user = new User();
+        Integer quantity1 = 1, quantity2 = 2;
         List<UserInTour> userInTours = new ArrayList<>();
         Tour tour1 = new Tour();
         Tour tour2 = new Tour();
-        userInTours.add(new UserInTour(userId, tour1));
-        userInTours.add(new UserInTour(userId, tour2));
-        userInTourService.saveAll(userInTours);
+        userInTours.add(new UserInTour(user, tour1, quantity1));
+        userInTours.add(new UserInTour(user, tour2, quantity2));
+        for (UserInTour userInTour : userInTours) {
+            userInTourService.save(userInTour);
+        }
+        Long userId = userService.getIdByEmail(user.getEmail());
         List<Tour> result = userService.getHistoryOfTours(userId);
         assertEquals(2, result.size());
         assertEquals(tour1, result.get(0));

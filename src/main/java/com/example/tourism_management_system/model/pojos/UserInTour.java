@@ -22,4 +22,11 @@ public class UserInTour {
         this.setTour(new Tour(userInTourEntity.getTour()));
         this.setQuantity(userInTourEntity.getQuantity());
     }
+    
+    public UserInTour (User user, Tour tour, Integer quantity1) {
+        this.setUser(user);
+        this.setTour(tour);
+        this.setQuantity(quantity1);
+        this.setPrice((double)this.quantity*this.tour.getCost());
+    }
 }

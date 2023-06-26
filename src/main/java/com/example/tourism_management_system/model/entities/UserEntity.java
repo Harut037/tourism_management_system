@@ -14,39 +14,39 @@ import java.util.Collections;
 import java.util.List;
 
 @Entity
-@Table(name = "User_Entity")
+@Table ( name = "user_entity" )
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserEntity {
-
+    
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @Column(name = "first_name", nullable = false, length = 50)
-    private String firstName;
-    @Column(name = "last_name", nullable = false, length = 50)
-    private String lastName;
-    @Column(name = "email", nullable = false, length = 50, unique = true)
-    private String email;
-    @Column(name = "birth_date", nullable = false)
-    private Date birthDate;
-    @Column(name = "password", nullable = false)
-    private String password;
-    @Column(name = "phone_number", nullable = false, length = 12, unique = true)
-    private String phoneNumber;
-    @Column(name = "flag", nullable = false)
-    private Boolean flag = true;
+    @GeneratedValue ( strategy = GenerationType.IDENTITY )
+    private Long              id;
+    @Column ( nullable = false, length = 50 )
+    private String            firstName;
+    @Column ( nullable = false, length = 50 )
+    private String            lastName;
+    @Column ( nullable = false, length = 50, unique = true )
+    private String            email;
+    @Column ( nullable = false )
+    private Date              birthDate;
+    @Column ( nullable = false )
+    private String            password;
+    @Column ( nullable = false, length = 12, unique = true )
+    private String            phoneNumber;
+    @Column ( nullable = false )
+    private Boolean           flag = true;
     @OneToOne
-    @JoinColumn(name = "role_id")
-    private RoleEntity roleEntity;
+    @JoinColumn ( name = "role_id" )
+    private RoleEntity              roleEntity;
     @OneToOne
-    @JoinColumn(name = "card_id")
-    private CardEntityForUser cardEntityForUser;
+    @JoinColumn(name = "card_id" )
+    private CardEntityForUser       cardEntityForUser;
     @OneToMany(mappedBy = "user")
-    private List<UserInTourEntity> userInTourEntities;
-
-    public UserEntity(User user) {
+    private List <UserInTourEntity> userInTourEntities;
+    
+    public UserEntity (User user) {
         this.setFirstName(user.getFirstName());
         this.setLastName(user.getLastName());
         this.setEmail(user.getEmail());
@@ -57,14 +57,14 @@ public class UserEntity {
         this.setUserInTourEntities(castUserInTour(user.getUserInTour()));
         //this.setRoleEntity(new RoleEntity(user.getRole()));
     }
-
-    public void setPassword(String password) {
+    
+    public void setPassword(String password){
         this.password = new BCryptPasswordEncoder().encode(password);
     }
-
-    private List<UserInTourEntity> castUserInTour(List<UserInTour> userInTour) {
-        if (userInTour != null) {
-            List<UserInTourEntity> userInTourEntities = new ArrayList<>();
+    
+    private List <UserInTourEntity> castUserInTour (List <UserInTour> userInTour) {
+        if ( userInTour != null ){
+            List <UserInTourEntity> userInTourEntities = new ArrayList <>();
             userInTour.forEach(userInTourEntity -> userInTourEntities.add(new UserInTourEntity(userInTourEntity)));
             return userInTourEntities;
         }

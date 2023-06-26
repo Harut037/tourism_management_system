@@ -33,7 +33,7 @@ public class SecurityConfig{
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf().disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/**").permitAll()
+                .requestMatchers("/Home").permitAll()
                 .and()
                 .authorizeHttpRequests()
                 .requestMatchers("/Home/**").permitAll()

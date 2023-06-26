@@ -11,13 +11,12 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Entity
-@Table(name = "Tour", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"tour_name", "tour_date"})})
+@Table ( name = "tour" )
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class TourEntity {
-
+    //TODO unique field
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -44,9 +43,9 @@ public class TourEntity {
     @Column(name = "active", nullable = false)
     private Boolean flag;
     @OneToMany(mappedBy = "tour")
-    private List<UserInTourEntity> userInTourEntities;
-
-    public TourEntity(Tour tour) {
+    private List <UserInTourEntity> userInTourEntities;
+    
+    public TourEntity (Tour tour) {
         setTourType(tour.getTourType());
         setTourName(tour.getTourName());
         setTourDate(tour.getTourDate());

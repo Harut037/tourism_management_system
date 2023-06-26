@@ -23,6 +23,7 @@ public class CardForUser {
         this.expirationDate = cardEntityForUser.getExpirationDate();
     }
     
+    //TODO copy  constructor
     public CardForUser (Card card) {
         this.cardNumber = card.getCardNumber();
         //this.cvv = card.getCvv();

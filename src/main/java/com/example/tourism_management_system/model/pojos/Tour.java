@@ -32,7 +32,7 @@ public class Tour {
 
     private Integer maxQuantity;
     
-    private int cost;
+    private Integer cost;
 
     private Boolean flag;
 
