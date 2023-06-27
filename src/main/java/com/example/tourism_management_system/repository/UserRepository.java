@@ -4,13 +4,17 @@ import com.example.tourism_management_system.model.entities.UserEntity;
 import com.example.tourism_management_system.model.pojos.EditInfo;
 import com.example.tourism_management_system.model.pojos.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
-    Optional<UserEntity> findByEmail(final String email);
+
+   Optional<UserEntity> findByEmail(final String email);
+
 
     Optional<UserEntity> findByPhoneNumber(final String phone);
     

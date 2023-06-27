@@ -23,6 +23,8 @@ public interface TourService {
 
     List<Tour> sortByDate();
 
+    List<Tour> sortByDistance();
+
     List<Tour> sortByQuantity();
     
     String update (UserInTour userInTour);
