@@ -45,4 +45,7 @@ public class Card {
         //setStatus(cardForUser.getStatus());
         //setCurrency(cardForUser.getCurrency());
     }
+
+    public Card(String cardNumber, String cardType, LocalDate expirationDate, String currency) {
+    }
 }
