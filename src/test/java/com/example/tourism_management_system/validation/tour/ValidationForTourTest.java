@@ -130,7 +130,6 @@ class ValidationForTourTest {
     void testToValidateQuantityForBus() {
         ValidationForTour validation = new ValidationForTour();
         String carType = "BUS";
-
         int quantity = validation.validateQuantity(carType);
 
         Assertions.assertEquals(50, quantity);
@@ -201,62 +200,62 @@ class ValidationForTourTest {
         Assertions.assertEquals(130, result.get(1));
     }
 
-//    @Test
-//    public void testForCampaign_ValidTourName() {
-//        ValidationForTour validation = new ValidationForTour();
-//
-//        String validTourName = "DIMAC";
-//        List<Object> result = validation.forCampaign(validTourName);
-//        Assertions.assertNotNull(result);
-//        Assertions.assertEquals(4, result.size());
-//        Assertions.assertEquals(validTourName.toUpperCase(), result.get(0));
-//        Assertions.assertEquals(validTourName, result.get(0));
-//        Assertions.assertEquals(220, result.get(1));
-//        Assertions.assertEquals(12, result.get(2));
-//        Assertions.assertEquals(10000, result.get(3));
-//        Assertions.assertNotEquals(270, result.get(1));
-//
-//        String invalidTourName = "Apakeqar";
-//        Assertions.assertNotEquals(invalidTourName, result.get(0));
-//        Assertions.assertFalse(validTourName.equals(invalidTourName));
-//        assertNotEquals(validTourName, invalidTourName);
-//        Assertions.assertEquals(17000, result.get(3));
-//    }
+    @Test
+    public void testForCampaign_ValidTourName() {
+        ValidationForTour validation = new ValidationForTour();
 
-//    @Test
-//    void testForIsValidTour() {
-//        ValidationForTour validationForTour = new ValidationForTour();
-//
-//        Tour validTour = new Tour();
-//        validTour.setTourType("ADVENTURE");
-//        validTour.setTourName("LASTIVER");
-//        validTour.setTourDate(LocalDate.now().plusDays(4));
-//        validTour.setCarType("MINIVAN");
-//        validTour.setStartTime(LocalTime.of(8, 0));
-//        boolean resultValid = validationForTour.isValidTour(validTour);
-//        assertTrue(resultValid);
-//        Assertions.assertEquals("450 km", validTour.getDistance());
-//        Assertions.assertEquals("14 hours", validTour.getDuration());
-//        Assertions.assertEquals(16000, validTour.getCost());
-//
-//        Tour invalidTourType = new Tour();
-//        invalidTourType.setTourType("INVALID");
-//        invalidTourType.setTourName("LASTIVER");
-//        invalidTourType.setTourDate(LocalDate.now().plusDays(4));
-//        invalidTourType.setCarType("MINIVAN");
-//        invalidTourType.setStartTime(LocalTime.of(8, 0));
-//        boolean resultInvalidType = validationForTour.isValidTour(invalidTourType);
-//        assertFalse(resultInvalidType);
-//
-//        Tour invalidStartTime = new Tour();
-//        invalidStartTime.setTourType("ADVENTURE");
-//        invalidStartTime.setTourName("LASTIVER");
-//        invalidStartTime.setTourDate(LocalDate.now().plusDays(4));
-//        invalidStartTime.setCarType("MINIVAN");
-//        invalidStartTime.setStartTime(LocalTime.of(5, 0));
-//        boolean resultInvalidTime = validationForTour.isValidTour(invalidStartTime);
-//        assertFalse(resultInvalidTime);
-//    }
+        String validTourName = "DIMAC";
+        List<Object> result = validation.forCampaign(validTourName);
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(4, result.size());
+        Assertions.assertEquals(validTourName.toUpperCase(), result.get(0));
+        Assertions.assertEquals(validTourName, result.get(0));
+        Assertions.assertEquals(220, result.get(1));
+        Assertions.assertEquals(12, result.get(2));
+        Assertions.assertEquals(10000, result.get(3));
+        Assertions.assertNotEquals(270, result.get(1));
+
+        String invalidTourName = "Apakeqar";
+        Assertions.assertNotEquals(invalidTourName, result.get(0));
+        Assertions.assertFalse(validTourName.equals(invalidTourName));
+        assertNotEquals(validTourName, invalidTourName);
+        Assertions.assertEquals(17000, result.get(3));
+    }
+
+    @Test
+    void testForIsValidTour() {
+        ValidationForTour validationForTour = new ValidationForTour();
+
+        Tour validTour = new Tour();
+        validTour.setTourType("ADVENTURE");
+        validTour.setTourName("LASTIVER");
+        validTour.setTourDate(LocalDate.now().plusDays(4));
+        validTour.setCarType("MINIVAN");
+        validTour.setStartTime(LocalTime.of(8, 0));
+        boolean resultValid = validationForTour.isValidTour(validTour);
+        assertTrue(resultValid);
+        Assertions.assertEquals("450 km", validTour.getDistance());
+        Assertions.assertEquals("14 hours", validTour.getDuration());
+        Assertions.assertEquals(16000, validTour.getCost());
+
+        Tour invalidTourType = new Tour();
+        invalidTourType.setTourType("INVALID");
+        invalidTourType.setTourName("LASTIVER");
+        invalidTourType.setTourDate(LocalDate.now().plusDays(4));
+        invalidTourType.setCarType("MINIVAN");
+        invalidTourType.setStartTime(LocalTime.of(8, 0));
+        boolean resultInvalidType = validationForTour.isValidTour(invalidTourType);
+        assertFalse(resultInvalidType);
+
+        Tour invalidStartTime = new Tour();
+        invalidStartTime.setTourType("ADVENTURE");
+        invalidStartTime.setTourName("LASTIVER");
+        invalidStartTime.setTourDate(LocalDate.now().plusDays(4));
+        invalidStartTime.setCarType("MINIVAN");
+        invalidStartTime.setStartTime(LocalTime.of(5, 0));
+        boolean resultInvalidTime = validationForTour.isValidTour(invalidStartTime);
+        assertFalse(resultInvalidTime);
+    }
 
 
     @Test

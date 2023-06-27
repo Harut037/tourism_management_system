@@ -227,7 +227,7 @@ public class ValidationForTour {
     }
 
 
-    public Boolean isEnableForBooking(Tour tour, int quantity) {
+    public boolean isEnableForBooking(Tour tour, int quantity) {
         LocalDate currentDate = LocalDate.now();
         LocalDate beforeDate = currentDate.minusDays(1);
         LocalDate tourDate = tour.getTourDate();
