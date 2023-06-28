@@ -21,6 +21,7 @@ public class ValidationForTour {
      * @return the corresponding place name for the given tour type and tour name, or null if not found or an invalid argument is provided
      */
     public String tourName(String tourType, String tourName) {
+        tourName = tourName.toUpperCase();
         try {
             switch (TourType.valueOf(tourType).toString()) {
                 case "CULTURAL": {
@@ -33,11 +34,12 @@ public class ValidationForTour {
                     return PlacesForAdventure.valueOf(tourName).toString();
                 }
                 default:
-                    return null;
+                    throw new IllegalArgumentException();
             }
         } catch (IllegalArgumentException i) {
-            return null;
+            i.getMessage();
         }
+        return null;
     }
 
     /**
@@ -78,10 +80,9 @@ public class ValidationForTour {
      * @param carType the type of the car (BUS, MINIBUS, or MINIVAN)
      * @return the corresponding car type as a string, or an error message if the car type is not recognized
      */
-
     public String carType(String carType) {
+        carType = carType.toUpperCase();
         try {
-            carType = carType.toUpperCase();
             switch (Transport.valueOf(carType)) {
                 case BUS -> {
                     validateQuantity(carType);
@@ -100,9 +101,9 @@ public class ValidationForTour {
                 }
             }
         } catch (IllegalArgumentException e) {
-            System.err.println(e.getMessage());
-            return null;
+            e.getMessage();
         }
+        return null;
     }
 
     /**
@@ -113,16 +114,23 @@ public class ValidationForTour {
      */
     public int validateQuantity(String carType) {
         carType = carType.toUpperCase();
-        switch (Transport.valueOf(carType)) {
-            case MINIVAN -> {
-                return 7;
+        try {
+            switch (Transport.valueOf(carType)) {
+                case MINIVAN -> {
+                    return 7;
+                }
+                case MINIBUS -> {
+                    return 17;
+                }
+                case BUS -> {
+                    return 50;
+                }
+                default -> {
+                    throw new IllegalArgumentException("Invalid invalid quantity for available car type");
+                }
             }
-            case MINIBUS -> {
-                return 17;
-            }
-            case BUS -> {
-                return 50;
-            }
+        } catch (IllegalArgumentException i) {
+            i.getMessage();
         }
         return -1;
     }
@@ -137,7 +145,6 @@ public class ValidationForTour {
     public List<Object> validateTourInformation(String tourType, String tourName) {
         tourName = tourName.toUpperCase();
         tourType = tourType.toUpperCase();
-
         try {
             switch (TourType.valueOf(tourType)) {
                 case CULTURAL -> {
@@ -157,11 +164,9 @@ public class ValidationForTour {
         return null;
     }
 
-
     public List<Object> forCultural(String tourName) {
         tourName = tourName.toUpperCase();
         List<Object> objectList = null;
-        tourName = tourName.toUpperCase();
         PlacesForCultural placesForCultural = PlacesForCultural.valueOf(tourName);
         if (EnumSet.allOf(PlacesForCultural.class).contains(placesForCultural)) {
             objectList = new ArrayList<>();
@@ -172,7 +177,6 @@ public class ValidationForTour {
         }
         return objectList;
     }
-
 
     public List<Object> forAdventure(String tourName) {
         tourName = tourName.toUpperCase();
@@ -194,6 +198,7 @@ public class ValidationForTour {
         List<Object> objectList = null;
         PlacesForCampaign placesForCampaign = PlacesForCampaign.valueOf(tourName);
         if (EnumSet.allOf(PlacesForCampaign.class).contains(placesForCampaign)) {
+            objectList = new ArrayList<>();
             objectList.add(tourName);
             objectList.add(placesForCampaign.getDistance());
             objectList.add(placesForCampaign.getDuration());
@@ -227,11 +232,11 @@ public class ValidationForTour {
     }
 
 
-    public Boolean isEnableForBooking(Tour tour, int quantity) {
+    public boolean isEnableForBooking(Tour tour, int quantity) {
         LocalDate currentDate = LocalDate.now();
         LocalDate beforeDate = currentDate.minusDays(1);
         LocalDate tourDate = tour.getTourDate();
-        if (tourDate.isAfter(beforeDate) && (quantity + tour.getGeneralQuantity()) > tour.getMaxQuantity()) {
+        if (tourDate.isAfter(beforeDate) || (quantity + tour.getGeneralQuantity()) > tour.getMaxQuantity()) {
             return false;
         }
         return true;
@@ -243,8 +248,8 @@ public class ValidationForTour {
         LocalDate beforeDate = currentDate.minusDays(1);
         LocalDate tourDate = tour.getTourDate();
         if (tourDate.isAfter(beforeDate)) {
-            return true;
+            return false;
         }
-        return false;
+        return true;
     }
 }

@@ -171,4 +171,24 @@ public class UserController {
     public String logout (@Valid @RequestBody @NonNull User user) {
         return userService.logout(user);
     }
+
+    @GetMapping("/sortByDate")
+    public List<Tour> sortByDate() {
+        return tourService.sortByDate();
+    }
+
+    @GetMapping("/sortByCost")
+    public List<Tour> sortByCost() {
+        return tourService.sortByCost();
+    }
+
+    @GetMapping("/sortByDistance")
+    public List<Tour> sortByDistance() {
+        return tourService.sortByDistance();
+    }
+
+    @GetMapping("/sortByQuantity")
+    public List<Tour> sortByQuantity(){
+        return tourService.sortByQuantity();
+    }
 }

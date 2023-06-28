@@ -11,12 +11,12 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Entity
-@Table ( name = "tour" )
+@Table(name = "Tour", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"tour_name", "tour_date"})})
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class TourEntity {
-    //TODO unique field
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

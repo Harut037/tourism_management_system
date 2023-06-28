@@ -52,6 +52,10 @@ public class ValidationForCard {
      * @return the validated card type as a string, or an error message if the card type is invalid or unrecognized
      */
     public String validateForCardType(String cardType) {
+
+        //TODO
+        //nayel if-@
+
         if (cardType.equals("MASTERCARD")) {
             cardType = "MASTER_CARD";
         } else if (cardType.equals("AMERICANEXPRESS")) {
@@ -81,11 +85,6 @@ public class ValidationForCard {
         }
     }
 
-    public static void main(String[] args) {
-        ValidationForCard validationForCard = new ValidationForCard();
-        System.out.println(validationForCard.cardNumberValidation("9011222233334444"));
-    }
-
     /**
      * The validateExpirationDate method validates a given expiration date and checks if it is after the current date.
      *
@@ -94,7 +93,7 @@ public class ValidationForCard {
      */
     public LocalDate validateExpirationDate(LocalDate expirationDate) {
         LocalDate currentDate = LocalDate.now();
-        currentDate.format(DateTimeFormatter.ofPattern("dd/MM/yy"));
+        currentDate.format(DateTimeFormatter.ofPattern("MM/yy"));
         try {
             if (currentDate.isBefore(expirationDate)) {
                 return expirationDate;
@@ -155,11 +154,22 @@ public class ValidationForCard {
      *
      * @return a unique transaction number in the format "yyyyMMddHHmm" followed by a 4-digit random number
      */
+
+    //TODO
+    //nayel
     public String generateTransactionNumber() {
         String timestamp = new SimpleDateFormat("yyyyMMddHHmm").format(new Date());
+//        LocalDate timestamp1 = LocalDate.now();
+//        timestamp1.format(DateTimeFormatter.ofPattern("yyyyMMddHHmm"));
         Random random = new Random();
         int randomNumber = random.nextInt((int) Math.pow(10, 4));
         String formattedRandomNumber = String.format("%0" + 4 + "d", randomNumber);
         return timestamp + formattedRandomNumber;
     }
+
+    public static void main(String[] args) {
+        ValidationForCard v = new ValidationForCard();
+        System.out.println(v.generateTransactionNumber());
+    }
+
 }

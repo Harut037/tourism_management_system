@@ -115,6 +115,15 @@ public class TourServiceImpl implements TourService {
         return tours;
     }
 
+    @Override
+    public List<Tour> sortByDistance() {
+        List<TourEntity> tourEntities = tourRepository.findAllOrderByDistance();
+        List<Tour> tours = new ArrayList <>();
+        for (TourEntity i: tourEntities)
+            tours.add(new Tour(i));
+        return tours;
+    }
+
 
     /**
      * Overrides the default sortByQuantity behavior to retrieve all TourEntity objects sorted by quantity.
@@ -129,6 +138,8 @@ public class TourServiceImpl implements TourService {
             tours.add(new Tour(i));
         return tours;
     }
+
+
     
     //TODO
     @Override
