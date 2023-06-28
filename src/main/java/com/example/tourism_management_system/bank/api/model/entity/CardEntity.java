@@ -1,6 +1,6 @@
 package com.example.tourism_management_system.bank.api.model.entity;
 
-import com.example.tourism_management_system.bank.api.enumForCard.Status;
+import com.example.tourism_management_system.bank.api.model.enumForCard.Status;
 import com.example.tourism_management_system.model.pojos.CardForUser;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

@@ -4,4 +4,6 @@ import com.example.tourism_management_system.service.CardForUserService;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CardForUserServiceImpl implements CardForUserService {}
+public class CardForUserServiceImpl implements CardForUserService {
+
+}
