@@ -20,10 +20,6 @@ public class RoleEntity {
     private Boolean userRole;
     @Column(name = "admin_role", nullable = false)
     private Boolean adminRole;
-//    @Column(nullable = false)
-//    private Boolean tourAdministratorRole;
-//    @Column(nullable = false)
-//    private Boolean supportRole;
     @Column(name = "flag", nullable = false)
     private Boolean flag = true;
     
@@ -35,18 +31,6 @@ public class RoleEntity {
             stringBuilder.append(Role.ADMIN);
             t++;
         }
-//        if (this.tourAdministratorRole){
-//            if (t > 0)
-//                stringBuilder.append(",");
-//            stringBuilder.append(Role.TOUR_ADMINISTRATOR);
-//            t++;
-//        }
-//        if (this.supportRole){
-//            if (t > 0)
-//                stringBuilder.append(",");
-//            stringBuilder.append(Role.SUPPORT);
-//            t++;
-//        }
         if (this.userRole){
             if (t > 0)
                 stringBuilder.append(",");

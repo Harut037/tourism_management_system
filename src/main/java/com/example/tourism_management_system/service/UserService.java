@@ -10,15 +10,13 @@ public interface UserService {
     
     String signUp(final User user);
     
-    String signIn(final String email, final String password);
-    
-    String editInfo(final EditInfo editInfo);
+    String editInfo(final EditInfo editInfo, final String email);
     
     String forgotPassword(final String email);
     
     String forgotPasswordChange(final String email, final String password);
     
-    String passwordChange(SignIn signIn, String password);
+    String passwordChange(String email, String password);
     
     String bookTour(UserInTour userInTour);
     
@@ -26,21 +24,21 @@ public interface UserService {
     
     String cancelTour(UserInTour userInTour);
     
-    String leaveReview(UserInTour userInTour);
-    
-    List <Tour> getHistoryOfTours(Long userId);
-    
-    String logout(User user);
+    String leaveReview(LeaveReview leaveReview, String email);
     
     Long getIdByEmail (String email);
     
-    User getInfo (Long userId);
+    List <Tour> getHistoryOfTours(String email);
     
-    String changeEmail (SignIn signIn, String email);
+    String logout(User user);
     
-    String changePhoneNumber (SignIn signIn, String phoneNumber);
+    User getInfo (String email);
     
-    String addCard (CardForUser cardForUser, User user);
+    String changeEmail (String email, String newEmail);
     
-    String deleteCard (CardForUser cardForUser, User user);
+    String changePhoneNumber (String email, String phoneNumber);
+    
+    String addCard (CardForUser cardForUser, String email);
+    
+    String deleteCard (CardForUser cardForUser, String email);
 }

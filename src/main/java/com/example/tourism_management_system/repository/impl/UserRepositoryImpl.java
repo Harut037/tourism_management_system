@@ -11,6 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Date;
 import java.util.Optional;
 
 @Repository
@@ -25,17 +26,6 @@ public class UserRepositoryImpl extends SimpleJpaRepository <UserEntity, Long> i
         super(UserEntity.class, entityManager);
         this.entityManager = entityManager;
     }
-    
-//    @Override
-//    public Optional <UserEntity> findByCardNumber (final String cardNumber) {
-//        String jpql = "SELECT u FROM UserEntity u inner join CardEntity p WHERE p.cardNumber = :cardNumber";
-//        return entityManager
-//                .createQuery(jpql, UserEntity.class)
-//                .setParameter("cardNumber", cardNumber)
-//                .getResultList()
-//                .stream()
-//                .findFirst();
-//    }
     
     @Override
     public Optional <UserEntity> findByEmail (final String email) {
@@ -60,95 +50,89 @@ public class UserRepositoryImpl extends SimpleJpaRepository <UserEntity, Long> i
     }
     
     @Override
-    public String signIn (final String email, final String password) {
-        Optional <UserEntity> user = this.findByEmail(email);
-        if (user.isPresent()) {
-            if (user.get().getPassword().equals(new BCryptPasswordEncoder().encode(password))) {
-                return "Success";
-            }
-            return "Invalid Password";
-        }
-        return "User Not Found By This Email";
-    }
-    
-    @Override
     public String forgotPassword (final String email) {
         Optional <UserEntity> user = this.findByEmail(email);
         if (user.isPresent()) {
-            //TODO Mail Sender
-            return "Email Sent";
+            return "User Found";
         }
-        return "User Not Found By This Email";
+        throw new IllegalArgumentException("User Not Found By This Email");
     }
     
     @Override
     public String resetPassword (final String email, final String password) {
-        Optional <UserEntity> op = this.findByEmail(email);
-        if (op.isPresent()) {
-            entityManager
-                    .createQuery("" +
-                            " UPDATE UserEntity u SET" +
-                            " u.password = :newPassword" +
-                            " WHERE u.email = :email")
-                    .setParameter("newPassword", password)
-                    .setParameter("email", email)
-                    .executeUpdate();
-            return "Successfully Updated";
-        }
-        return "Not Found Such User By This Email";
-    }
-    
-    public String update (final EditInfo editInfo) {
-        Optional <UserEntity> op = this.findByEmail(editInfo.getEmail());
-        if (op.isPresent()) {
-                entityManager
-                        .createQuery("" +
-                                " UPDATE UserEntity u SET" +
-                                " u.firstName = :newFirstName," +
-                                " u.lastName = :newLastName," +
-                                " u.birthDate = : newBirthDate" +
-                                " WHERE u.email = :email")
-                        .setParameter("newFirstName", editInfo.getFirstName())
-                        .setParameter("newLastName", editInfo.getLastName())
-                        .setParameter("newBirthDate", editInfo.getBirthDate())
-                        .setParameter("email", op.get().getEmail())
-                        .executeUpdate();
-            return "Successfully Updated";
-        }
-        return "Not Successful";
+        entityManager
+                .createQuery("" +
+                        " UPDATE UserEntity u SET" +
+                        " u.password = :newPassword" +
+                        " WHERE u.email = :email")
+                .setParameter("newPassword", password)
+                .setParameter("email", email)
+                .executeUpdate();
+        return "Successfully Reset Password";
     }
     
     @Override
     public String updateEmail (String email, String newEmail) {
-        Optional <UserEntity> op = this.findByEmail(email);
-        if (op.isPresent()) {
-            entityManager
-                    .createQuery("" +
-                            " UPDATE UserEntity u SET" +
-                            " u.email = :newEmail" +
-                            " WHERE u.email = :email")
-                    .setParameter("newEmail", newEmail)
-                    .setParameter("email", email)
-                    .executeUpdate();
-            return "Successfully Updated";
-        }
-        return "Not Found Such User By This Email";
+        entityManager
+                .createQuery("" +
+                        " UPDATE UserEntity u SET" +
+                        " u.email = :newEmail" +
+                        " WHERE u.email = :email")
+                .setParameter("newEmail", newEmail)
+                .setParameter("email", email)
+                .executeUpdate();
+        return "Successfully Updated Email: " + newEmail;
     }
     
     @Override
     public String updatePhoneNumber (String email, String newPhoneNumber) {
-        Optional <UserEntity> op = this.findByEmail(email);
-        if (op.isPresent()) {
-            entityManager
-                    .createQuery("" +
-                            " UPDATE UserEntity u SET" +
-                            " u.phoneNumber = :newPhoneNumber" +
-                            " WHERE u.email = :email")
-                    .setParameter("newPhoneNumber", newPhoneNumber)
-                    .setParameter("email", email)
-                    .executeUpdate();
-            return "Successfully Updated";
-        }
-        return "Not Found Such User By This Email";
+        entityManager
+                .createQuery("" +
+                        " UPDATE UserEntity u SET" +
+                        " u.phoneNumber = :newPhoneNumber" +
+                        " WHERE u.email = :email")
+                .setParameter("newPhoneNumber", newPhoneNumber)
+                .setParameter("email", email)
+                .executeUpdate();
+        return "Successfully Updated Phone Number: " + newPhoneNumber;
+    }
+    
+    @Override
+    public String updateFirstName (String newFirstName, String email) {
+        entityManager
+                .createQuery("" +
+                        " UPDATE UserEntity u SET" +
+                        " u.firstName = :newFirstName" +
+                        " WHERE u.email = :email")
+                .setParameter("newFirstName", newFirstName)
+                .setParameter("email", email)
+                .executeUpdate();
+        return "Successfully Updated First Name: " + newFirstName;
+    }
+    
+    @Override
+    public String updateLastName (String newLastName, String email) {
+        entityManager
+                .createQuery("" +
+                        " UPDATE UserEntity u SET" +
+                        " u.lastName = :newLastName" +
+                        " WHERE u.email = :email")
+                .setParameter("newLastName", newLastName)
+                .setParameter("email", email)
+                .executeUpdate();
+        return "Successfully Updated Last Name: " + newLastName;
+    }
+    
+    @Override
+    public String updateBirthDate (Date newBirthDate, String email) {
+        entityManager
+                .createQuery("" +
+                        " UPDATE UserEntity u SET" +
+                        " u.birthDate = :newBirthDate" +
+                        " WHERE u.email = :email")
+                .setParameter("newBirthDate", newBirthDate)
+                .setParameter("email", email)
+                .executeUpdate();
+        return "Successfully Updated Birth Date: " + newBirthDate;
     }
 }

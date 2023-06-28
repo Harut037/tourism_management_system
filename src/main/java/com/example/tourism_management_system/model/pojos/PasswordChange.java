@@ -10,10 +10,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class PasswordChange {
     
-    private SignIn signIn;
     @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()_+])[a-zA-Z0-9!@#$%^&*()_+]{8,20}$", message = "Invalid Password Pattern")
     private String new1;
     @Pattern (regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()_+])[a-zA-Z0-9!@#$%^&*()_+]{8,20}$", message = "Invalid Password Pattern")
     private String new2;
-    
 }

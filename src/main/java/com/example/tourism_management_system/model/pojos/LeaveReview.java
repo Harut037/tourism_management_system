@@ -7,8 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PhoneNumberChange {
+public class LeaveReview {
     
-    private String phoneNumber;
-    private SignIn signIn;
+    private Review review;
+    private Tour tour;
 }

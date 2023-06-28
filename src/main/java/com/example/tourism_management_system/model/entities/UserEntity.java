@@ -51,11 +51,10 @@ public class UserEntity {
         this.setLastName(user.getLastName());
         this.setEmail(user.getEmail());
         this.setBirthDate(user.getBirthDate());
-        this.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
+        this.setPassword(user.getPassword());
         this.setPhoneNumber(user.getPhoneNumber());
         this.setCardEntityForUser(new CardEntityForUser(user.getCardForUser()));
         this.setUserInTourEntities(castUserInTour(user.getUserInTour()));
-        //this.setRoleEntity(new RoleEntity(user.getRole()));
     }
     
     public void setPassword(String password){
