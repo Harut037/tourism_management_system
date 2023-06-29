@@ -18,8 +18,8 @@ public class RoleEntity {
     private Long id;
     @Column(name = "user_role", nullable = false)
     private Boolean userRole;
-    @Column(name = "admin_role", nullable = false)
-    private Boolean adminRole;
+    @Column(name = "tour_administrator_role", nullable = false)
+    private Boolean tourAdministratorRole;
     @Column(name = "flag", nullable = false)
     private Boolean flag = true;
     
@@ -27,8 +27,8 @@ public class RoleEntity {
     public String toString () {
         StringBuilder stringBuilder = new StringBuilder();
         int t = 0;
-        if (this.adminRole) {
-            stringBuilder.append(Role.ADMIN);
+        if (this.tourAdministratorRole) {
+            stringBuilder.append(Role.TOUR_ADMINISTRATOR);
             t++;
         }
         if (this.userRole){

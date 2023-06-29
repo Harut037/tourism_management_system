@@ -17,7 +17,8 @@ import java.util.function.Function;
 @Service
 public class JwtService {
     
-    public static final String SECRET = "9JyCfVdm8CZWwP0f42ixsmJbNYapKIkr9JyCfVdm8CZWwP0f42ixsmJbNYapKIkr";
+    private static final String SECRET = "9JyCfVdm8CZWwP0f42ixsmJbNYapKIkr9JyCfVdm8CZWwP0f42ixsmJbNYapKIkr";
+    public static Map<String, Boolean> invalidatedTokens = new HashMap<>(); // Stores invalidated tokens
     
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -41,18 +42,17 @@ public class JwtService {
                 .getBody();
     }
     
-    private Boolean isTokenExpired(String token) {
+    public Boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
     }
     
     public Boolean validateToken(String token, UserDetails userDetails) {
         final String username = extractUsername(token);
-        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token) && !isTokenInvalidated(token));
     }
     
-    
     public String generateToken(String email){
-        Map<String,Object> claims=new HashMap<>();
+        Map<String,Object> claims = new HashMap<>();
         return createToken(claims,email);
     }
     
@@ -68,5 +68,13 @@ public class JwtService {
     private Key getSignKey() {
         byte[] keyBytes= Decoders.BASE64.decode(SECRET);
         return Keys.hmacShaKeyFor(keyBytes);
+    }
+    
+    public void invalidateToken(String token) {
+        invalidatedTokens.put(token, true);
+    }
+    
+    private boolean isTokenInvalidated(String token) {
+        return invalidatedTokens.containsKey(token);
     }
 }

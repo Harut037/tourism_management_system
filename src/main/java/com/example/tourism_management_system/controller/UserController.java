@@ -78,12 +78,12 @@ public class UserController {
 
     @PutMapping ( "/changeForgotPassword" )
     public String changeForgotPassword (@RequestHeader(value = "Authorization") String authorizationToken,
-                                        @Valid @RequestBody @NonNull ForgotPasswordChange forgotPasswordChange) {
+                                        @Valid @RequestBody @NonNull PasswordChange passwordChange) {
         String email = jwtService.extractUsername(authorizationToken.substring(7));
         if (email == null)
             throw new UsernameNotFoundException("No Such User");
-        if (forgotPasswordChange.getNew1().equals(forgotPasswordChange.getNew2())) {
-            return userService.forgotPasswordChange(email, forgotPasswordChange.getNew1());
+        if (passwordChange.getNew1().equals(passwordChange.getNew2())) {
+            return userService.forgotPasswordChange(email, passwordChange.getNew1());
         } else {
             throw new IllegalArgumentException("New Passwords Are Not Equal");
         }
@@ -113,29 +113,29 @@ public class UserController {
     
     @PostMapping("/bookTour")
     public String bookTour (@RequestHeader(value = "Authorization") String authorizationToken,
-                            @Valid @RequestBody @NonNull UserInTour userInTour) {
+                            @Valid @RequestBody @NonNull BookTour bookTour) {
         String email = jwtService.extractUsername(authorizationToken.substring(7));
         if (email == null)
             throw new UsernameNotFoundException("No Such User");
-        return userService.bookTour(userInTour);
+        return userService.bookTour(bookTour, email);
     }
     
     @PostMapping("/editTour")
     public String editTour (@RequestHeader(value = "Authorization") String authorizationToken,
-                            @Valid @RequestBody @NonNull UserInTour userInTour) {
+                            @Valid @RequestBody @NonNull BookTour editTour) {
         String email = jwtService.extractUsername(authorizationToken.substring(7));
         if (email == null)
             throw new UsernameNotFoundException("No Such User");
-        return userService.editTour(userInTour);
+        return userService.editTour(editTour, email);
     }
     
     @PutMapping("/cancelTour")
     public String cancelTour (@RequestHeader(value = "Authorization") String authorizationToken,
-                              @Valid @RequestBody @NonNull UserInTour userInTour) {
+                              @Valid @RequestBody @NonNull Tour tour) {
         String email = jwtService.extractUsername(authorizationToken.substring(7));
         if (email == null)
             throw new UsernameNotFoundException("No Such User");
-        return userService.cancelTour(userInTour);
+        return userService.cancelTour(tour, email);
     }
     
     @PutMapping("/leaveReview")
@@ -149,8 +149,7 @@ public class UserController {
     
     @PostMapping("/addCard")
     public String addCard (@RequestHeader(value = "Authorization") String authorizationToken,
-                           @Valid @RequestBody @NonNull CardForUser cardForUser,
-                           @Valid @RequestBody @NonNull User user) {
+                           @Valid @RequestBody @NonNull CardForUser cardForUser) {
         String email = jwtService.extractUsername(authorizationToken.substring(7));
         if (email == null)
             throw new UsernameNotFoundException("No Such User");
@@ -166,10 +165,10 @@ public class UserController {
         return userService.deleteCard(cardForUser, email);
     }
     
-    //TODO logout
     @GetMapping("/logout")
-    public String logout (@Valid @RequestBody @NonNull User user) {
-        return userService.logout(user);
+    public String logout (@RequestHeader(value = "Authorization") String authorizationToken) {
+        jwtService.invalidateToken(authorizationToken.substring(7));
+        return authorizationToken;
     }
 
     @GetMapping("/sortByDate")

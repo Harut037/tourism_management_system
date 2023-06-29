@@ -5,17 +5,20 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserInTour {
-    private User user;
-    private Tour tour;
-    private Integer quantity;
-    private Double price;
+    
+    private User         user;
+    private Tour         tour;
+    private Integer      quantity;
+    private Double        price;
     private String transactionNumber;
-    private Review review;
+    private Review        review;
 
     public UserInTour(UserInTourEntity userInTourEntity) {
         this.setUser(new User(userInTourEntity.getUser()));

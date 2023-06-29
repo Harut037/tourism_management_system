@@ -18,19 +18,17 @@ public interface UserService {
     
     String passwordChange(String email, String password);
     
-    String bookTour(UserInTour userInTour);
+    String bookTour(BookTour bookTour, String email);
     
-    String editTour(UserInTour userInTour);
+    String editTour(BookTour bookTour, String email);
     
-    String cancelTour(UserInTour userInTour);
+    String cancelTour(Tour tour, String email);
     
     String leaveReview(LeaveReview leaveReview, String email);
     
     Long getIdByEmail (String email);
     
     List <Tour> getHistoryOfTours(String email);
-    
-    String logout(User user);
     
     User getInfo (String email);
     

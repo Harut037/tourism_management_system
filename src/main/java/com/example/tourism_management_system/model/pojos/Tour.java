@@ -13,27 +13,17 @@ import java.time.LocalTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Tour {
-    //TODO unique field
+    //TODO: regex and not null
     private String tourType;
-    
     private String tourName;
-    
     private LocalDate tourDate;
-    
     private LocalTime startTime;
-    
     private String duration;
-    
     private String distance;
-    
     private String carType;
-    
     private Integer generalQuantity;
-
     private Integer maxQuantity;
-    
     private Integer cost;
-
     private Boolean flag;
 
     public Tour(TourEntity tourEntity){
@@ -48,5 +38,4 @@ public class Tour {
         setCost(tourEntity.getCost());
         setFlag(tourEntity.getFlag());
     }
-
 }

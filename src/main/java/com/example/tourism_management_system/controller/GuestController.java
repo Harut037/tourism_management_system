@@ -36,7 +36,7 @@ public class GuestController {
     }
 
     @GetMapping("/getAllTours")
-    public @ResponseBody List<Tour> home(){
+    public @ResponseBody List<Tour> getAllTours(){
         return tourService.getAll();
     }
 
@@ -45,7 +45,6 @@ public class GuestController {
         return tourService.getById(tourId);
     }
     
-    //TODO SignUp
     @PostMapping ("/signUp" )
     public String signUp (@Valid @RequestBody @NonNull User user) {
         return userService.signUp(user);

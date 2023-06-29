@@ -41,7 +41,7 @@ public class UserEntity {
     @JoinColumn ( name = "role_id" )
     private RoleEntity              roleEntity;
     @OneToOne
-    @JoinColumn(name = "card_id" )
+    @JoinColumn(name = "card_id")
     private CardEntityForUser       cardEntityForUser;
     @OneToMany(mappedBy = "user")
     private List <UserInTourEntity> userInTourEntities;
@@ -53,8 +53,8 @@ public class UserEntity {
         this.setBirthDate(user.getBirthDate());
         this.setPassword(user.getPassword());
         this.setPhoneNumber(user.getPhoneNumber());
-        this.setCardEntityForUser(new CardEntityForUser(user.getCardForUser()));
-        this.setUserInTourEntities(castUserInTour(user.getUserInTour()));
+//        this.setCardEntityForUser(new CardEntityForUser(user.getCardForUser()));
+//        this.setUserInTourEntities(castUserInTour(user.getUserInTour()));
     }
     
     public void setPassword(String password){

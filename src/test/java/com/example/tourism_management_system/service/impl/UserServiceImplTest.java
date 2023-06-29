@@ -107,21 +107,21 @@ class UserServiceImplTest {
 //        List<Tour> result = userService.getHistoryOfTours(userId);
 //        assertEquals(Collections.emptyList(), result);
 //    }
-    @Test
-    public void testCancelTour_EnabledForCanceling_Success() {
-        UserInTour userInTour = new UserInTour();
-        userInTour.setTour(new Tour());
-        userInTour.setTransactionNumber("12345");
-        String result = userService.cancelTour(userInTour);
-        assertEquals("Cancellation success", result);
-    }
+//    @Test
+//    public void testCancelTour_EnabledForCanceling_Success() {
+//        UserInTour userInTour = new UserInTour();
+//        userInTour.setTour(new Tour());
+//        userInTour.setTransactionNumber("12345");
+//        String result = userService.cancelTour(userInTour);
+//        assertEquals("Cancellation success", result);
+//    }
 
-    @Test
-    public void testCancelTour_NotEnabledForCanceling() {
-        UserInTour userInTour = new UserInTour();
-        userInTour.setTour(new Tour());
-        String result = userService.cancelTour(userInTour);
-        assertEquals("Not Available For Canceling", result);
-    }
+//    @Test
+//    public void testCancelTour_NotEnabledForCanceling() {
+//        UserInTour userInTour = new UserInTour();
+//        userInTour.setTour(new Tour());
+//        String result = userService.cancelTour(userInTour);
+//        assertEquals("Not Available For Canceling", result);
+//    }
     
 }

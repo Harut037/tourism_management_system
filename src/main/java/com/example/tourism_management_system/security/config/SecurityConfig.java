@@ -22,24 +22,37 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableMethodSecurity
 public class SecurityConfig{
     
+    
+    private final JwtAuthFilter authFilter;
+    private final UserDetailsServiceImpl userDetailsService;
+    
     @Autowired
-    private JwtAuthFilter authFilter;
+    public SecurityConfig (JwtAuthFilter authFilter, UserDetailsServiceImpl userDetailsService) {
+        this.authFilter = authFilter;
+        this.userDetailsService = userDetailsService;
+    }
+    
     
     @Bean
     public UserDetailsService userDetailsService() {
-        return new UserDetailsServiceImpl();
+        return userDetailsService;
     }
     
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf().disable()
-                .authorizeHttpRequests()
-                .requestMatchers("/Home","/Home/authenticate", "/Home/**").permitAll()
-                .and()
-                .authorizeHttpRequests().requestMatchers("/**")
-                .authenticated().and()
+                .authorizeHttpRequests().requestMatchers("/User/**")
+                .hasAuthority("USER").and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .authorizeHttpRequests().requestMatchers("/TourAdministrator/**")
+                .hasAuthority("TOUR_ADMINISTRATOR").and()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .authorizeHttpRequests()
+                .requestMatchers("/**").permitAll()
                 .and()
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class)

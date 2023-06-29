@@ -55,7 +55,7 @@ public class UserServiceImpl implements UserService {
             throw new IllegalArgumentException("This Phone Number Is Already In Use: " + op2.get().getPhoneNumber());
         }
         RoleEntity roleEntity = new RoleEntity();
-        roleEntity.setAdminRole(false);
+        roleEntity.setTourAdministratorRole(false);
         roleEntity.setUserRole(true);
         userEntity.setRoleEntity(roleEntity);
         roleService.saveRole(roleEntity);
@@ -90,7 +90,6 @@ public class UserServiceImpl implements UserService {
         return userRepository.resetPassword(email, password);
     }
     
-    //TODO: return is not used?
     @Override
     public String forgotPassword(String email) {
         userRepository.forgotPassword(email);
@@ -104,13 +103,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String bookTour(UserInTour userInTour) {
-        if (validationForTour.isEnableForBooking(userInTour.getTour(), userInTour.getQuantity())){
-            if (userInTour.getUser().getCardForUser() == null){
+    public String bookTour(BookTour bookTour, String email) {
+        User user = new User(userRepository.findByEmail(email).get());
+        UserInTour userInTour = new UserInTour(user, bookTour.getTour(), bookTour.getQuantity());
+        if (validationForTour.isEnableForBooking(bookTour.getTour(), bookTour.getQuantity())) {
+            if (userInTour.getUser().getCardForUser() == null) {
                 throw new IllegalArgumentException("There Is No Card For This User");
             }
             String transactionNumber = transactionService.makeTransaction(new Card(userInTour.getUser().getCardForUser()), userInTour.getPrice());
-            if(transactionNumber == null || transactionNumber.equals("Not Successful")){
+            if (transactionNumber == null || transactionNumber.equals("Not Successful")) {
                 throw new IllegalArgumentException("Not Successful Transaction Please Try Again");
             }
             userInTour.setTransactionNumber(transactionNumber);
@@ -122,18 +123,19 @@ public class UserServiceImpl implements UserService {
     
     //TODO
     @Override
-    public String editTour(UserInTour userInTour) {
+    public String editTour(BookTour bookTour, String email) {
         return null;
     }
 
     @Override
-    public String cancelTour(UserInTour userInTour) {
-        if(validationForTour.isEnableForCanceling(userInTour.getTour())){
+    public String cancelTour(Tour tour, String email) {
+        if(validationForTour.isEnableForCanceling(tour)){
+            UserInTour userInTour = userInTourService.getUserInTour(tour, email);
             String result = transactionService.revertTransaction(userInTour.getTransactionNumber());
             if(result.equals("Success")){
                 return userInTourService.cancel(userInTour);
             }
-            return result;
+            throw new IllegalArgumentException("Error For Reverting Transaction Occurs");
         }
         throw new IllegalArgumentException("Not Available For Canceling");
     }
@@ -155,11 +157,6 @@ public class UserServiceImpl implements UserService {
         }
         return tours;
     }
-    //TODO
-    @Override
-    public String logout (User user) {
-        return null;
-    }
     
     @Override
     public User getInfo (String email) {
@@ -176,11 +173,13 @@ public class UserServiceImpl implements UserService {
     public String changePhoneNumber (String email, String newPhoneNumber) {
         return userRepository.updatePhoneNumber(email, newPhoneNumber);
     }
+    
     //TODO
     @Override
     public String addCard (CardForUser cardForUser, String email) {
         return null;
     }
+    
     //TODO
     @Override
     public String deleteCard (CardForUser cardForUser, String email) {

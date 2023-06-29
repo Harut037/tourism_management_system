@@ -1,6 +1,7 @@
 package com.example.tourism_management_system.service.impl;
 
 import com.example.tourism_management_system.model.entities.UserInTourEntity;
+import com.example.tourism_management_system.model.pojos.Tour;
 import com.example.tourism_management_system.model.pojos.UserInTour;
 import com.example.tourism_management_system.repository.UserInTourRepository;
 import com.example.tourism_management_system.service.TourService;
@@ -51,5 +52,10 @@ public class UserInTourServiceImpl implements UserInTourService {
             return tourService.update(userInTour);
         }
         return "Not Successfully";
+    }
+    
+    @Override
+    public UserInTour getUserInTour (Tour tour, String email) {
+        return null;
     }
 }
