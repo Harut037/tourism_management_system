@@ -157,4 +157,13 @@ public class ValidationForCard {
         String formattedRandomNumber = String.format("%0" + 4 + "d", randomNumber);
         return timestamp + formattedRandomNumber;
     }
+
+    public String generateCvv() {
+        StringBuilder cvv = new StringBuilder();
+        Random random = new Random();
+        for (int i = 0; i < 3; i++) {
+            cvv.append(random.nextInt(9));
+        }
+        return cvv.toString();
+    }
 }
