@@ -6,12 +6,10 @@ import com.example.tourism_management_system.bank.api.model.pojo.Card;
 import com.example.tourism_management_system.bank.api.repository.CardRepository;
 import com.example.tourism_management_system.bank.api.service.CardService;
 import com.example.tourism_management_system.bank.api.validation.ValidationForCard;
-import com.example.tourism_management_system.model.entities.CardEntityForUser;
 import com.example.tourism_management_system.model.pojos.CardForUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,8 +20,9 @@ public class CardServiceImpl implements CardService {
 
     private final CardRepository cardRepository;
 
+
     @Autowired
-    public CardServiceImpl (CardRepository cardRepository) {
+    public CardServiceImpl (CardRepository cardRepository, CardServiceImpl cardService) {
         this.cardRepository = cardRepository;
     }
 
@@ -32,12 +31,27 @@ public class CardServiceImpl implements CardService {
      *
      * @param card the Card object containing the card information to be created
      */
-    public void createCard(Card card) {
+
+    @Override
+    public String createCard(Card card) {
         card.setCvv(validationForCard.generateCvv());
         card.setStatus(Status.valueOf("ACTIVE").toString());
         CardEntity cardEntity = new CardEntity(card);
         cardRepository.save(cardEntity);
+        return "Card created successfully";
     }
+
+    @Override
+    public boolean compareCard(CardForUser cardForUser) {
+        Optional<CardEntity> cardEntity = cardRepository.findCard(cardForUser.getCardNumber(), cardForUser.getOwner(),
+                cardForUser.getExpirationDate(), cardForUser.getCvv());
+        if (cardEntity.isPresent()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 
 
     /**
@@ -118,6 +132,10 @@ public class CardServiceImpl implements CardService {
     //TODO
     @Override
     public Boolean addCard (CardForUser cardForUser) {
+
         return null;
     }
+
+
+
 }
