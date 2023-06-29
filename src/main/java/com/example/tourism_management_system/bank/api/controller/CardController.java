@@ -1,12 +1,9 @@
 package com.example.tourism_management_system.bank.api.controller;
 
 import com.example.tourism_management_system.bank.api.model.entity.CardEntity;
-import com.example.tourism_management_system.bank.api.model.enumForCard.Status;
 import com.example.tourism_management_system.bank.api.model.pojo.Card;
 import com.example.tourism_management_system.bank.api.service.impl.CardServiceImpl;
-import com.example.tourism_management_system.bank.api.service.impl.TransactionServiceImpl;
 import com.example.tourism_management_system.bank.api.validation.ValidationForCard;
-import com.example.tourism_management_system.model.pojos.CardForUser;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,13 +16,12 @@ public class CardController {
 
     private final CardServiceImpl cardService;
 
-    private final TransactionServiceImpl transactionService;
+
 
     ValidationForCard validationForCard = new ValidationForCard();
 
-    public CardController(CardServiceImpl cardService, TransactionServiceImpl transactionService) {
+    public CardController(CardServiceImpl cardService) {
         this.cardService = cardService;
-        this.transactionService = transactionService;
     }
 
 
@@ -41,9 +37,9 @@ public class CardController {
     }
 
     @PostMapping("/create")
-    public void addCard(@Valid @RequestBody Card card) {
+    public String addCard(@Valid @RequestBody Card card) {
         if (validationForCard.isValidCard(card)) {
-            cardService.createCard(card);
+            return cardService.createCard(card);
         } else throw new IllegalArgumentException();
     }
 

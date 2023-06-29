@@ -3,6 +3,7 @@ package com.example.tourism_management_system.bank.api.validation;
 import com.example.tourism_management_system.bank.api.model.enumForCard.CardType;
 import com.example.tourism_management_system.bank.api.model.enumForCard.Currency;
 import com.example.tourism_management_system.bank.api.model.pojo.Card;
+import com.example.tourism_management_system.bank.api.service.impl.CardServiceImpl;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -166,4 +167,5 @@ public class ValidationForCard {
         }
         return cvv.toString();
     }
+
 }
