@@ -18,6 +18,11 @@ public interface TourRepository extends JpaRepository<TourEntity, Long> {
     @Query("SELECT t FROM TourEntity t WHERE t.flag = true")
     List<TourEntity> findAll();
 
+
+    @Transactional
+    @Query("SELECT t FROM TourEntity t WHERE t.tourName = :tourName and t.tourDate = :tourDate")
+    TourEntity findTour(String tourName, LocalDate tourDate);
+
     @Transactional
     @Modifying
     @Query("SELECT t FROM TourEntity t ORDER BY t.cost ASC")
@@ -57,12 +62,17 @@ public interface TourRepository extends JpaRepository<TourEntity, Long> {
     @Transactional
     @Modifying
     @Query("UPDATE TourEntity  t SET t.carType = :newCarType where t.tourName = :tourName and t.tourDate = :tourDate")
-    void updateQuantity(String newCarType,String tourName, LocalDate tourDate);
+    void updateCarType(String newCarType,String tourName, LocalDate tourDate);
 
+
+    @Transactional
+    @Modifying
+    @Query("UPDATE TourEntity  t SET t.generalQuantity = :newGeneralQuantity where t.tourName = :tourName and t.tourDate = :tourDate")
+    void updateQuantity(Integer newGeneralQuantity,String tourName, LocalDate tourDate);
 
 //    @Transactional
 //    @Modifying
-//    @Query("UPDATE TourEntity  t SET t.maxQuantity = :newMaxCuantity where t.tourName = :tourName and t.tourDate = :tourDate")
+//    @Query("UPDATE TourEntity  t SET t.maxQuantity = :newMaxQuantity where t.tourName = :tourName and t.tourDate = :tourDate")
 //    void updateMaxQuantity(Integer maxQuantity, String tourName, LocalDate tourDate);
 
 }

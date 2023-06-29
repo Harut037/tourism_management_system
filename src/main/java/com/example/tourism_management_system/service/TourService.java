@@ -29,7 +29,7 @@ public interface TourService {
 
     List<Tour> sortByQuantity();
     
-    String update (Integer quantity);
+    String update (Tour tour,Integer quantity);
     
     String update (Tour tour);
 
@@ -40,7 +40,6 @@ public interface TourService {
     Long getId (Tour tour);
     
     TourEntity getTour (Tour tour);
-    String forQuantity();
 
 //    String updateMaxQuantity(Integer maxQuantity,String tourName, LocalDate tourDate);
 }

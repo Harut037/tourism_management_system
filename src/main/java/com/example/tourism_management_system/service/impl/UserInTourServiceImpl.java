@@ -57,7 +57,7 @@ public class UserInTourServiceImpl implements UserInTourService {
     public String cancel (UserInTour userInTour) {
         int result = userInTourRepository.cancel(userInTour.getTransactionNumber());
         if (result > 0){
-            return tourService.update(userInTour.getQuantity());
+            return tourService.update(userInTour.getTour(), userInTour.getQuantity());
         }
         throw new IllegalArgumentException("Error occurred While cancelling");
     }

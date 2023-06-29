@@ -2,7 +2,6 @@ package com.example.tourism_management_system.validation.tour;
 
 import com.example.tourism_management_system.model.entities.TourEntity;
 import com.example.tourism_management_system.repository.TourRepository;
-import com.example.tourism_management_system.service.TourService;
 import com.example.tourism_management_system.service.impl.JwtService;
 import com.example.tourism_management_system.service.impl.TourServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,25 +18,31 @@ public class Scheduler {
     private final TourServiceImpl tourService;
     private final JwtService jwtService;
 
+    private final ValidationForTour validation;
+
+    private final TourRepository tourRepository;
 
     @Autowired
-    public Scheduler(TourServiceImpl tourService, JwtService jwtService, TourRepository tourRepository, ValidationForTour validationForTour) {
+    public Scheduler(TourServiceImpl tourService, JwtService jwtService, TourRepository tourRepository,  ValidationForTour validation) {
         this.tourService = tourService;
         this.jwtService = jwtService;
+        this.validation = validation;
+        this.tourRepository = tourRepository;
     }
 
     /**
      * Deletes tours that have dates before the current date.
      * This method is scheduled to run at midnight every day.
      */
-//        @Scheduled(fixedRate = 5000)
-    @Scheduled(cron = "0 0 * * * *")
+        @Scheduled(fixedRate = 5000)
+//    @Scheduled(cron = "0 0 * * * *")
     public void deletePastDateTours() {
         LocalDate currentDate = LocalDate.now();
         List<TourEntity> tours = tourService.getAllForSchedule();
         for (TourEntity tour : tours) {
-            if (tour.getTourDate().isBefore(currentDate.minusDays(1))){
-                //TODO get auto type
+            if (tour.getTourDate().minusDays(2).isBefore(currentDate) || tour.getTourDate().minusDays(2).isEqual(currentDate)){
+               String s = validation.forCarType(tour.getGeneralQuantity());
+                tourRepository.updateCarType(s,tour.getTourName(),tour.getTourDate());
             }
             if (tour.getTourDate().isBefore(currentDate)) {
                 tourService.deleteById(tour.getId());
