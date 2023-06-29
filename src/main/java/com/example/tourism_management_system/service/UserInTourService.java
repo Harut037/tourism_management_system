@@ -19,9 +19,7 @@ public interface UserInTourService {
     
     String cancel (UserInTour userInTour);
     
-    UserInTour getUserInTour (Tour tour, String email);
+    UserInTour getUserInTour (String transactionNumber);
     
     Integer addReview (UserInTour userInTour, Long reviewId);
-    
-    Integer edit (BookTour bookTour, String email);
 }

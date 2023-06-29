@@ -10,8 +10,6 @@ import java.util.List;
 public interface CardService {
 
     Integer save(CardForUser cardForUsers);
-    
-    Boolean addCard(CardForUser cardForUser);
 
     String createCard(Card card);
 

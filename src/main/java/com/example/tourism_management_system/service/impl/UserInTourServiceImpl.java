@@ -63,19 +63,12 @@ public class UserInTourServiceImpl implements UserInTourService {
     }
     
     @Override
-    public UserInTour getUserInTour (Tour tour, String email) {
-        return userInTourRepository.getUserInTour(tourService.getTour(tour), userService.getUser(email));
+    public UserInTour getUserInTour (String transactionNumber) {
+        return new UserInTour(userInTourRepository.getUserInTourEntity(transactionNumber));
     }
     
     @Override
     public Integer addReview (UserInTour userInTour, Long reviewId) {
-        return userInTourRepository.addReview(userInTourRepository.getId(tourService.getTour(userInTour.getTour()), userService.getUser(userInTour.getUser().getEmail())), reviewService.getById(reviewId));
-    }
-    
-    @Override
-    public Integer edit (BookTour bookTour, String email) {
-        UserInTour userInTour = userInTourRepository.getUserInTour(tourService.getTour(bookTour.getTour()), userService.getUser(email));
-        userInTour.setQuantity(bookTour.getQuantity());
-        return userInTourRepository.changeQuantity(tourService.getTour(bookTour.getTour()), userService.getUser(email), bookTour.getQuantity());
+        return userInTourRepository.addReview(userInTourRepository.getId(userInTour.getTransactionNumber()), reviewService.getById(reviewId));
     }
 }
