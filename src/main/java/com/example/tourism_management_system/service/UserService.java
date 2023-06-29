@@ -1,5 +1,6 @@
 package com.example.tourism_management_system.service;
 
+import com.example.tourism_management_system.model.entities.UserEntity;
 import com.example.tourism_management_system.model.pojos.*;
 import org.springframework.stereotype.Service;
 
@@ -39,4 +40,6 @@ public interface UserService {
     String addCard (CardForUser cardForUser, String email);
     
     String deleteCard (CardForUser cardForUser, String email);
+    
+    UserEntity getUser (String email);
 }

@@ -40,4 +40,6 @@ public interface TourService {
     String updateMaxQuantity(int newMaxQuantity,String tourName, LocalDate tourDate);
     
     Long getId (Tour tour);
+    
+    TourEntity getTour (Tour tour);
 }

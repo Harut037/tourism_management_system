@@ -1,5 +1,6 @@
 package com.example.tourism_management_system.model.entities;
 
+import com.example.tourism_management_system.model.pojos.Review;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -28,4 +29,13 @@ public class ReviewEntity {
     private Integer company;
     @Column(name = "flag", nullable = false)
     private Boolean flag = true;
+    
+    public ReviewEntity (Review review) {
+        this.feedback = review.getFeedback();
+        this.driver = review.getDriver();
+        this.guide = review.getGuide();
+        this.support = review.getSupport();
+        this.tour = review.getTour();
+        this.company = review.getCompany();
+    }
 }

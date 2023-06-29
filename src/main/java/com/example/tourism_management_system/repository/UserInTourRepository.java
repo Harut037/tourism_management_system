@@ -1,5 +1,8 @@
 package com.example.tourism_management_system.repository;
 
+import com.example.tourism_management_system.model.entities.ReviewEntity;
+import com.example.tourism_management_system.model.entities.TourEntity;
+import com.example.tourism_management_system.model.entities.UserEntity;
 import com.example.tourism_management_system.model.entities.UserInTourEntity;
 import com.example.tourism_management_system.model.pojos.UserInTour;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,15 +17,29 @@ import java.util.List;
 public interface UserInTourRepository extends JpaRepository<UserInTourEntity, Long> {
     
     @Transactional
-    @Query("SELECT u FROM UserInTourEntity u WHERE u.id = :userId")
-    List<UserInTourEntity> findByUserId (Long userId);
+    @Query("SELECT u FROM UserInTourEntity u WHERE u.user = :user")
+    List<UserInTourEntity> findByUser (UserEntity user);
     
     @Transactional
     @Modifying
     @Query("UPDATE UserInTourEntity u SET u.flag = false where u.transactionNumber = :transactionNumber")
-    String cancel (String transactionNumber);
+    int cancel (String transactionNumber);
     
     @Transactional
-    @Query("SELECT u FROM UserInTourEntity u WHERE u.user = :userId AND u.tour = :tourId")
-    UserInTour getUserInTour (Long tourId, Long userId);
+    @Query("SELECT u FROM UserInTourEntity u WHERE u.user = :user AND u.tour = :tour")
+    UserInTour getUserInTour (TourEntity tour, UserEntity user);
+    
+    @Transactional
+    @Modifying
+    @Query("UPDATE UserInTourEntity u SET u.quantity = :quantity where u.user = :user AND u.tour = :tour")
+    int changeQuantity (TourEntity tour, UserEntity user, Integer quantity);
+    
+    @Transactional
+    @Query("SELECT u.id FROM UserInTourEntity u WHERE u.user = :user AND u.tour = :tour")
+    Long getId (TourEntity tour, UserEntity user);
+    
+    @Transactional
+    @Modifying
+    @Query("UPDATE UserInTourEntity u SET u.reviewEntity = :reviewEntity where u.id = :id")
+    int addReview (Long id, ReviewEntity reviewEntity);
 }

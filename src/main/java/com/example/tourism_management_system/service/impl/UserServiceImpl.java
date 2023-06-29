@@ -2,7 +2,9 @@ package com.example.tourism_management_system.service.impl;
 
 import com.example.tourism_management_system.bank.api.model.pojo.Card;
 import com.example.tourism_management_system.bank.api.service.CardService;
-import com.example.tourism_management_system.model.entities.*;
+import com.example.tourism_management_system.model.entities.UserEntity;
+import com.example.tourism_management_system.model.entities.RoleEntity;
+import com.example.tourism_management_system.model.entities.CardEntityForUser;
 import com.example.tourism_management_system.model.pojos.*;
 import com.example.tourism_management_system.repository.UserRepository;
 import com.example.tourism_management_system.service.*;
@@ -21,25 +23,26 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-    private final ValidationForTour validationForTour = new ValidationForTour();
+    private final ValidationForTour validationForTour;
     private final TransactionService transactionService;
     private final CardService cardService;
-    private final UserInTourService userInTourService;
+    @Autowired
+    private UserInTourService userInTourService;
     private final JwtService jwtService;
-    private final TourService tourService;
     private final RoleService roleService;
     private final CardForUserService cardForUserService;
+    private final ReviewService reviewService;
     
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, TransactionService transactionService, CardService cardService, UserInTourService userInTourService, JwtService jwtService, TourService tourService, RoleService roleService, CardForUserService cardForUserService) {
+    public UserServiceImpl(UserRepository userRepository, ValidationForTour validationForTour, TransactionService transactionService, CardService cardService, JwtService jwtService, RoleService roleService, CardForUserService cardForUserService, ReviewService reviewService) {
         this.userRepository = userRepository;
+        this.validationForTour = validationForTour;
         this.transactionService = transactionService;
         this.cardService = cardService;
-        this.userInTourService = userInTourService;
         this.jwtService = jwtService;
-        this.tourService = tourService;
         this.roleService = roleService;
         this.cardForUserService = cardForUserService;
+        this.reviewService = reviewService;
     }
     
     @Override
@@ -126,10 +129,15 @@ public class UserServiceImpl implements UserService {
         throw new IllegalArgumentException("Not Enable For Booking");
     }
     
-    //TODO
     @Override
     public String editTour(BookTour bookTour, String email) {
-        return null;
+        if(validationForTour.isEnableForEditing(bookTour)){
+            if(userInTourService.edit(bookTour, email) > 0){
+                return "Successful";
+            }
+            throw new IllegalArgumentException("Error Occurred Please Try Again");
+        }
+        throw new IllegalArgumentException("Not Enable For Editing");
     }
 
     @Override
@@ -145,16 +153,19 @@ public class UserServiceImpl implements UserService {
         throw new IllegalArgumentException("Not Available For Canceling");
     }
     
-    //TODO
     @Override
     public String leaveReview(LeaveReview leaveReview, String email) {
-        return null;
+        Long reviewId = reviewService.save(leaveReview.getReview());
+        if (userInTourService.addReview(userInTourService.getUserInTour(leaveReview.getTour(), email), reviewId) > 0){
+            return "Success";
+        }
+        throw new IllegalArgumentException("Error Occurred Please Try Again");
     }
     
     @Override
     public List <Tour> getHistoryOfTours (String email) {
         List<Tour> tours = new ArrayList <>();
-        List<UserInTour> userInTours = userInTourService.findByUserId(getIdByEmail(email));
+        List<UserInTour> userInTours = userInTourService.findByUser(userRepository.findByEmail(email).get());
         if (userInTours == null)
             return Collections.emptyList();
         for (UserInTour userInTour : userInTours) {
@@ -196,5 +207,10 @@ public class UserServiceImpl implements UserService {
             return userRepository.deleteCard(email);
         }
         throw new IllegalArgumentException("Error deleting");
+    }
+    
+    @Override
+    public UserEntity getUser (String email) {
+        return userRepository.findByEmail(email).get();
     }
 }

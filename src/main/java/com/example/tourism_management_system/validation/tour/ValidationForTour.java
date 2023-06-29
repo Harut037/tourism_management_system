@@ -1,7 +1,9 @@
 package com.example.tourism_management_system.validation.tour;
 
 import com.example.tourism_management_system.model.enums.enumForTour.*;
+import com.example.tourism_management_system.model.pojos.BookTour;
 import com.example.tourism_management_system.model.pojos.Tour;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -10,6 +12,7 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 
+@Component
 public class ValidationForTour {
 
     /**
@@ -251,5 +254,11 @@ public class ValidationForTour {
             return false;
         }
         return true;
+    }
+    
+    //TODO
+    public boolean isEnableForEditing(BookTour bookTour) {
+        
+        return false;
     }
 }

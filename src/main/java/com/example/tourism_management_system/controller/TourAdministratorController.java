@@ -12,12 +12,13 @@ import org.springframework.web.bind.annotation.*;
 public class TourAdministratorController {
     
     private final TourAdministratorService tourAdministratorService;
-    ValidationForTour validationForTour = new ValidationForTour();
+    private final ValidationForTour validationForTour;
     private final JwtService jwtService;
     
     @Autowired
-    public TourAdministratorController(TourAdministratorService tourAdministratorService, JwtService jwtService) {
+    public TourAdministratorController(TourAdministratorService tourAdministratorService, ValidationForTour validationForTour, JwtService jwtService) {
         this.tourAdministratorService = tourAdministratorService;
+        this.validationForTour = validationForTour;
         this.jwtService = jwtService;
     }
     

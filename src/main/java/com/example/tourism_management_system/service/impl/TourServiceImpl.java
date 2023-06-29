@@ -194,4 +194,10 @@ public class TourServiceImpl implements TourService {
     public Long getId (Tour tour) {
         return null;
     }
+    
+    //TODO
+    @Override
+    public TourEntity getTour (Tour tour) {
+        return null;
+    }
 }

@@ -6,13 +6,13 @@ server:
 spring:
   main:
     web-application-type: servlet
+    allow-circular-references: true
 
 
   datasource:
     url: jdbc:postgresql://localhost:5432/tours
     username: postgres
-    password: Mariam2905
-
+    password: sql123
 
   jpa:
     hibernate:

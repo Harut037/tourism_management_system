@@ -1,5 +1,9 @@
 package com.example.tourism_management_system.service;
 
+import com.example.tourism_management_system.model.entities.ReviewEntity;
+import com.example.tourism_management_system.model.entities.UserEntity;
+import com.example.tourism_management_system.model.pojos.BookTour;
+import com.example.tourism_management_system.model.pojos.Review;
 import com.example.tourism_management_system.model.pojos.Tour;
 import com.example.tourism_management_system.model.pojos.UserInTour;
 import org.springframework.http.ResponseEntity;
@@ -11,9 +15,13 @@ import java.util.List;
 public interface UserInTourService {
     String save(UserInTour userInTour);
     
-    List<UserInTour> findByUserId (Long userId);
+    List<UserInTour> findByUser (UserEntity user);
     
     String cancel (UserInTour userInTour);
     
     UserInTour getUserInTour (Tour tour, String email);
+    
+    Integer addReview (UserInTour userInTour, Long reviewId);
+    
+    Integer edit (BookTour bookTour, String email);
 }
