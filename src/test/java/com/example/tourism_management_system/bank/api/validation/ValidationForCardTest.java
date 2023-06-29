@@ -1,5 +1,6 @@
 package com.example.tourism_management_system.bank.api.validation;
 
+import com.example.tourism_management_system.bank.api.model.enumForCard.CardType;
 import com.example.tourism_management_system.bank.api.model.pojo.Card;
 import org.junit.jupiter.api.Test;
 
@@ -114,10 +115,6 @@ class ValidationForCardTest {
 
         card.setExpirationDate(null);
         assertEquals(false, validationForCard.isValidCard(card));
-
-        //TODO
-//        Card validCard = new Card("4123456789123456", "VISA", LocalDate.now(), "USD");
-//        assertTrue(validationForCard.isValidCard(validCard));
     }
 
     @Test
@@ -147,29 +144,18 @@ class ValidationForCardTest {
         validationForCard.getRate("AMD", "USD", 1000.0);
         double expectedRateAMDtoUSD = amount / rate.getUSD();
         double actualRateAMDtoUSD = validationForCard.getRate("AMD", "USD", amount);
-        assertEquals(expectedRateAMDtoUSD, actualRateAMDtoUSD, 0.01);
-        //TODO
-        //nayel xi 0.25
-//        assertEquals("2.5911", actualRateAMDtoUSD);
+        assertEquals(expectedRateAMDtoUSD, actualRateAMDtoUSD);
+
 
         validationForCard.getRate("AMD", "EUR", 1000.0);
         double expectedRateAMDtoEUR = amount / rate.getEUR();
         double actualRateAMDtoEUR = validationForCard.getRate("AMD", "EUR", amount);
         assertEquals(expectedRateAMDtoEUR, actualRateAMDtoEUR, 0.01);
-//        assertEquals("2.409", actualRateAMDtoUSD);
 
 
         validationForCard.getRate("AMD", "RUR", 1000.0);
         double expectedRateAMDtoRUR = amount / rate.getRUR();
         double actualRateAMDtoRUR = validationForCard.getRate("AMD", "RUR", amount);
         assertEquals(expectedRateAMDtoRUR, actualRateAMDtoRUR, 0.01);
-//        assertEquals("207.0393", actualRateAMDtoRUR);
-    }
-
-    @Test
-    void generateTransactionNumber() {
-        ValidationForCard validationForCard = new ValidationForCard();
-
-
     }
 }
