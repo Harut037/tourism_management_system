@@ -1,5 +1,6 @@
 package com.example.tourism_management_system.repository.impl;
 
+import com.example.tourism_management_system.model.entities.CardEntityForUser;
 import com.example.tourism_management_system.model.entities.UserEntity;
 import com.example.tourism_management_system.model.pojos.EditInfo;
 import com.example.tourism_management_system.repository.UserRepository;
@@ -134,5 +135,31 @@ public class UserRepositoryImpl extends SimpleJpaRepository <UserEntity, Long> i
                 .setParameter("email", email)
                 .executeUpdate();
         return "Successfully Updated Birth Date: " + newBirthDate;
+    }
+    
+    @Override
+    public String addCard (CardEntityForUser newCardEntityForUser, String email) {
+        entityManager
+                .createQuery("" +
+                        " UPDATE UserEntity u SET" +
+                        " u.cardEntityForUser = :newCardEntityForUser" +
+                        " WHERE u.email = :email")
+                .setParameter("newCardEntityForUser", newCardEntityForUser)
+                .setParameter("email", email)
+                .executeUpdate();
+        return "Successfully Added Card: " + newCardEntityForUser.getCardNumber();
+    }
+    
+    @Override
+    public String deleteCard (String email) {
+        entityManager
+                .createQuery("" +
+                        " UPDATE UserEntity u SET" +
+                        " u.cardEntityForUser = :newCardEntityForUser" +
+                        " WHERE u.email = :email")
+                .setParameter("newCardEntityForUser", null)
+                .setParameter("email", email)
+                .executeUpdate();
+        return "Successfully Deleted Card For User: " + email;
     }
 }

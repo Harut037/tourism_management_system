@@ -21,4 +21,8 @@ public interface UserInTourRepository extends JpaRepository<UserInTourEntity, Lo
     @Modifying
     @Query("UPDATE UserInTourEntity u SET u.flag = false where u.transactionNumber = :transactionNumber")
     String cancel (String transactionNumber);
+    
+    @Transactional
+    @Query("SELECT u FROM UserInTourEntity u WHERE u.user = :userId AND u.tour = :tourId")
+    UserInTour getUserInTour (Long tourId, Long userId);
 }

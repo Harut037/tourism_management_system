@@ -1,5 +1,6 @@
 package com.example.tourism_management_system.repository;
 
+import com.example.tourism_management_system.model.entities.CardEntityForUser;
 import com.example.tourism_management_system.model.entities.UserEntity;
 import com.example.tourism_management_system.model.pojos.EditInfo;
 import com.example.tourism_management_system.model.pojos.User;
@@ -32,4 +33,8 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
     String updateLastName (String newLastName, String email);
     
     String updateBirthDate (Date newBirthDate, String email);
+    
+    String addCard (CardEntityForUser card, String email);
+ 
+    String deleteCard (String email);
 }

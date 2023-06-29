@@ -19,6 +19,7 @@ public class UserInTourEntity {
     @JoinColumn(name = "user_id")
     private UserEntity user;
     @ManyToOne
+    @JoinColumn(name = "tour_id")
     private TourEntity tour;
     @OneToOne
     @JoinColumn(name = "review_id")

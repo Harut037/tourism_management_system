@@ -1,6 +1,7 @@
 package com.example.tourism_management_system.service.impl;
 
 import com.example.tourism_management_system.bank.api.model.pojo.Card;
+import com.example.tourism_management_system.bank.api.service.CardService;
 import com.example.tourism_management_system.model.entities.*;
 import com.example.tourism_management_system.model.pojos.*;
 import com.example.tourism_management_system.repository.UserRepository;
@@ -22,19 +23,23 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final ValidationForTour validationForTour = new ValidationForTour();
     private final TransactionService transactionService;
+    private final CardService cardService;
     private final UserInTourService userInTourService;
     private final JwtService jwtService;
     private final TourService tourService;
     private final RoleService roleService;
-
+    private final CardForUserService cardForUserService;
+    
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, TransactionService transactionService, UserInTourService userInTourService, JwtService jwtService, TourService tourService, RoleService roleService) {
+    public UserServiceImpl(UserRepository userRepository, TransactionService transactionService, CardService cardService, UserInTourService userInTourService, JwtService jwtService, TourService tourService, RoleService roleService, CardForUserService cardForUserService) {
         this.userRepository = userRepository;
         this.transactionService = transactionService;
+        this.cardService = cardService;
         this.userInTourService = userInTourService;
         this.jwtService = jwtService;
         this.tourService = tourService;
         this.roleService = roleService;
+        this.cardForUserService = cardForUserService;
     }
     
     @Override
@@ -174,15 +179,22 @@ public class UserServiceImpl implements UserService {
         return userRepository.updatePhoneNumber(email, newPhoneNumber);
     }
     
-    //TODO
+    
     @Override
     public String addCard (CardForUser cardForUser, String email) {
-        return null;
+        Boolean isExist = cardService.addCard(cardForUser);
+        if (isExist) {
+            CardEntityForUser card = cardForUserService.save(cardForUser);
+            return userRepository.addCard(card, email);
+        }
+        throw new IllegalArgumentException("Wrong Card");
     }
     
-    //TODO
     @Override
     public String deleteCard (CardForUser cardForUser, String email) {
-        return null;
+        if(cardForUserService.deleteCard(cardForUser)) {
+            return userRepository.deleteCard(email);
+        }
+        throw new IllegalArgumentException("Error deleting");
     }
 }

@@ -101,19 +101,20 @@ public class CardServiceImpl implements CardService {
         return "Your current balance` " + cardEntity.get().getBalance() + " " + cardEntity.get().getCurrency();
     }
 
+    //TODO
     /**
      * Overrides the default save behavior to save a list of CardEntity objects.
      *
      * @param cardForUsers the list of CardEntity objects to be saved
      */
     @Override
-    public void save(List<CardForUser> cardForUsers) {
+    public Integer save(CardForUser cardForUsers) {
 
-
+        return null;
     }
-    
+    //TODO
     @Override
-    public String addCard (CardForUser cardForUser) {
+    public Boolean addCard (CardForUser cardForUser) {
         return null;
     }
 }

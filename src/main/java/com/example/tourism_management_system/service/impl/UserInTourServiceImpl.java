@@ -6,6 +6,7 @@ import com.example.tourism_management_system.model.pojos.UserInTour;
 import com.example.tourism_management_system.repository.UserInTourRepository;
 import com.example.tourism_management_system.service.TourService;
 import com.example.tourism_management_system.service.UserInTourService;
+import com.example.tourism_management_system.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,11 +19,13 @@ public class UserInTourServiceImpl implements UserInTourService {
     
     private final UserInTourRepository userInTourRepository;
     private final TourService          tourService;
+    private final UserService userService;
     
     @Autowired
-    public UserInTourServiceImpl(UserInTourRepository userInTourRepository, TourService tourService) {
+    public UserInTourServiceImpl(UserInTourRepository userInTourRepository, TourService tourService, UserService userService) {
         this.userInTourRepository = userInTourRepository;
         this.tourService = tourService;
+        this.userService = userService;
     }
     
     @Override
@@ -54,9 +57,8 @@ public class UserInTourServiceImpl implements UserInTourService {
         return "Not Successfully";
     }
     
-    //TODO
     @Override
     public UserInTour getUserInTour (Tour tour, String email) {
-        return null;
+        return userInTourRepository.getUserInTour(tourService.getId(tour), userService.getIdByEmail(email));
     }
 }

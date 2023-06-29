@@ -1,13 +1,14 @@
 package com.example.tourism_management_system.bank.api.service;
 
 
+import com.example.tourism_management_system.model.entities.CardEntityForUser;
 import com.example.tourism_management_system.model.pojos.CardForUser;
 
 import java.util.List;
 
 public interface CardService {
 
-    void save(List<CardForUser> cardForUsers);
+    Integer save(CardForUser cardForUsers);
     
-    String addCard(CardForUser cardForUser);
+    Boolean addCard(CardForUser cardForUser);
 }
