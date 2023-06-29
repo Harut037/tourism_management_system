@@ -15,7 +15,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CardEntity {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -33,11 +33,10 @@ public class CardEntity {
     private String status;
     @Column(name = "currency", nullable = false)
     private String currency;
-    //TODO copy constructor
+
     public CardEntity(CardForUser cardForUser) {
         setCardNumber(cardForUser.getCardNumber());
         setExpirationDate(cardForUser.getExpirationDate());
         setStatus(Status.valueOf("ACTIVE").toString());
     }
-    
 }

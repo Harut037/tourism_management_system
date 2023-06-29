@@ -51,16 +51,11 @@ public class ValidationForCard {
      * @return the validated card type as a string, or an error message if the card type is invalid or unrecognized
      */
     public String validateForCardType(String cardType) {
-
-        //TODO
-        //nayel if-@
-
         if (cardType.equals("MASTERCARD")) {
             cardType = "MASTER_CARD";
         } else if (cardType.equals("AMERICANEXPRESS")) {
             cardType = "AMERICAN_EXPRESS";
         }
-
         try {
             switch (CardType.valueOf(cardType)) {
                 case VISA -> {
@@ -114,9 +109,11 @@ public class ValidationForCard {
             if (cardNumberValidation(card.getCardNumber()).equals("Invalid card number")
                     || validateForCardType(card.getType()).equals("Invalid card type")
                     || validateExpirationDate(card.getExpirationDate()) == null
-                    || Currency.valueOf(card.getCurrency()).toString() == null)
+                    || Currency.valueOf(card.getCurrency()).toString() == null) {
                 return false;
-            return true;
+            } else {
+                return true;
+            }
         } catch (IllegalArgumentException e) {
             return false;
         }
@@ -153,22 +150,11 @@ public class ValidationForCard {
      *
      * @return a unique transaction number in the format "yyyyMMddHHmm" followed by a 4-digit random number
      */
-
-    //TODO
-    //nayel
     public String generateTransactionNumber() {
-        String timestamp = new SimpleDateFormat("yyyyMMddHHmm").format(new Date());
-//        LocalDate timestamp1 = LocalDate.now();
-//        timestamp1.format(DateTimeFormatter.ofPattern("yyyyMMddHHmm"));
+        String timestamp = new SimpleDateFormat("yyyyMMdd").format(new Date());
         Random random = new Random();
         int randomNumber = random.nextInt((int) Math.pow(10, 4));
         String formattedRandomNumber = String.format("%0" + 4 + "d", randomNumber);
         return timestamp + formattedRandomNumber;
     }
-
-    public static void main(String[] args) {
-        ValidationForCard v = new ValidationForCard();
-        System.out.println(v.generateTransactionNumber());
-    }
-
 }

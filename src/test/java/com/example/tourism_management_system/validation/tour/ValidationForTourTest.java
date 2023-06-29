@@ -539,24 +539,27 @@ class ValidationForTourTest {
         verifyNoMoreInteractions(tour);
         assertEquals(true, result);
         assertTrue(validationForTour.isEnableForBooking(tour, quantity));
+    }
 
-//        LocalDate tourDate1 = LocalDate.now().minusDays(1);
-//        int quantity1 = 4;
-//        int generalQuantity1 = 7;
-//        int maxQuantity1 = 10;
-//        when(tour.getTourDate()).thenReturn(tourDate1);
-//        when(tour.getGeneralQuantity()).thenReturn(generalQuantity1);
-//        when(tour.getMaxQuantity()).thenReturn(maxQuantity1);
-//        Boolean result1 = validationForTour.isEnableForBooking(tour, quantity1);
-//        verify(tour).getTourDate();
-//        verify(tour).getGeneralQuantity();
-//        verify(tour).getMaxQuantity();
-//        verify(tour, times(3)).getTourDate();
-//        verify(tour, times(3)).getGeneralQuantity();
-//        verify(tour, times(3)).getMaxQuantity();
-//        verifyNoMoreInteractions(tour);
-//        assertEquals(false, result1);
-//        assertFalse(validationForTour.isEnableForBooking(tour, quantity1));
+    @Test
+    void isEnableForBookingTestWithMock_beforeTourDateAndInvalidQuantity() {
+        LocalDate tourDate1 = LocalDate.now().minusDays(1);
+        int quantity1 = 4;
+        int generalQuantity1 = 7;
+        int maxQuantity1 = 10;
+        when(tour.getTourDate()).thenReturn(tourDate1);
+        when(tour.getGeneralQuantity()).thenReturn(generalQuantity1);
+        when(tour.getMaxQuantity()).thenReturn(maxQuantity1);
+        Boolean result1 = validationForTour.isEnableForBooking(tour, quantity1);
+        verify(tour).getTourDate();
+        verify(tour).getGeneralQuantity();
+        verify(tour).getMaxQuantity();
+        verify(tour, times(1)).getTourDate();
+        verify(tour, times(1)).getGeneralQuantity();
+        verify(tour, times(1)).getMaxQuantity();
+        verifyNoMoreInteractions(tour);
+        assertEquals(false, result1);
+        assertFalse(validationForTour.isEnableForBooking(tour, quantity1));
     }
 
     @Test
