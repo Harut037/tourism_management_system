@@ -1,10 +1,9 @@
 package com.example.tourism_management_system.bank.api.validation;
 
-import com.example.tourism_management_system.bank.api.enumForCard.CardType;
-import com.example.tourism_management_system.bank.api.enumForCard.Currency;
+import com.example.tourism_management_system.bank.api.model.enumForCard.CardType;
+import com.example.tourism_management_system.bank.api.model.enumForCard.Currency;
 import com.example.tourism_management_system.bank.api.model.pojo.Card;
 
-import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;

@@ -8,7 +8,10 @@ import com.example.tourism_management_system.service.TourService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -45,7 +48,7 @@ public class TourServiceImpl implements TourService {
     public List<Tour> getAll() {
         List<Tour> list = new ArrayList<>();
         List<TourEntity> listEntity = tourRepository.findAll();
-        for(TourEntity i: listEntity){
+        for (TourEntity i : listEntity) {
             list.add(new Tour(i));
         }
         return list;
@@ -66,7 +69,7 @@ public class TourServiceImpl implements TourService {
     public Tour getById(Long id) {
         Optional<TourEntity> op = tourRepository.findById(id);
         if (op.isPresent()) {
-            return  new Tour(op.get());
+            return new Tour(op.get());
         } else return null;
     }
 
@@ -94,8 +97,8 @@ public class TourServiceImpl implements TourService {
     @Override
     public List<Tour> sortByCost() {
         List<TourEntity> tourEntities = tourRepository.findAllOrderByCost();
-        List<Tour> tours = new ArrayList <>();
-        for (TourEntity i: tourEntities)
+        List<Tour> tours = new ArrayList<>();
+        for (TourEntity i : tourEntities)
             tours.add(new Tour(i));
         return tours;
     }
@@ -109,8 +112,8 @@ public class TourServiceImpl implements TourService {
     @Override
     public List<Tour> sortByDate() {
         List<TourEntity> tourEntities = tourRepository.findAllOrderByTourDate();
-        List<Tour> tours = new ArrayList <>();
-        for (TourEntity i: tourEntities)
+        List<Tour> tours = new ArrayList<>();
+        for (TourEntity i : tourEntities)
             tours.add(new Tour(i));
         return tours;
     }
@@ -118,8 +121,8 @@ public class TourServiceImpl implements TourService {
     @Override
     public List<Tour> sortByDistance() {
         List<TourEntity> tourEntities = tourRepository.findAllOrderByDistance();
-        List<Tour> tours = new ArrayList <>();
-        for (TourEntity i: tourEntities)
+        List<Tour> tours = new ArrayList<>();
+        for (TourEntity i : tourEntities)
             tours.add(new Tour(i));
         return tours;
     }
@@ -133,29 +136,65 @@ public class TourServiceImpl implements TourService {
     @Override
     public List<Tour> sortByQuantity() {
         List<TourEntity> tourEntities = tourRepository.findAllOrderByQuantity();
-        List<Tour> tours = new ArrayList <>();
-        for (TourEntity i: tourEntities)
+        List<Tour> tours = new ArrayList<>();
+        for (TourEntity i : tourEntities)
             tours.add(new Tour(i));
         return tours;
     }
 
 
-    
     //TODO
     @Override
-    public String update (UserInTour userInTour) {
+    public String update(UserInTour userInTour) {
+
         return null;
     }
-    
-    //TODO
+
+
     @Override
-    public String updateTour (Tour tour) {
-        return null;
+    public String updateTour(Tour tour) {
+        boolean check = false;
+        if (tour.getStartTime() != null){
+            check = true;
+            updateStartTime(tour.getStartTime(),tour.getTourName(),tour.getTourDate());
+        }
+        if (tour.getCost() != null){
+            check = true;
+            updateCost(tour.getCost(),tour.getTourName(),tour.getTourDate());
+        }
+        if (tour.getMaxQuantity() != null){
+            check = true;
+            updateMaxQuantity(tour.getMaxQuantity(),tour.getTourName(),tour.getTourDate());
+        }
+        if (check){
+            return "Updates have been done successfully";
+        }
+        throw new IllegalArgumentException("All Fields Are Null");
     }
-    
+
     //TODO
     @Override
-    public String removeTour (Tour tour) {
+    public String removeTour(Tour tour) {
         return null;
+
+    }
+
+    @Override
+    public String updateStartTime(LocalTime newStartTime, String tourName, LocalDate tourDate) {
+        tourRepository.updateStartTime(newStartTime, tourName, tourDate);
+        return "Update has been done successfully";
+    }
+
+    @Override
+    public String updateCost(double newCost, String tourName, LocalDate tourDate) {
+        tourRepository.updateCost(newCost,tourName,tourDate);
+        return "Update has been done successfully";
+    }
+
+    @Override
+    public String updateMaxQuantity(int newMaxQuantity, String tourName, LocalDate tourDate) {
+        tourRepository.updateMaxQuantity(newMaxQuantity, tourName, tourDate);
+
+        return "Update has been done successfully";
     }
 }

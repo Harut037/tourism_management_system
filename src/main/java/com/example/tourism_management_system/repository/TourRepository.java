@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @Repository
@@ -38,4 +40,14 @@ public interface TourRepository extends JpaRepository<TourEntity, Long> {
     @Modifying
     @Query("UPDATE TourEntity t set t.flag = false where t.id =:id")
     void flag(Long id);
+
+    @Query("UPDATE TourEntity t SET t.startTime = :newStartTime where t.tourName = :tourName and t.tourDate = :tourDate")
+    String updateStartTime(LocalTime newStartTime, String tourName, LocalDate tourDate);
+
+    @Query("UPDATE TourEntity  t SET t.cost = :newCost where t.tourName = :tourName and t.tourDate = :tourDate")
+    String updateCost(double newCost,String tourName, LocalDate tourDate);
+
+    @Query("UPDATE TourEntity  t SET t.maxQuantity = :newMaxQuantity where t.tourName = :tourName and t.tourDate = :tourDate")
+    String updateMaxQuantity(int newMaxQuantity,String tourName, LocalDate tourDate);
+
 }
