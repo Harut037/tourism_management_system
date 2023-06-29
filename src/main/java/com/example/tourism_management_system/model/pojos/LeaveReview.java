@@ -10,5 +10,5 @@ import lombok.NoArgsConstructor;
 public class LeaveReview {
     
     private Review review;
-    private Tour tour;
+    private String transactionNumber;
 }

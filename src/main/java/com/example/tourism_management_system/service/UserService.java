@@ -21,9 +21,7 @@ public interface UserService {
     
     String bookTour(BookTour bookTour, String email);
     
-    String editTour(BookTour bookTour, String email);
-    
-    String cancelTour(Tour tour, String email);
+    String cancelTour(String transactionNumber);
     
     String leaveReview(LeaveReview leaveReview, String email);
     

@@ -128,22 +128,11 @@ public class UserServiceImpl implements UserService {
         }
         throw new IllegalArgumentException("Not Enable For Booking");
     }
-    
-    @Override
-    public String editTour(BookTour bookTour, String email) {
-        if(validationForTour.isEnableForEditing(bookTour)){
-            if(userInTourService.edit(bookTour, email) > 0){
-                return "Successful";
-            }
-            throw new IllegalArgumentException("Error Occurred Please Try Again");
-        }
-        throw new IllegalArgumentException("Not Enable For Editing");
-    }
 
     @Override
-    public String cancelTour(Tour tour, String email) {
-        if(validationForTour.isEnableForCanceling(tour)){
-            UserInTour userInTour = userInTourService.getUserInTour(tour, email);
+    public String cancelTour(String transactionNumber) {
+        if(validationForTour.isEnableForCanceling(userInTourService.getUserInTour(transactionNumber).getTour())){
+            UserInTour userInTour = userInTourService.getUserInTour(transactionNumber);
             String result = transactionService.revertTransaction(userInTour.getTransactionNumber());
             if(result.equals("Success")){
                 return userInTourService.cancel(userInTour);
@@ -156,7 +145,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public String leaveReview(LeaveReview leaveReview, String email) {
         Long reviewId = reviewService.save(leaveReview.getReview());
-        if (userInTourService.addReview(userInTourService.getUserInTour(leaveReview.getTour(), email), reviewId) > 0){
+        if (userInTourService.addReview(userInTourService.getUserInTour(leaveReview.getTransactionNumber()), reviewId) > 0){
             return "Success";
         }
         throw new IllegalArgumentException("Error Occurred Please Try Again");
@@ -193,7 +182,7 @@ public class UserServiceImpl implements UserService {
     
     @Override
     public String addCard (CardForUser cardForUser, String email) {
-        Boolean isExist = cardService.addCard(cardForUser);
+        boolean isExist = cardService.compareCard(cardForUser);
         if (isExist) {
             CardEntityForUser card = cardForUserService.save(cardForUser);
             return userRepository.addCard(card, email);

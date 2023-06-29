@@ -120,22 +120,13 @@ public class UserController {
         return userService.bookTour(bookTour, email);
     }
     
-    @PostMapping("/editTour")
-    public String editTour (@RequestHeader(value = "Authorization") String authorizationToken,
-                            @Valid @RequestBody @NonNull BookTour editTour) {
-        String email = jwtService.extractUsername(authorizationToken.substring(7));
-        if (email == null)
-            throw new UsernameNotFoundException("No Such User");
-        return userService.editTour(editTour, email);
-    }
-    
     @PutMapping("/cancelTour")
     public String cancelTour (@RequestHeader(value = "Authorization") String authorizationToken,
-                              @Valid @RequestBody @NonNull Tour tour) {
+                              @NonNull String transactionNumber) {
         String email = jwtService.extractUsername(authorizationToken.substring(7));
         if (email == null)
             throw new UsernameNotFoundException("No Such User");
-        return userService.cancelTour(tour, email);
+        return userService.cancelTour(transactionNumber);
     }
     
     @PutMapping("/leaveReview")
