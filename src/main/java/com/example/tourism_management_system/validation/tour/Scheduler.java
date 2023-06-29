@@ -36,6 +36,9 @@ public class Scheduler {
         LocalDate currentDate = LocalDate.now();
         List<TourEntity> tours = tourService.getAllForSchedule();
         for (TourEntity tour : tours) {
+            if (tour.getTourDate().isBefore(currentDate.minusDays(1))){
+                //TODO get auto type
+            }
             if (tour.getTourDate().isBefore(currentDate)) {
                 tourService.deleteById(tour.getId());
             }
@@ -59,10 +62,4 @@ public class Scheduler {
         }
         JwtService.invalidatedTokens = newMap;
     }
-
-
-//   @Scheduled(fixedRate = 5000)
-//    public void updateCarType(){
-//       tourService.forQuantity();
-//    }
 }

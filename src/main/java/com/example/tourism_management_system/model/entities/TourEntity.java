@@ -42,10 +42,6 @@ public class TourEntity {
     private Integer maxQuantity;
     @Column(name = "cost", nullable = false)
     private Integer cost;
-
-
-    @Column(name = "is_enable_for_booking", nullable = false)
-    private Boolean check;
     @Column(name = "active", nullable = false)
     private Boolean flag;
 
@@ -65,6 +61,5 @@ public class TourEntity {
         setMaxQuantity(tour.getMaxQuantity());
         setCost(tour.getCost());
         setFlag(tour.getFlag());
-        setCheck(true);
     }
 }

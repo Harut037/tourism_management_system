@@ -60,18 +60,9 @@ public interface TourRepository extends JpaRepository<TourEntity, Long> {
     void updateQuantity(String newCarType,String tourName, LocalDate tourDate);
 
 
-    @Transactional
-    @Modifying
-    @Query("SELECT s FROM TourEntity s WHERE s.flag = true and s.check = false")
-    List<TourEntity> forQuantity();
-
 //    @Transactional
 //    @Modifying
 //    @Query("UPDATE TourEntity  t SET t.maxQuantity = :newMaxCuantity where t.tourName = :tourName and t.tourDate = :tourDate")
 //    void updateMaxQuantity(Integer maxQuantity, String tourName, LocalDate tourDate);
 
-    @Transactional
-    @Modifying
-    @Query("UPDATE TourEntity  t set  t.check = false where t.tourName = :tourName and t.tourDate = :tourDate")
-    void updateIsEnableForBooking(String tourName, LocalDate tourDate);
 }
