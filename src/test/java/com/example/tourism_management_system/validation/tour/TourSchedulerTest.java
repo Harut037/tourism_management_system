@@ -20,18 +20,18 @@ class TourSchedulerTest {
     private TourService tourService;
 
     @InjectMocks
-    private TourScheduler tourScheduler;
+    private Scheduler tourScheduler;
 
 
     /**
      * Set up method executed before each test case.
      * Initializes the necessary dependencies and creates an instance of the TourScheduler class.
      */
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
-        tourScheduler = new TourScheduler(tourService);
-    }
+//    @BeforeEach
+//    void setUp() {
+//        MockitoAnnotations.openMocks(this);
+//        tourScheduler = new Scheduler(tourService);
+//    }
 
 
     /**

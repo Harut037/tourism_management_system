@@ -41,13 +41,37 @@ public interface TourRepository extends JpaRepository<TourEntity, Long> {
     @Query("UPDATE TourEntity t set t.flag = false where t.id =:id")
     void flag(Long id);
 
+
+    @Transactional
+    @Modifying
     @Query("UPDATE TourEntity t SET t.startTime = :newStartTime where t.tourName = :tourName and t.tourDate = :tourDate")
-    String updateStartTime(LocalTime newStartTime, String tourName, LocalDate tourDate);
+    void updateStartTime(LocalTime newStartTime, String tourName, LocalDate tourDate);
 
+
+    @Transactional
+    @Modifying
     @Query("UPDATE TourEntity  t SET t.cost = :newCost where t.tourName = :tourName and t.tourDate = :tourDate")
-    String updateCost(double newCost,String tourName, LocalDate tourDate);
+    void updateCost(double newCost,String tourName, LocalDate tourDate);
 
-    @Query("UPDATE TourEntity  t SET t.maxQuantity = :newMaxQuantity where t.tourName = :tourName and t.tourDate = :tourDate")
-    String updateMaxQuantity(int newMaxQuantity,String tourName, LocalDate tourDate);
 
+    @Transactional
+    @Modifying
+    @Query("UPDATE TourEntity  t SET t.carType = :newCarType where t.tourName = :tourName and t.tourDate = :tourDate")
+    void updateQuantity(String newCarType,String tourName, LocalDate tourDate);
+
+
+    @Transactional
+    @Modifying
+    @Query("SELECT s FROM TourEntity s WHERE s.flag = true and s.check = false")
+    List<TourEntity> forQuantity();
+
+//    @Transactional
+//    @Modifying
+//    @Query("UPDATE TourEntity  t SET t.maxQuantity = :newMaxCuantity where t.tourName = :tourName and t.tourDate = :tourDate")
+//    void updateMaxQuantity(Integer maxQuantity, String tourName, LocalDate tourDate);
+
+    @Transactional
+    @Modifying
+    @Query("UPDATE TourEntity  t set  t.check = false where t.tourName = :tourName and t.tourDate = :tourDate")
+    void updateIsEnableForBooking(String tourName, LocalDate tourDate);
 }

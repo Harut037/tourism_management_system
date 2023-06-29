@@ -6,6 +6,7 @@ import com.example.tourism_management_system.model.entities.UserEntity;
 import com.example.tourism_management_system.model.entities.RoleEntity;
 import com.example.tourism_management_system.model.entities.CardEntityForUser;
 import com.example.tourism_management_system.model.pojos.*;
+import com.example.tourism_management_system.repository.TourRepository;
 import com.example.tourism_management_system.repository.UserRepository;
 import com.example.tourism_management_system.service.*;
 import com.example.tourism_management_system.bank.api.service.TransactionService;
@@ -23,6 +24,8 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+
+    private final TourRepository tourRepository;
     private final ValidationForTour validationForTour;
     private final TransactionService transactionService;
     private final CardService cardService;
@@ -34,8 +37,9 @@ public class UserServiceImpl implements UserService {
     private final ReviewService reviewService;
     
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, ValidationForTour validationForTour, TransactionService transactionService, CardService cardService, JwtService jwtService, RoleService roleService, CardForUserService cardForUserService, ReviewService reviewService) {
+    public UserServiceImpl(UserRepository userRepository, TourRepository tourRepository, ValidationForTour validationForTour, TransactionService transactionService, CardService cardService, JwtService jwtService, RoleService roleService, CardForUserService cardForUserService, ReviewService reviewService) {
         this.userRepository = userRepository;
+        this.tourRepository = tourRepository;
         this.validationForTour = validationForTour;
         this.transactionService = transactionService;
         this.cardService = cardService;
@@ -125,20 +129,25 @@ public class UserServiceImpl implements UserService {
             userInTour.setTransactionNumber(transactionNumber);
             userInTourService.save(userInTour);
             return "Successful";
-        }
+        } else tourRepository.updateIsEnableForBooking(bookTour.getTour().getTourName(),bookTour.getTour().getTourDate());
         throw new IllegalArgumentException("Not Enable For Booking");
     }
-    
+
     @Override
     public String editTour(BookTour bookTour, String email) {
-        if(validationForTour.isEnableForEditing(bookTour)){
-            if(userInTourService.edit(bookTour, email) > 0){
-                return "Successful";
-            }
-            throw new IllegalArgumentException("Error Occurred Please Try Again");
-        }
-        throw new IllegalArgumentException("Not Enable For Editing");
+        return null;
     }
+
+//    @Override
+//    public String editTour(BookTour bookTour, String email) {
+//        if(validationForTour.isEnableForEditing(bookTour)){
+//            if(userInTourService.edit(bookTour, email) > 0){
+//                return "Successful";
+//            }
+//            throw new IllegalArgumentException("Error Occurred Please Try Again");
+//        }
+//        throw new IllegalArgumentException("Not Enable For Editing");
+//    }
 
     @Override
     public String cancelTour(Tour tour, String email) {

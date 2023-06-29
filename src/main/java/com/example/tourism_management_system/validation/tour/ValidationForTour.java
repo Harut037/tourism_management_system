@@ -1,8 +1,9 @@
 package com.example.tourism_management_system.validation.tour;
 
 import com.example.tourism_management_system.model.enums.enumForTour.*;
-import com.example.tourism_management_system.model.pojos.BookTour;
 import com.example.tourism_management_system.model.pojos.Tour;
+import com.example.tourism_management_system.repository.TourRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -77,37 +78,44 @@ public class ValidationForTour {
         } else return null;
     }
 
+
+
+
+
+
+
+
     /**
      * The carType method returns the corresponding car type based on the provided car type string.
      *
      * @param carType the type of the car (BUS, MINIBUS, or MINIVAN)
      * @return the corresponding car type as a string, or an error message if the car type is not recognized
      */
-    public String carType(String carType) {
-        carType = carType.toUpperCase();
-        try {
-            switch (Transport.valueOf(carType)) {
-                case BUS -> {
-                    validateQuantity(carType);
-                    return "BUS";
-                }
-                case MINIBUS -> {
-                    validateQuantity(carType);
-                    return "MINIBUS";
-                }
-                case MINIVAN -> {
-                    validateQuantity(carType);
-                    return "MINIVAN";
-                }
-                default -> {
-                    throw new IllegalArgumentException("Invalid car type");
-                }
-            }
-        } catch (IllegalArgumentException e) {
-            e.getMessage();
-        }
-        return null;
-    }
+//    public String carType(String carType) {
+//        carType = carType.toUpperCase();
+//        try {
+//            switch (Transport.valueOf(carType)) {
+//                case BUS -> {
+//                    validateQuantity(carType);
+//                    return "BUS";
+//                }
+//                case MINIBUS -> {
+//                    validateQuantity(carType);
+//                    return "MINIBUS";
+//                }
+//                case MINIVAN -> {
+//                    validateQuantity(carType);
+//                    return "MINIVAN";
+//                }
+//                default -> {
+//                    throw new IllegalArgumentException("Invalid car type");
+//                }
+//            }
+//        } catch (IllegalArgumentException e) {
+//            e.getMessage();
+//        }
+//        return null;
+//    }
 
     /**
      * The validateQuantity method returns the maximum quantity of passengers allowed for a given car type.
@@ -115,28 +123,28 @@ public class ValidationForTour {
      * @param carType the type of the car (SEDAN, MINIVAN, MINIBUS, or BUS)
      * @return the maximum quantity of passengers allowed for the given car type, or -1 if the car type is not recognized
      */
-    public int validateQuantity(String carType) {
-        carType = carType.toUpperCase();
-        try {
-            switch (Transport.valueOf(carType)) {
-                case MINIVAN -> {
-                    return 7;
-                }
-                case MINIBUS -> {
-                    return 17;
-                }
-                case BUS -> {
-                    return 50;
-                }
-                default -> {
-                    throw new IllegalArgumentException("Invalid invalid quantity for available car type");
-                }
-            }
-        } catch (IllegalArgumentException i) {
-            i.getMessage();
-        }
-        return -1;
-    }
+//    public int validateQuantity(String carType) {
+//        carType = carType.toUpperCase();
+//        try {
+//            switch (Transport.valueOf(carType)) {
+//                case MINIVAN -> {
+//                    return 7;
+//                }
+//                case MINIBUS -> {
+//                    return 17;
+//                }
+//                case BUS -> {
+//                    return 50;
+//                }
+//                default -> {
+//                    throw new IllegalArgumentException("Invalid invalid quantity for available car type");
+//                }
+//            }
+//        } catch (IllegalArgumentException i) {
+//            i.getMessage();
+//        }
+//        return -1;
+//    }
 
     /**
      * The ValidateTourInformation method validates the tour name and retrieves information about the cultural tour.
@@ -221,8 +229,7 @@ public class ValidationForTour {
     public boolean isValidTour(Tour tour) {
         if (tourName(tour.getTourType(), tour.getTourName()) == null ||
                 validateDate(tour.getTourDate()) == null ||
-                validateStartTime(tour.getStartTime()) == null ||
-                carType(tour.getCarType()) == null
+                validateStartTime(tour.getStartTime()) == null
         ) {
             return false;
         }
@@ -245,7 +252,6 @@ public class ValidationForTour {
         return true;
     }
 
-
     public boolean isEnableForCanceling(Tour tour) {
         LocalDate currentDate = LocalDate.now();
         LocalDate beforeDate = currentDate.minusDays(1);
@@ -255,10 +261,17 @@ public class ValidationForTour {
         }
         return true;
     }
-    
-    //TODO
-    public boolean isEnableForEditing(BookTour bookTour) {
-        
-        return false;
+
+
+    public String forCarType(Integer quantity){
+        if (quantity >= 1 && quantity <= 7){
+            return Transport.MINIVAN.toString();
+        }else if (quantity >= 8 && quantity <= 18){
+            return Transport.MINIBUS.toString();
+        }else if (quantity >= 19 && quantity <= 50){
+            return Transport.BUS.toString();
+        }
+        throw new IllegalArgumentException();
     }
+
 }

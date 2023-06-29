@@ -2,13 +2,12 @@ package com.example.tourism_management_system.service.impl;
 
 import com.example.tourism_management_system.model.entities.TourEntity;
 import com.example.tourism_management_system.model.pojos.Tour;
-import com.example.tourism_management_system.model.pojos.UserInTour;
 import com.example.tourism_management_system.repository.TourRepository;
 import com.example.tourism_management_system.service.TourService;
+import com.example.tourism_management_system.validation.tour.ValidationForTour;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -19,6 +18,8 @@ import java.util.Optional;
 @Component
 @Service
 public class TourServiceImpl implements TourService {
+
+    ValidationForTour validationForTour = new ValidationForTour();
 
     private final TourRepository tourRepository;
 
@@ -156,13 +157,13 @@ public class TourServiceImpl implements TourService {
             check = true;
             updateStartTime(tour.getStartTime(),tour.getTourName(),tour.getTourDate());
         }
+//        if (tour.getMaxQuantity() != null){
+//            check = true;
+//            updateMaxQuantity(tour.getMaxQuantity(),tour.getTourName(),tour.getTourDate());
+//        }
         if (tour.getCost() != null){
             check = true;
             updateCost(tour.getCost(),tour.getTourName(),tour.getTourDate());
-        }
-        if (tour.getMaxQuantity() != null){
-            check = true;
-            updateMaxQuantity(tour.getMaxQuantity(),tour.getTourName(),tour.getTourDate());
         }
         if (check){
             return "Updates have been done successfully";
@@ -182,12 +183,6 @@ public class TourServiceImpl implements TourService {
         return "Update has been done successfully";
     }
 
-    @Override
-    public String updateMaxQuantity(int newMaxQuantity, String tourName, LocalDate tourDate) {
-        tourRepository.updateMaxQuantity(newMaxQuantity, tourName, tourDate);
-
-        return "Update has been done successfully";
-    }
     
     //TODO
     @Override
@@ -200,4 +195,21 @@ public class TourServiceImpl implements TourService {
     public TourEntity getTour (Tour tour) {
         return null;
     }
+
+    @Override
+    public String forQuantity() {
+       List<TourEntity> tourEntities = tourRepository.forQuantity();
+        for (int i = 0; i < tourEntities.size(); i++) {
+            String s = validationForTour.forCarType(tourEntities.get(i).getGeneralQuantity());
+            tourRepository.updateQuantity(s,tourEntities.get(i).getTourName(),tourEntities.get(i).getTourDate());
+        }
+        return "Update has been done successfully";
+    }
+
+//    @Override
+//    public String updateMaxQuantity(Integer maxQuantity, String tourName, LocalDate tourDate) {
+//       tourRepository.updateMaxQuantity(maxQuantity,tourName,tourDate);
+//        return "Update has been done successfully";
+//
+//    }
 }

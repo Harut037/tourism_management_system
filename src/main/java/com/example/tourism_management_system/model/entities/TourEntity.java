@@ -1,5 +1,7 @@
 package com.example.tourism_management_system.model.entities;
 
+import com.example.tourism_management_system.bank.api.model.enumForCard.CardType;
+import com.example.tourism_management_system.model.enums.enumForTour.Transport;
 import com.example.tourism_management_system.model.pojos.Tour;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -40,8 +42,14 @@ public class TourEntity {
     private Integer maxQuantity;
     @Column(name = "cost", nullable = false)
     private Integer cost;
+
+
+    @Column(name = "is_enable_for_booking", nullable = false)
+    private Boolean check;
     @Column(name = "active", nullable = false)
     private Boolean flag;
+
+
     @OneToMany(mappedBy = "tour")
     private List <UserInTourEntity> userInTourEntities;
     
@@ -52,10 +60,11 @@ public class TourEntity {
         setStartTime(tour.getStartTime());
         setDuration(tour.getDuration());
         setDistance(tour.getDistance());
-        setCarType(tour.getCarType());
+        setCarType(Transport.valueOf("UNDEFINED").toString());
         setGeneralQuantity(tour.getGeneralQuantity());
         setMaxQuantity(tour.getMaxQuantity());
         setCost(tour.getCost());
         setFlag(tour.getFlag());
+        setCheck(true);
     }
 }

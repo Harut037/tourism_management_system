@@ -37,9 +37,10 @@ public interface TourService {
 
     String updateCost(double newCost,String tourName, LocalDate tourDate );
 
-    String updateMaxQuantity(int newMaxQuantity,String tourName, LocalDate tourDate);
-    
     Long getId (Tour tour);
     
     TourEntity getTour (Tour tour);
+    String forQuantity();
+
+//    String updateMaxQuantity(Integer maxQuantity,String tourName, LocalDate tourDate);
 }
