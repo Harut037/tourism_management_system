@@ -4,6 +4,7 @@ import com.example.tourism_management_system.bank.api.model.enumForCard.CardType
 import com.example.tourism_management_system.bank.api.model.enumForCard.Currency;
 import com.example.tourism_management_system.bank.api.model.pojo.Card;
 import com.example.tourism_management_system.bank.api.service.impl.CardServiceImpl;
+import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -12,6 +13,7 @@ import java.util.Date;
 import java.util.Random;
 import java.util.regex.Pattern;
 
+@Component
 public class ValidationForCard {
 
     ExchangeRate exchangeRate = new ExchangeRate();

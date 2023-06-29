@@ -16,14 +16,14 @@ import java.util.Optional;
 @Service
 public class CardServiceImpl implements CardService {
 
-    ValidationForCard validationForCard = new ValidationForCard();
-
+    private final ValidationForCard validationForCard;
     private final CardRepository cardRepository;
 
 
     @Autowired
-    public CardServiceImpl (CardRepository cardRepository, CardServiceImpl cardService) {
+    public CardServiceImpl (CardRepository cardRepository, ValidationForCard validationForCard) {
         this.cardRepository = cardRepository;
+        this.validationForCard = validationForCard;
     }
 
     /**
@@ -51,8 +51,6 @@ public class CardServiceImpl implements CardService {
             return false;
         }
     }
-
-
 
     /**
      * The getCard method retrieves a CardEntity from the cardRepository based on the provided card number.

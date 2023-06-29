@@ -8,18 +8,17 @@ import com.example.tourism_management_system.bank.api.validation.ValidationForCa
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-
 @Service
 public class TransactionServiceImpl implements TransactionService {
 
     private final TransactionRepository transactionRepository;
 
-     ValidationForCard validationForCard;
+     private final ValidationForCard validationForCard;
 
     @Autowired
-    public TransactionServiceImpl(TransactionRepository transactionRepository) {
+    public TransactionServiceImpl(TransactionRepository transactionRepository, ValidationForCard validationForCard) {
         this.transactionRepository = transactionRepository;
+        this.validationForCard = validationForCard;
     }
 
     @Override
