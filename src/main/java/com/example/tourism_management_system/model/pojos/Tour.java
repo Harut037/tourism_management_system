@@ -21,7 +21,7 @@ public class Tour {
     private String duration;
     private String distance;
     private String carType;
-    private Integer generalQuantity;
+    private Integer generalQuantity ;
     private Integer maxQuantity;
     private Integer cost;
     private Boolean flag;

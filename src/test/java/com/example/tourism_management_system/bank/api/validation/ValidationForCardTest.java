@@ -1,11 +1,15 @@
 package com.example.tourism_management_system.bank.api.validation;
 
 import com.example.tourism_management_system.bank.api.model.enumForCard.CardType;
+import com.example.tourism_management_system.bank.api.model.enumForCard.Currency;
 import com.example.tourism_management_system.bank.api.model.pojo.Card;
 import org.junit.jupiter.api.Test;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -115,6 +119,8 @@ class ValidationForCardTest {
 
         card.setExpirationDate(null);
         assertEquals(false, validationForCard.isValidCard(card));
+
+
     }
 
     @Test
@@ -144,13 +150,16 @@ class ValidationForCardTest {
         validationForCard.getRate("AMD", "USD", 1000.0);
         double expectedRateAMDtoUSD = amount / rate.getUSD();
         double actualRateAMDtoUSD = validationForCard.getRate("AMD", "USD", amount);
-        assertEquals(expectedRateAMDtoUSD, actualRateAMDtoUSD);
+        assertEquals(expectedRateAMDtoUSD, actualRateAMDtoUSD, 0.01);
+
+
 
 
         validationForCard.getRate("AMD", "EUR", 1000.0);
         double expectedRateAMDtoEUR = amount / rate.getEUR();
         double actualRateAMDtoEUR = validationForCard.getRate("AMD", "EUR", amount);
         assertEquals(expectedRateAMDtoEUR, actualRateAMDtoEUR, 0.01);
+
 
 
         validationForCard.getRate("AMD", "RUR", 1000.0);

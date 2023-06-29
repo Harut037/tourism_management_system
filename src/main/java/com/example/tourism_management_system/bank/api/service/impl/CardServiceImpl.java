@@ -1,9 +1,11 @@
 package com.example.tourism_management_system.bank.api.service.impl;
 
 import com.example.tourism_management_system.bank.api.model.entity.CardEntity;
+import com.example.tourism_management_system.bank.api.model.enumForCard.Status;
 import com.example.tourism_management_system.bank.api.model.pojo.Card;
 import com.example.tourism_management_system.bank.api.repository.CardRepository;
 import com.example.tourism_management_system.bank.api.service.CardService;
+import com.example.tourism_management_system.bank.api.validation.ValidationForCard;
 import com.example.tourism_management_system.model.entities.CardEntityForUser;
 import com.example.tourism_management_system.model.pojos.CardForUser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,8 @@ import java.util.Optional;
 @Service
 public class CardServiceImpl implements CardService {
 
+    ValidationForCard validationForCard = new ValidationForCard();
+
     private final CardRepository cardRepository;
 
     @Autowired
@@ -26,10 +30,12 @@ public class CardServiceImpl implements CardService {
     /**
      * The createCard method creates a new card by converting a Card object into a CardEntity and saving it to the cardRepository.
      *
-     * @param cardForUser the Card object containing the card information to be created
+     * @param card the Card object containing the card information to be created
      */
-    public void createCard(CardForUser cardForUser) {
-        CardEntity cardEntity = new CardEntity(cardForUser);
+    public void createCard(Card card) {
+        card.setCvv(validationForCard.generateCvv());
+        card.setStatus(Status.valueOf("ACTIVE").toString());
+        CardEntity cardEntity = new CardEntity(card);
         cardRepository.save(cardEntity);
     }
 
@@ -49,11 +55,8 @@ public class CardServiceImpl implements CardService {
      *
      * @return a list of Card objects containing all the cards retrieved from the cardRepository
      */
-    public List<CardForUser> getAllCards() {
-        List<CardEntity>  cardEntities = cardRepository.findAll();
-        List<CardForUser> cardForUsers = new ArrayList<>();
-        cardEntities.forEach(card -> cardForUsers.add(new CardForUser(new Card(card))));
-        return cardForUsers;
+    public List<CardEntity> getAllCards() {
+        return cardRepository.findAll();
     }
 
 

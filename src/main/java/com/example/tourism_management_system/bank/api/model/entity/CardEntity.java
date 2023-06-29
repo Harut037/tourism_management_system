@@ -1,6 +1,7 @@
 package com.example.tourism_management_system.bank.api.model.entity;
 
 import com.example.tourism_management_system.bank.api.model.enumForCard.Status;
+import com.example.tourism_management_system.bank.api.model.pojo.Card;
 import com.example.tourism_management_system.model.pojos.CardForUser;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -10,7 +11,7 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDate;
 
 @Entity
-@Table ( name = "card" )
+@Table(name = "card")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -23,10 +24,14 @@ public class CardEntity {
     private String owner;
     @Column(name = "card_number", nullable = false)
     private String cardNumber;
+
+    @Column(name = "cvv", nullable = false)
+    private String cvv;
+
     @Column(name = "type", nullable = false)
     private String type;
     @Column(name = "balance", nullable = false)
-    private Float balance;
+    private double balance;
     @Column(name = "expiration_date", nullable = false)
     private LocalDate expirationDate;
     @Column(name = "status", nullable = false)
@@ -34,9 +39,15 @@ public class CardEntity {
     @Column(name = "currency", nullable = false)
     private String currency;
 
-    public CardEntity(CardForUser cardForUser) {
-        setCardNumber(cardForUser.getCardNumber());
-        setExpirationDate(cardForUser.getExpirationDate());
-        setStatus(Status.valueOf("ACTIVE").toString());
+
+    public CardEntity(Card card) {
+        this.owner = card.getOwner();
+        this.cardNumber = card.getCardNumber();
+        this.cvv = card.getCvv();
+        this.type = card.getType();
+        this.balance = card.getBalance();
+        this.expirationDate = card.getExpirationDate();
+        this.status = card.getStatus();
+        this.currency = card.getCurrency();
     }
 }

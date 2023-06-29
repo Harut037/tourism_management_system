@@ -68,9 +68,7 @@ public class TourServiceImpl implements TourService {
     @Override
     public Tour getById(Long id) {
         Optional<TourEntity> op = tourRepository.findById(id);
-        if (op.isPresent()) {
-            return new Tour(op.get());
-        } else return null;
+        return op.map(Tour::new).orElse(null);
     }
 
 
