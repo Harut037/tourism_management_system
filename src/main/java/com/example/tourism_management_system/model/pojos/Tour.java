@@ -4,6 +4,7 @@ import com.example.tourism_management_system.model.entities.TourEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -22,9 +23,11 @@ public class Tour {
     private String distance;
     private String carType;
     private Integer generalQuantity ;
+
+    @NonNull
     private Integer maxQuantity;
     private Integer cost;
-    private Boolean flag;
+    private Boolean flag ;
 
     public Tour(TourEntity tourEntity){
         setTourType(tourEntity.getTourType());

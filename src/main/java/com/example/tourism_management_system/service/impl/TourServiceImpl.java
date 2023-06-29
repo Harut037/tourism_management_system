@@ -142,12 +142,12 @@ public class TourServiceImpl implements TourService {
     }
 
 
-    //TODO
+
     @Override
     public String update(Tour tour,Integer quantity) {
         tourRepository.updateQuantity(tour.getGeneralQuantity() - quantity,
                 tour.getTourName(), tour.getTourDate());
-        return "USuccessfully has been deleted";
+        return "Successfully has been deleted";
     }
 
 
@@ -185,25 +185,16 @@ public class TourServiceImpl implements TourService {
     }
 
     
-    //TODO
+
     @Override
     public Long getId (Tour tour) {
  return tourRepository.findTour(tour.getTourName(),tour.getTourDate()).getId();
     }
     
-    //TODO
+
     @Override
     public TourEntity getTour (Tour tour) {
-
-        return null;
+        return tourRepository.findTour(tour.getTourName(),tour.getTourDate());
     }
 
-
-
-
-//    @Override
-//    public String updateMaxQuantity(Integer maxQuantity, String tourName, LocalDate tourDate) {
-//       tourRepository.updateMaxQuantity(maxQuantity,tourName,tourDate);
-//        return "Update has been done successfully";
-//    }
 }
