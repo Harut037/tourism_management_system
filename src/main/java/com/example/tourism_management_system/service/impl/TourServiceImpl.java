@@ -145,14 +145,14 @@ public class TourServiceImpl implements TourService {
 
     //TODO
     @Override
-    public String update(UserInTour userInTour) {
+    public String update(Integer quantity) {
 
         return null;
     }
 
 
     @Override
-    public String updateTour(Tour tour) {
+    public String update(Tour tour) {
         boolean check = false;
         if (tour.getStartTime() != null){
             check = true;
@@ -172,13 +172,6 @@ public class TourServiceImpl implements TourService {
         throw new IllegalArgumentException("All Fields Are Null");
     }
 
-    //TODO
-    @Override
-    public String removeTour(Tour tour) {
-        return null;
-
-    }
-
     @Override
     public String updateStartTime(LocalTime newStartTime, String tourName, LocalDate tourDate) {
         tourRepository.updateStartTime(newStartTime, tourName, tourDate);
@@ -196,5 +189,11 @@ public class TourServiceImpl implements TourService {
         tourRepository.updateMaxQuantity(newMaxQuantity, tourName, tourDate);
 
         return "Update has been done successfully";
+    }
+    
+    //TODO
+    @Override
+    public Long getId (Tour tour) {
+        return null;
     }
 }

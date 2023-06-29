@@ -49,11 +49,12 @@ public class UserInTourServiceImpl implements UserInTourService {
     public String cancel (UserInTour userInTour) {
         String result = userInTourRepository.cancel(userInTour.getTransactionNumber());
         if (result.equals("Successfully canceled")){
-            return tourService.update(userInTour);
+            return tourService.update(userInTour.getQuantity());
         }
         return "Not Successfully";
     }
     
+    //TODO
     @Override
     public UserInTour getUserInTour (Tour tour, String email) {
         return null;

@@ -1,7 +1,7 @@
 package com.example.tourism_management_system.controller;
 
 import com.example.tourism_management_system.model.pojos.Tour;
-import com.example.tourism_management_system.service.AdminService;
+import com.example.tourism_management_system.service.TourAdministratorService;
 import com.example.tourism_management_system.service.impl.JwtService;
 import com.example.tourism_management_system.validation.tour.ValidationForTour;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,13 +11,13 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping ( value = "/TourAdministrator" )
 public class TourAdministratorController {
     
-    private final AdminService adminService;
+    private final TourAdministratorService tourAdministratorService;
     ValidationForTour validationForTour = new ValidationForTour();
     private final JwtService jwtService;
     
     @Autowired
-    public TourAdministratorController(final AdminService adminService, JwtService jwtService) {
-        this.adminService = adminService;
+    public TourAdministratorController(TourAdministratorService tourAdministratorService, JwtService jwtService) {
+        this.tourAdministratorService = tourAdministratorService;
         this.jwtService = jwtService;
     }
     
@@ -30,7 +30,7 @@ public class TourAdministratorController {
     @PostMapping("/addTour")
     public String addTour(@RequestBody Tour tour) {
         if (validationForTour.isValidTour(tour)) {
-            return adminService.addTour(tour);
+            return tourAdministratorService.addTour(tour);
         }
         return "Invalid Tour";
     }
@@ -38,7 +38,7 @@ public class TourAdministratorController {
     @PutMapping("/editTour")
     public String editTour(@RequestBody Tour tour) {
         if (validationForTour.isValidTour(tour)) {
-            return adminService.editTour(tour);
+            return tourAdministratorService.editTour(tour);
         }
         return "Invalid Tour";
     }
@@ -46,7 +46,7 @@ public class TourAdministratorController {
     @PutMapping("/removeTour")
     public String removeTour(@RequestBody Tour tour) {
         if (validationForTour.isValidTour(tour)) {
-            return adminService.removeTour(tour);
+            return tourAdministratorService.removeTour(tour);
         }
         return "Invalid Tour";
     }

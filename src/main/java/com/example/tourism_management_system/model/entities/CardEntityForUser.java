@@ -19,6 +19,8 @@ public class CardEntityForUser {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long      id;
+    @Column(name = "owner", nullable = false)
+    private String owner;
     @Column(name = "card_number", nullable = false)
     private String    cardNumber;
     @Column(name = "cvv", nullable = false)
@@ -27,6 +29,7 @@ public class CardEntityForUser {
     private LocalDate expirationDate;
     
     public CardEntityForUser (CardForUser cardForUser) {
+        this.owner = cardForUser.getOwner();
         this.cardNumber = cardForUser.getCardNumber();
         this.cvv = cardForUser.getCvv();
         this.expirationDate = cardForUser.getExpirationDate();

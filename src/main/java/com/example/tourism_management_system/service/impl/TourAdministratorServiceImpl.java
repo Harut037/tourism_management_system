@@ -1,18 +1,18 @@
 package com.example.tourism_management_system.service.impl;
 
 import com.example.tourism_management_system.model.pojos.Tour;
-import com.example.tourism_management_system.service.AdminService;
+import com.example.tourism_management_system.service.TourAdministratorService;
 import com.example.tourism_management_system.service.TourService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AdminServiceImpl implements AdminService {
+public class TourAdministratorServiceImpl implements TourAdministratorService {
     
     private final TourService tourService;
     
     @Autowired
-    public AdminServiceImpl(TourService tourService) {
+    public TourAdministratorServiceImpl(TourService tourService) {
         this.tourService = tourService;
     }
     
@@ -23,11 +23,11 @@ public class AdminServiceImpl implements AdminService {
     
     @Override
     public String editTour (Tour tour) {
-        return tourService.updateTour(tour);
+        return tourService.update(tour);
     }
     
     @Override
     public String removeTour (Tour tour) {
-        return tourService.removeTour(tour);
+        return tourService.deleteById(tourService.getId(tour));
     }
 }

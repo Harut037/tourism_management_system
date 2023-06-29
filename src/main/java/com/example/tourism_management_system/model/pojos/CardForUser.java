@@ -13,20 +13,22 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class CardForUser {
     
+    private String owner;
     private String    cardNumber;
     private String    cvv;
     private LocalDate expirationDate;
     
     public CardForUser (CardEntityForUser cardEntityForUser) {
+        this.owner = cardEntityForUser.getOwner();
         this.cardNumber = cardEntityForUser.getCardNumber();
         this.cvv = cardEntityForUser.getCvv();
         this.expirationDate = cardEntityForUser.getExpirationDate();
     }
     
-    //TODO copy  constructor
     public CardForUser (Card card) {
+        this.owner = card.getOwner();
         this.cardNumber = card.getCardNumber();
-        //this.cvv = card.getCvv();
+        this.cvv = card.getCvv();
         this.expirationDate = card.getExpirationDate();
     }
 }

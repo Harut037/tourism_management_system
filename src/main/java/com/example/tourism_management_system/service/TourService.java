@@ -29,16 +29,15 @@ public interface TourService {
 
     List<Tour> sortByQuantity();
     
-    String update (UserInTour userInTour);
+    String update (Integer quantity);
     
-    String updateTour (Tour tour);
-    
-    String removeTour (Tour tour);
+    String update (Tour tour);
 
     String updateStartTime(LocalTime newStartTime, String tourName, LocalDate tourDate);
 
     String updateCost(double newCost,String tourName, LocalDate tourDate );
 
     String updateMaxQuantity(int newMaxQuantity,String tourName, LocalDate tourDate);
-
+    
+    Long getId (Tour tour);
 }
