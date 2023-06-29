@@ -15,9 +15,9 @@ public interface UserService {
     
     String forgotPassword(final String email);
     
-    String forgotPasswordChange(final String email, final String password);
+    Boolean resetChange(final String email, final String password);
     
-    String passwordChange(String email, String password);
+    Boolean passwordChange(String email, String password);
     
     String bookTour(BookTour bookTour, String email);
     
@@ -31,13 +31,13 @@ public interface UserService {
     
     User getInfo (String email);
     
-    String changeEmail (String email, String newEmail);
+    Boolean changeEmail (String email, String newEmail);
     
-    String changePhoneNumber (String email, String phoneNumber);
+    Boolean changePhoneNumber (String email, String phoneNumber);
     
-    String addCard (CardForUser cardForUser, String email);
+    Boolean addCard (CardForUser cardForUser, String email);
     
-    String deleteCard (CardForUser cardForUser, String email);
+    Boolean deleteCard (CardForUser cardForUser, String email);
     
     UserEntity getUser (String email);
 }

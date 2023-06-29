@@ -37,13 +37,10 @@ public class Card {
         setCvv(cardEntity.getCvv());
     }
     
-
     public Card(CardForUser cardForUser) {
         setCardNumber(cardForUser.getCardNumber());
         setOwner(cardForUser.getOwner());
         setExpirationDate(cardForUser.getExpirationDate());
         setCvv(cardForUser.getCvv());
     }
-
-
 }

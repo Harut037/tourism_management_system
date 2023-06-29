@@ -2,8 +2,6 @@ package com.example.tourism_management_system.validation.tour;
 
 import com.example.tourism_management_system.model.enums.enumForTour.*;
 import com.example.tourism_management_system.model.pojos.Tour;
-import com.example.tourism_management_system.repository.TourRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -77,75 +75,7 @@ public class ValidationForTour {
             return startTime;
         } else return null;
     }
-
-
-
-
-
-
-
-
-    /**
-     * The carType method returns the corresponding car type based on the provided car type string.
-     *
-     * @param carType the type of the car (BUS, MINIBUS, or MINIVAN)
-     * @return the corresponding car type as a string, or an error message if the car type is not recognized
-     */
-//    public String carType(String carType) {
-//        carType = carType.toUpperCase();
-//        try {
-//            switch (Transport.valueOf(carType)) {
-//                case BUS -> {
-//                    validateQuantity(carType);
-//                    return "BUS";
-//                }
-//                case MINIBUS -> {
-//                    validateQuantity(carType);
-//                    return "MINIBUS";
-//                }
-//                case MINIVAN -> {
-//                    validateQuantity(carType);
-//                    return "MINIVAN";
-//                }
-//                default -> {
-//                    throw new IllegalArgumentException("Invalid car type");
-//                }
-//            }
-//        } catch (IllegalArgumentException e) {
-//            e.getMessage();
-//        }
-//        return null;
-//    }
-
-    /**
-     * The validateQuantity method returns the maximum quantity of passengers allowed for a given car type.
-     *
-     * @param carType the type of the car (SEDAN, MINIVAN, MINIBUS, or BUS)
-     * @return the maximum quantity of passengers allowed for the given car type, or -1 if the car type is not recognized
-     */
-//    public int validateQuantity(String carType) {
-//        carType = carType.toUpperCase();
-//        try {
-//            switch (Transport.valueOf(carType)) {
-//                case MINIVAN -> {
-//                    return 7;
-//                }
-//                case MINIBUS -> {
-//                    return 17;
-//                }
-//                case BUS -> {
-//                    return 50;
-//                }
-//                default -> {
-//                    throw new IllegalArgumentException("Invalid invalid quantity for available car type");
-//                }
-//            }
-//        } catch (IllegalArgumentException i) {
-//            i.getMessage();
-//        }
-//        return -1;
-//    }
-
+    
     /**
      * The ValidateTourInformation method validates the tour name and retrieves information about the cultural tour.
      * Finding the name of the tour, it gets the parameters about it
@@ -202,8 +132,7 @@ public class ValidationForTour {
         }
         return objectList;
     }
-
-
+    
     public List<Object> forCampaign(String tourName) {
         tourName = tourName.toUpperCase();
         List<Object> objectList = null;
@@ -217,8 +146,7 @@ public class ValidationForTour {
         }
         return objectList;
     }
-
-
+    
     /**
      * The isValidTour method checks if a given tour object is valid by validating its tour name, tour date, car type, and start time.
      * If any of these validations fail, the method returns false. Otherwise, it retrieves information about the tour and updates the tour object.
@@ -240,16 +168,12 @@ public class ValidationForTour {
         tour.setFlag(true);
         return true;
     }
-
-
+    
     public boolean isEnableForBooking(Tour tour, int quantity) {
         LocalDate currentDate = LocalDate.now();
         LocalDate beforeDate = currentDate.minusDays(1);
         LocalDate tourDate = tour.getTourDate();
-        if (tourDate.isAfter(beforeDate) || (quantity + tour.getGeneralQuantity()) > tour.getMaxQuantity()) {
-            return false;
-        }
-        return true;
+        return !tourDate.isBefore(beforeDate) && (quantity + tour.getGeneralQuantity()) <= tour.getMaxQuantity();
     }
 
     public boolean isEnableForCanceling(Tour tour) {
@@ -262,7 +186,6 @@ public class ValidationForTour {
         return true;
     }
 
-
     public String forCarType(Integer quantity){
         if (quantity >= 1 && quantity <= 7){
             return Transport.MINIVAN.toString();
@@ -273,5 +196,4 @@ public class ValidationForTour {
         }
         throw new IllegalArgumentException();
     }
-
 }

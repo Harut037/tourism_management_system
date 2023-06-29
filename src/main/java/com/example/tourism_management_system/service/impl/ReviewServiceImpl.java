@@ -23,6 +23,6 @@ public class ReviewServiceImpl implements ReviewService {
     
     @Override
     public ReviewEntity getById (Long reviewId) {
-        return reviewRepository.getById(reviewId);
+        return reviewRepository.getReferenceById(reviewId);
     }
 }

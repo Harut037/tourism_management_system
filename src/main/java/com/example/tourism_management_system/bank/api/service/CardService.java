@@ -9,9 +9,9 @@ import java.util.List;
 
 public interface CardService {
 
-    Integer save(CardForUser cardForUsers);
-
     String createCard(Card card);
 
     boolean compareCard(CardForUser cardForUser);
+    
+    Card getCard (CardForUser cardForUser);
 }

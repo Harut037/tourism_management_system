@@ -2,6 +2,7 @@ package com.example.tourism_management_system.service.impl;
 
 import com.example.tourism_management_system.bank.api.model.pojo.Card;
 import com.example.tourism_management_system.bank.api.service.CardService;
+import com.example.tourism_management_system.model.entities.TourEntity;
 import com.example.tourism_management_system.model.entities.UserEntity;
 import com.example.tourism_management_system.model.entities.RoleEntity;
 import com.example.tourism_management_system.model.entities.CardEntityForUser;
@@ -9,6 +10,7 @@ import com.example.tourism_management_system.model.pojos.*;
 import com.example.tourism_management_system.repository.UserRepository;
 import com.example.tourism_management_system.service.*;
 import com.example.tourism_management_system.bank.api.service.TransactionService;
+import com.example.tourism_management_system.validation.tour.ValidationForCardForUser;
 import com.example.tourism_management_system.validation.tour.ValidationForTour;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -31,10 +33,12 @@ public class UserServiceImpl implements UserService {
     private final JwtService jwtService;
     private final RoleService roleService;
     private final CardForUserService cardForUserService;
-    private final ReviewService reviewService;
+    private final ReviewService            reviewService;
+    private final TourService tourService;
+    private final ValidationForCardForUser validationForCardForUser;
     
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, ValidationForTour validationForTour, TransactionService transactionService, CardService cardService, JwtService jwtService, RoleService roleService, CardForUserService cardForUserService, ReviewService reviewService) {
+    public UserServiceImpl(UserRepository userRepository, ValidationForTour validationForTour, TransactionService transactionService, CardService cardService, JwtService jwtService, RoleService roleService, CardForUserService cardForUserService, ReviewService reviewService, TourService tourService, ValidationForCardForUser validationForCardForUser) {
         this.userRepository = userRepository;
         this.validationForTour = validationForTour;
         this.transactionService = transactionService;
@@ -43,6 +47,8 @@ public class UserServiceImpl implements UserService {
         this.roleService = roleService;
         this.cardForUserService = cardForUserService;
         this.reviewService = reviewService;
+        this.tourService = tourService;
+        this.validationForCardForUser = validationForCardForUser;
     }
     
     @Override
@@ -93,37 +99,40 @@ public class UserServiceImpl implements UserService {
     }
     
     @Override
-    public String passwordChange(String email, String password) {
+    public Boolean passwordChange(String email, String password) {
         password = new BCryptPasswordEncoder().encode(password);
-        return userRepository.resetPassword(email, password);
+        return userRepository.resetPassword(email, password) > 0;
     }
     
     @Override
     public String forgotPassword(String email) {
-        userRepository.forgotPassword(email);
-        return jwtService.generateToken(email);
+        Optional<UserEntity> op = userRepository.findByEmail(email);
+        if (op.isPresent()) {
+            return jwtService.generateToken(email);
+        } throw new IllegalArgumentException("Not Found User With Such Email");
     }
 
     @Override
-    public String forgotPasswordChange(String email, String password) {
+    public Boolean resetChange(String email, String password) {
         password = new BCryptPasswordEncoder().encode(password);
-        return userRepository.resetPassword(email, password);
+        return userRepository.resetPassword(email, password) > 0;
     }
 
     @Override
     public String bookTour(BookTour bookTour, String email) {
+        TourEntity tourEntity = tourService.getTour(bookTour.getTour());
         User user = new User(userRepository.findByEmail(email).get());
-        UserInTour userInTour = new UserInTour(user, bookTour.getTour(), bookTour.getQuantity());
-        if (validationForTour.isEnableForBooking(bookTour.getTour(), bookTour.getQuantity())) {
-            if (userInTour.getUser().getCardForUser() == null) {
+        UserInTour userInTour = new UserInTour(user, new Tour(tourEntity), bookTour.getQuantity());
+        if (validationForTour.isEnableForBooking(new Tour(tourEntity), bookTour.getQuantity())) {
+            if (user.getCardForUser() == null) {
                 throw new IllegalArgumentException("There Is No Card For This User");
             }
-            String transactionNumber = transactionService.makeTransaction(new Card(userInTour.getUser().getCardForUser()), userInTour.getPrice());
+            String transactionNumber = transactionService.makeTransaction(cardService.getCard(user.getCardForUser()), userInTour.getPrice());
             if (transactionNumber == null || transactionNumber.equals("Not Successful")) {
                 throw new IllegalArgumentException("Not Successful Transaction Please Try Again");
             }
             userInTour.setTransactionNumber(transactionNumber);
-            userInTourService.save(userInTour);
+            userInTourService.save(userInTour, bookTour.getTour(), email);
             return "Successful";
         }
         throw new IllegalArgumentException("Not Enable For Booking");
@@ -170,30 +179,33 @@ public class UserServiceImpl implements UserService {
     }
     
     @Override
-    public String changeEmail (String email, String newEmail) {
-        return userRepository.updateEmail(email, newEmail);
+    public Boolean changeEmail (String email, String newEmail) {
+        return userRepository.updateEmail(email, newEmail) > 0;
     }
     
     @Override
-    public String changePhoneNumber (String email, String newPhoneNumber) {
-        return userRepository.updatePhoneNumber(email, newPhoneNumber);
+    public Boolean changePhoneNumber (String email, String newPhoneNumber) {
+        return userRepository.updatePhoneNumber(email, newPhoneNumber) > 0;
     }
     
     
     @Override
-    public String addCard (CardForUser cardForUser, String email) {
-        boolean isExist = cardService.compareCard(cardForUser);
-        if (isExist) {
-            CardEntityForUser card = cardForUserService.save(cardForUser);
-            return userRepository.addCard(card, email);
+    public Boolean addCard (CardForUser cardForUser, String email) {
+        if (validationForCardForUser.isValidCard(cardForUser)){
+            boolean isExist = cardService.compareCard(cardForUser);
+            if (isExist) {
+                CardEntityForUser card = cardForUserService.save(cardForUser);
+                return userRepository.addCard(card, email) > 0;
+            }
+            throw new IllegalArgumentException("Invalid");
         }
         throw new IllegalArgumentException("Wrong Card");
     }
     
     @Override
-    public String deleteCard (CardForUser cardForUser, String email) {
+    public Boolean deleteCard (CardForUser cardForUser, String email) {
         if(cardForUserService.deleteCard(cardForUser)) {
-            return userRepository.deleteCard(email);
+            return userRepository.deleteCard(email) > 0;
         }
         throw new IllegalArgumentException("Error deleting");
     }

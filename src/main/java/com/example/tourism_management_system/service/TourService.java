@@ -2,12 +2,10 @@ package com.example.tourism_management_system.service;
 
 import com.example.tourism_management_system.model.entities.TourEntity;
 import com.example.tourism_management_system.model.pojos.Tour;
-import com.example.tourism_management_system.model.pojos.UserInTour;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
-import java.util.Optional;
 
 public interface TourService {
 
@@ -29,7 +27,9 @@ public interface TourService {
 
     List<Tour> sortByQuantity();
     
-    String update (Tour tour,Integer quantity);
+    String updateForCanceling (Tour tour, Integer quantity);
+    
+    String updateForBooking (Tour tour, Integer quantity);
     
     String update (Tour tour);
 
@@ -40,6 +40,4 @@ public interface TourService {
     Long getId (Tour tour);
     
     TourEntity getTour (Tour tour);
-
-//    String updateMaxQuantity(Integer maxQuantity,String tourName, LocalDate tourDate);
 }

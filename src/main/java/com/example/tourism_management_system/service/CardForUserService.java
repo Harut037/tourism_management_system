@@ -9,7 +9,5 @@ public interface CardForUserService {
     
     CardEntityForUser save (CardForUser cardForUser);
     
-    CardEntityForUser getCard (CardForUser cardForUser);
-    
     Boolean deleteCard (CardForUser cardForUser);
 }

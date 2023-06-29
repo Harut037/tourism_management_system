@@ -18,8 +18,7 @@ public class CardServiceImpl implements CardService {
 
     private final ValidationForCard validationForCard;
     private final CardRepository cardRepository;
-
-
+    
     @Autowired
     public CardServiceImpl (CardRepository cardRepository, ValidationForCard validationForCard) {
         this.cardRepository = cardRepository;
@@ -45,11 +44,7 @@ public class CardServiceImpl implements CardService {
     public boolean compareCard(CardForUser cardForUser) {
         Optional<CardEntity> cardEntity = cardRepository.findCard(cardForUser.getCardNumber(), cardForUser.getOwner(),
                 cardForUser.getExpirationDate(), cardForUser.getCvv());
-        if (cardEntity.isPresent()) {
-            return true;
-        } else {
-            return false;
-        }
+        return cardEntity.isPresent();
     }
 
     /**
@@ -70,8 +65,7 @@ public class CardServiceImpl implements CardService {
     public List<CardEntity> getAllCards() {
         return cardRepository.findAll();
     }
-
-
+    
     /**
      * The rechargeBalance method updates the balance of a card by adding the specified amount to the existing balance.
      *
@@ -103,8 +97,7 @@ public class CardServiceImpl implements CardService {
         } else return "You don't have enough money to complete the transaction";
         return "Transaction completed successfully";
     }
-
-
+    
     /**
      * The checkBalance method retrieves the current balance of a card.
      *
@@ -115,18 +108,9 @@ public class CardServiceImpl implements CardService {
         Optional<CardEntity> cardEntity = cardRepository.findCardEntityByCardNumber(cardNumber);
         return "Your current balance` " + cardEntity.get().getBalance() + " " + cardEntity.get().getCurrency();
     }
-
-    //TODO
-    /**
-     * Overrides the default save behavior to save a list of CardEntity objects.
-     *
-     * @param cardForUsers the list of CardEntity objects to be saved
-     */
+    
     @Override
-    public Integer save(CardForUser cardForUsers) {
-
-        return null;
+    public Card getCard (CardForUser cardForUser) {
+        return new Card(cardRepository.findCardEntityByCardNumber(cardForUser.getCardNumber()).get());
     }
-    
-    
 }

@@ -39,7 +39,8 @@ public class CardController {
     public String addCard(@Valid @RequestBody Card card) {
         if (validationForCard.isValidCard(card)) {
             return cardService.createCard(card);
-        } else throw new IllegalArgumentException();
+        }
+        throw new IllegalArgumentException();
     }
 
 

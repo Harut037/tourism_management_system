@@ -2,11 +2,9 @@ package com.example.tourism_management_system.repository;
 
 import com.example.tourism_management_system.model.entities.CardEntityForUser;
 import com.example.tourism_management_system.model.entities.UserEntity;
-import com.example.tourism_management_system.model.pojos.EditInfo;
-import com.example.tourism_management_system.model.pojos.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,27 +12,53 @@ import java.sql.Date;
 import java.util.Optional;
 
 @Repository
-public interface UserRepository extends JpaRepository<UserEntity, Long> {
-
-   Optional<UserEntity> findByEmail(final String email);
-   
-    Optional<UserEntity> findByPhoneNumber(final String phone);
-
-    String forgotPassword(final String email);
-
-    String resetPassword(final String email, final String password);
+public interface UserRepository extends JpaRepository <UserEntity, Long> {
     
-    String updateEmail (String email, String newEmail);
+    @Transactional
+    @Query ( "SELECT u FROM UserEntity u  WHERE u.email = :email" )
+    Optional <UserEntity> findByEmail (final String email);
     
-    String updatePhoneNumber (String email, String newPhoneNumber);
+    @Transactional
+    @Query ("SELECT u FROM UserEntity u  WHERE u.phoneNumber = :phoneNumber")
+    Optional <UserEntity> findByPhoneNumber (final String phoneNumber);
     
-    String updateFirstName (String newFirstName, String email);
+    @Transactional
+    @Modifying
+    @Query ("UPDATE UserEntity u SET u.password = :newPassword WHERE u.email = :email")
+    int resetPassword (final String email, final String newPassword);
     
-    String updateLastName (String newLastName, String email);
+    @Transactional
+    @Modifying
+    @Query ("UPDATE UserEntity u SET u.email = :newEmail WHERE u.email = :email")
+    int updateEmail (String email, String newEmail);
     
-    String updateBirthDate (Date newBirthDate, String email);
+    @Transactional
+    @Modifying
+    @Query ("UPDATE UserEntity u SET u.phoneNumber = :newPhoneNumber WHERE u.email = :email")
+    int updatePhoneNumber (String email, String newPhoneNumber);
     
-    String addCard (CardEntityForUser card, String email);
- 
-    String deleteCard (String email);
+    @Transactional
+    @Modifying
+    @Query ("UPDATE UserEntity u SET u.firstName = :newFirstName WHERE u.email = :email")
+    void updateFirstName (String newFirstName, String email);
+    
+    @Transactional
+    @Modifying
+    @Query ("UPDATE UserEntity u SET u.lastName = :newLastName WHERE u.email = :email")
+    void updateLastName (String newLastName, String email);
+    
+    @Transactional
+    @Modifying
+    @Query ("UPDATE UserEntity u SET u.birthDate = :newBirthDate WHERE u.email = :email")
+    void updateBirthDate (Date newBirthDate, String email);
+    
+    @Transactional
+    @Modifying
+    @Query ("UPDATE UserEntity u SET u.cardEntityForUser = :newCardEntityForUser WHERE u.email = :email")
+    int addCard (CardEntityForUser newCardEntityForUser, String email);
+    
+    @Transactional
+    @Modifying
+    @Query ("UPDATE UserEntity u SET u.cardEntityForUser = null WHERE u.email = :email")
+    int deleteCard (String email);
 }

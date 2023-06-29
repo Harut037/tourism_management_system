@@ -1,6 +1,5 @@
 package com.example.tourism_management_system.model.pojos;
 
-import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

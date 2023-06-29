@@ -1,10 +1,8 @@
 package com.example.tourism_management_system.repository;
 
 import com.example.tourism_management_system.model.entities.ReviewEntity;
-import com.example.tourism_management_system.model.entities.TourEntity;
 import com.example.tourism_management_system.model.entities.UserEntity;
 import com.example.tourism_management_system.model.entities.UserInTourEntity;
-import com.example.tourism_management_system.model.pojos.UserInTour;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

@@ -36,8 +36,8 @@ public class UserInTourEntity {
     public UserInTourEntity(UserInTour userInTour) {
         this.setUser(new UserEntity(userInTour.getUser()));
         this.setTour(new TourEntity(userInTour.getTour()));
+        this.setTransactionNumber(userInTour.getTransactionNumber());
         this.setQuantity(userInTour.getQuantity());
         this.setPrice((double)this.quantity*this.tour.getCost());
     }
-    
 }

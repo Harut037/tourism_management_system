@@ -11,7 +11,7 @@ import java.time.LocalTime;
 
 
 @Data
-@NoArgsConstructor
+@NoArgsConstructor ( force = true )
 @AllArgsConstructor
 public class Tour {
     //TODO: regex and not null
@@ -38,6 +38,7 @@ public class Tour {
         setDistance(tourEntity.getDistance());
         setCarType(tourEntity.getCarType());
         setGeneralQuantity((tourEntity.getGeneralQuantity()));
+        setMaxQuantity(tourEntity.getMaxQuantity());
         setCost(tourEntity.getCost());
         setFlag(tourEntity.getFlag());
     }

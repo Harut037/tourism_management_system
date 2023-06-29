@@ -168,5 +168,4 @@ public class ValidationForCard {
         }
         return cvv.toString();
     }
-
 }

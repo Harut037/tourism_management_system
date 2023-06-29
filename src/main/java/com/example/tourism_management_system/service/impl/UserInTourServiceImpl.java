@@ -1,8 +1,8 @@
 package com.example.tourism_management_system.service.impl;
 
+import com.example.tourism_management_system.model.entities.TourEntity;
 import com.example.tourism_management_system.model.entities.UserEntity;
 import com.example.tourism_management_system.model.entities.UserInTourEntity;
-import com.example.tourism_management_system.model.pojos.BookTour;
 import com.example.tourism_management_system.model.pojos.Tour;
 import com.example.tourism_management_system.model.pojos.UserInTour;
 import com.example.tourism_management_system.repository.UserInTourRepository;
@@ -34,12 +34,18 @@ public class UserInTourServiceImpl implements UserInTourService {
     }
     
     @Override
-    public String save (UserInTour userInTour) {
-        UserInTourEntity userInTourEntity = userInTourRepository.save(new UserInTourEntity(userInTour));
+    public String save (UserInTour userInTour, Tour tour, String email) {
+        UserEntity userEntity = userService.getUser(email);
+        TourEntity tourEntity = tourService.getTour(tour);
+        UserInTourEntity userInTourEntity = new UserInTourEntity(userInTour);
+        userInTourEntity.setUser(userEntity);
+        userInTourEntity.setTour(tourEntity);
+        userInTourEntity = userInTourRepository.save(userInTourEntity);
         if (userInTourEntity.getId() != null) {
+            tourService.updateForBooking(userInTour.getTour(), userInTour.getQuantity());
             return "Successfully";
         }
-        return "Error";
+        throw new IllegalArgumentException("Error Occurred");
     }
     
     @Override
@@ -57,7 +63,7 @@ public class UserInTourServiceImpl implements UserInTourService {
     public String cancel (UserInTour userInTour) {
         int result = userInTourRepository.cancel(userInTour.getTransactionNumber());
         if (result > 0){
-            return tourService.update(userInTour.getTour(), userInTour.getQuantity());
+            return tourService.updateForCanceling(userInTour.getTour(), userInTour.getQuantity());
         }
         throw new IllegalArgumentException("Error occurred While cancelling");
     }

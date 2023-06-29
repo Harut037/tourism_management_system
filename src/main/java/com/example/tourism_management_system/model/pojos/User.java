@@ -10,7 +10,6 @@ import lombok.NonNull;
 import java.sql.Date;
 import java.util.List;
 
-
 @Data
 @NoArgsConstructor ( force = true )
 @AllArgsConstructor
@@ -21,6 +20,7 @@ public class User {
     @NonNull
     @Pattern(regexp = "[A-Z][a-z]+")
     private String lastName;
+    //TODO: validation
     @NonNull
     private Date   birthDate;
     @NonNull

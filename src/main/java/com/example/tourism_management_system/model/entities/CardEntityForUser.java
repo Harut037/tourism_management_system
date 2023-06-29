@@ -27,6 +27,8 @@ public class CardEntityForUser {
     private String    cvv;
     @Column(name = "expiration_date", nullable = false)
     private LocalDate expirationDate;
+    @Column(name = "flag", nullable = false)
+    private Boolean flag = true;
     
     public CardEntityForUser (CardForUser cardForUser) {
         this.owner = cardForUser.getOwner();

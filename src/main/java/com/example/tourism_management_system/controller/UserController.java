@@ -6,7 +6,6 @@ import com.example.tourism_management_system.service.UserService;
 import com.example.tourism_management_system.service.impl.JwtService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.lang.NonNull;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
@@ -63,7 +62,10 @@ public class UserController {
         if (email == null)
             throw new UsernameNotFoundException("No Such User");
         if (passwordChange.getNew1().equals(passwordChange.getNew2())) {
-            return userService.passwordChange(email, passwordChange.getNew1());
+            if (userService.passwordChange(email, passwordChange.getNew1())){
+                return "Success";
+            }
+            throw new IllegalArgumentException("Error Occurred");
         } else {
             throw new IllegalArgumentException("New Passwords Are Not Equal");
         }
@@ -77,20 +79,20 @@ public class UserController {
     }
 
     @PutMapping ( "/changeForgotPassword" )
-    public String changeForgotPassword (@RequestHeader(value = "Authorization") String authorizationToken,
+    public Boolean resetPassword (@RequestHeader(value = "Authorization") String authorizationToken,
                                         @Valid @RequestBody @NonNull PasswordChange passwordChange) {
         String email = jwtService.extractUsername(authorizationToken.substring(7));
         if (email == null)
             throw new UsernameNotFoundException("No Such User");
         if (passwordChange.getNew1().equals(passwordChange.getNew2())) {
-            return userService.forgotPasswordChange(email, passwordChange.getNew1());
+            return userService.resetChange(email, passwordChange.getNew1());
         } else {
             throw new IllegalArgumentException("New Passwords Are Not Equal");
         }
     }
     
     @PutMapping ( "/changeEmail" )
-    public String changeEmail (@RequestHeader(value = "Authorization") String authorizationToken,
+    public Boolean changeEmail (@RequestHeader(value = "Authorization") String authorizationToken,
                                @NonNull String newEmail) {
         String email = jwtService.extractUsername(authorizationToken.substring(7));
         if (email == null)
@@ -101,7 +103,7 @@ public class UserController {
     }
     
     @PutMapping ( "/changePhoneNumber" )
-    public String changePhoneNumber (@RequestHeader(value = "Authorization") String authorizationToken,
+    public Boolean changePhoneNumber (@RequestHeader(value = "Authorization") String authorizationToken,
                                      @Valid @RequestBody @NonNull String newPhoneNumber) {
         String email = jwtService.extractUsername(authorizationToken.substring(7));
         if (email == null)
@@ -144,7 +146,10 @@ public class UserController {
         String email = jwtService.extractUsername(authorizationToken.substring(7));
         if (email == null)
             throw new UsernameNotFoundException("No Such User");
-        return userService.addCard(cardForUser, email);
+        if (userService.addCard(cardForUser, email)){
+            return "Successfully Added Card";
+        }
+        throw new IllegalArgumentException("Error Occurred Please Try Again");
     }
     
     @PutMapping("/deleteCard")
@@ -153,7 +158,9 @@ public class UserController {
         String email = jwtService.extractUsername(authorizationToken.substring(7));
         if (email == null)
             throw new UsernameNotFoundException("No Such User");
-        return userService.deleteCard(cardForUser, email);
+        if( userService.deleteCard(cardForUser, email))
+            return "Success";
+        throw new IllegalArgumentException("Couldn't delete'");
     }
     
     @GetMapping("/logout")

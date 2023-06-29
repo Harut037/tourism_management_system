@@ -1,6 +1,7 @@
 package com.example.tourism_management_system.bank.api.service.impl;
 
 import com.example.tourism_management_system.bank.api.model.entity.TransactionEntity;
+import com.example.tourism_management_system.bank.api.model.enumForCard.Currency;
 import com.example.tourism_management_system.bank.api.model.pojo.Card;
 import com.example.tourism_management_system.bank.api.repository.TransactionRepository;
 import com.example.tourism_management_system.bank.api.service.TransactionService;
@@ -25,8 +26,9 @@ public class TransactionServiceImpl implements TransactionService {
     public String makeTransaction(Card card, double price) {
         TransactionEntity transactionEntity = new TransactionEntity(card,price);
         transactionEntity.setTransactionNumber(validationForCard.generateTransactionNumber());
+        transactionEntity.setCurrency(card.getCurrency());
         transactionRepository.save(transactionEntity);
-        return "Validation passed successfully";
+        return transactionEntity.getTransactionNumber();
     }
 
     @Override

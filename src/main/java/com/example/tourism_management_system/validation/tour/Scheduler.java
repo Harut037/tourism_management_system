@@ -15,11 +15,10 @@ import java.util.Map;
 
 @Component
 public class Scheduler {
+    
     private final TourServiceImpl tourService;
     private final JwtService jwtService;
-
     private final ValidationForTour validation;
-
     private final TourRepository tourRepository;
 
     @Autowired
@@ -34,8 +33,8 @@ public class Scheduler {
      * Deletes tours that have dates before the current date.
      * This method is scheduled to run at midnight every day.
      */
-        @Scheduled(fixedRate = 5000)
-//    @Scheduled(cron = "0 0 * * * *")
+//    @Scheduled(fixedRate = 5000)
+    @Scheduled(cron = "0 0 * * * *")
     public void deletePastDateTours() {
         LocalDate currentDate = LocalDate.now();
         List<TourEntity> tours = tourService.getAllForSchedule();

@@ -62,4 +62,14 @@ public class TourEntity {
         setCost(tour.getCost());
         setFlag(tour.getFlag());
     }
+    
+    void setMaxQuantity(int maxQuantity) {
+        if (maxQuantity>50){
+            throw new IllegalArgumentException("MaxQuantity Can Not Be More Than 50");
+        }
+        if (maxQuantity<7){
+            throw new IllegalArgumentException("MaxQuantity Can Not Be Less Than 7");
+        }
+        this.maxQuantity = maxQuantity;
+    }
 }

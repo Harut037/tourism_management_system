@@ -16,11 +16,10 @@ import java.util.Optional;
 
 @Repository
 public interface CardRepository extends JpaRepository<CardEntity, Long> {
+    
     Optional<CardEntity> findCardEntityByCardNumber(String cardNumber);
-
-
+    
     @Transactional
-    @Modifying
     @Query("SELECT c FROM CardEntity c  WHERE c.cardNumber = :cardNumber AND c.owner = :owner and c.expirationDate = :expirationDate and c.cvv = :cvv")
     Optional<CardEntity> findCard(String cardNumber, String owner, LocalDate expirationDate, String cvv);
 
