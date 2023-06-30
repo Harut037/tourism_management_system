@@ -14,7 +14,6 @@ import java.time.LocalTime;
 @NoArgsConstructor ( force = true )
 @AllArgsConstructor
 public class Tour {
-    //TODO: regex and not null
     private String tourType;
     private String tourName;
     private LocalDate tourDate;

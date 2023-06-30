@@ -14,4 +14,6 @@ public interface CardService {
     boolean compareCard(CardForUser cardForUser);
     
     Card getCard (CardForUser cardForUser);
+
+
 }

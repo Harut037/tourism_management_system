@@ -23,4 +23,11 @@ public interface CardRepository extends JpaRepository<CardEntity, Long> {
     @Query("SELECT c FROM CardEntity c  WHERE c.cardNumber = :cardNumber AND c.owner = :owner and c.expirationDate = :expirationDate and c.cvv = :cvv")
     Optional<CardEntity> findCard(String cardNumber, String owner, LocalDate expirationDate, String cvv);
 
+
+    @Transactional
+    @Query("SELECT c FROM CardEntity c  WHERE c.cardNumber = :cardNumber")
+    Optional<CardEntity> findCardWithNumber(String cardNumber);
+
+
+
 }
