@@ -16,7 +16,7 @@ public interface TransactionRepository extends JpaRepository<TransactionEntity,L
     @Transactional
     @Modifying
     @Query("UPDATE TransactionEntity t SET t.flag = false  where t.transactionNumber = :transactionNumber")
-    String revert(String transactionNumber);
+    void revert(String transactionNumber);
 
 
     @Transactional

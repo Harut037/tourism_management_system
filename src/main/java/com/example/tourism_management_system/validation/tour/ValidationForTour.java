@@ -171,19 +171,16 @@ public class ValidationForTour {
     
     public boolean isEnableForBooking(Tour tour, int quantity) {
         LocalDate currentDate = LocalDate.now();
-        LocalDate beforeDate = currentDate.minusDays(1);
+        LocalDate beforeDate = currentDate.minusDays(2);
         LocalDate tourDate = tour.getTourDate();
         return !tourDate.isBefore(beforeDate) && (quantity + tour.getGeneralQuantity()) <= tour.getMaxQuantity();
     }
 
     public boolean isEnableForCanceling(Tour tour) {
         LocalDate currentDate = LocalDate.now();
-        LocalDate beforeDate = currentDate.minusDays(1);
+        LocalDate beforeDate = currentDate.minusDays(2);
         LocalDate tourDate = tour.getTourDate();
-        if (tourDate.isAfter(beforeDate)) {
-            return false;
-        }
-        return true;
+        return !tourDate.isBefore(beforeDate);
     }
 
     public String forCarType(Integer quantity){

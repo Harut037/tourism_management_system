@@ -12,9 +12,9 @@ public enum PlacesForCultural {
     JERMUK(400, 13, 14000),
     TATEV(630, 16, 18000);
 
-    private int duration;
-    private int distance;
-    private int cost;
+    private final int duration;
+    private final int distance;
+    private final int cost;
 
     public int getDuration() {
         return duration;

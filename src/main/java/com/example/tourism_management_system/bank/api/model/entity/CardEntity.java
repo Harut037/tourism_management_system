@@ -24,10 +24,8 @@ public class CardEntity {
     private String owner;
     @Column(name = "card_number", nullable = false)
     private String cardNumber;
-
     @Column(name = "cvv", nullable = false)
     private String cvv;
-
     @Column(name = "type", nullable = false)
     private String type;
     @Column(name = "balance", nullable = false)
@@ -38,7 +36,6 @@ public class CardEntity {
     private String status;
     @Column(name = "currency", nullable = false)
     private String currency;
-
 
     public CardEntity(Card card) {
         this.owner = card.getOwner();

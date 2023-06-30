@@ -10,6 +10,7 @@ import lombok.NonNull;
 @NoArgsConstructor ( force = true )
 @AllArgsConstructor
 public class AuthRequest {
+    
     @NonNull
     @Pattern(regexp = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z]{2,}$", message = "Invalid Email Pattern")
     private String email;

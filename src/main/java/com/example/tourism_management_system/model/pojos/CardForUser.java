@@ -18,16 +18,12 @@ public class CardForUser {
     @NonNull
     @Pattern(regexp = "^[A-Z]+\\s[A-Z]+$")
     private String owner;
-    
     @NonNull
     @Pattern(regexp = "\\d{15,16}")
     private String    cardNumber;
-    
     @NonNull
     @Pattern(regexp = "\\d{3}")
     private String    cvv;
-    
-    //TODO: validation
     @NonNull
     private LocalDate expirationDate;
     

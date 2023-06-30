@@ -1,6 +1,5 @@
 package com.example.tourism_management_system.model.entities;
 
-import com.example.tourism_management_system.bank.api.model.enumForCard.CardType;
 import com.example.tourism_management_system.model.enums.enumForTour.Transport;
 import com.example.tourism_management_system.model.pojos.Tour;
 import jakarta.persistence.*;
@@ -44,8 +43,6 @@ public class TourEntity {
     private Integer cost;
     @Column(name = "active", nullable = false)
     private Boolean flag;
-
-
     @OneToMany(mappedBy = "tour")
     private List <UserInTourEntity> userInTourEntities;
     

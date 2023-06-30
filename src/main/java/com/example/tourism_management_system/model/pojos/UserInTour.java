@@ -21,6 +21,11 @@ public class UserInTour {
         this.setUser(new User(userInTourEntity.getUser()));
         this.setTour(new Tour(userInTourEntity.getTour()));
         this.setQuantity(userInTourEntity.getQuantity());
+        this.setPrice(userInTourEntity.getPrice());
+        this.setTransactionNumber(userInTourEntity.getTransactionNumber());
+        if (userInTourEntity.getReviewEntity() != null) {
+            this.setReview(new Review(userInTourEntity.getReviewEntity()));
+        }
     }
     
     public UserInTour (User user, Tour tour, Integer quantity1) {

@@ -53,8 +53,6 @@ public class UserEntity {
         this.setBirthDate(user.getBirthDate());
         this.setPassword(user.getPassword());
         this.setPhoneNumber(user.getPhoneNumber());
-//        this.setCardEntityForUser(new CardEntityForUser(user.getCardForUser()));
-//        this.setUserInTourEntities(castUserInTour(user.getUserInTour()));
     }
     
     public void setPassword(String password){

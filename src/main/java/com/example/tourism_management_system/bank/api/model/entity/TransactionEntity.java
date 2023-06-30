@@ -38,7 +38,7 @@ public class TransactionEntity {
 
     public TransactionEntity(Card card, double price) {
         setSender(card.getCardNumber());
-        setReceiver("4847040004125360");
+        setReceiver("4847243400981111");
         setDate(LocalDate.now().toString());
         setCurrency(card.getCurrency());
         setPrice(price);

@@ -16,5 +16,6 @@ public class EditInfo {
     private String firstName;
     @Pattern(regexp = "[A-Z][a-z]+")
     private String lastName;
+    //TODO: validation
     private Date birthDate;
 }

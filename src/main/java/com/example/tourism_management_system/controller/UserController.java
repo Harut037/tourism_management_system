@@ -124,7 +124,7 @@ public class UserController {
     
     @PutMapping("/cancelTour")
     public String cancelTour (@RequestHeader(value = "Authorization") String authorizationToken,
-                              @NonNull String transactionNumber) {
+                              @RequestBody @NonNull String transactionNumber) {
         String email = jwtService.extractUsername(authorizationToken.substring(7));
         if (email == null)
             throw new UsernameNotFoundException("No Such User");

@@ -9,9 +9,9 @@ public class ExchangeRate {
 
     public ExchangeRate() {
         this.AMD = 1;
-        this.USD = 385.94;
-        this.RUR = 4.83;
-        this.EUR = 415.16;
+        this.USD = 385.05;
+        this.RUR = 4.41;
+        this.EUR = 421.91;
     }
 
     public double getUSD() {

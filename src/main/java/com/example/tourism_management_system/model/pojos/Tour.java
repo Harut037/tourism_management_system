@@ -15,7 +15,9 @@ import java.time.LocalTime;
 @AllArgsConstructor
 public class Tour {
     private String tourType;
+    @NonNull
     private String tourName;
+    @NonNull
     private LocalDate tourDate;
     private LocalTime startTime;
     private String duration;

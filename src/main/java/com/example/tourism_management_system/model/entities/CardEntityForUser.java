@@ -1,7 +1,6 @@
 package com.example.tourism_management_system.model.entities;
 
 import com.example.tourism_management_system.model.pojos.CardForUser;
-import com.example.tourism_management_system.model.pojos.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

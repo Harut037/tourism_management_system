@@ -15,8 +15,8 @@ import java.util.regex.Pattern;
 @Component
 public class ValidationForCard {
 
-    ExchangeRate exchangeRate = new ExchangeRate();
-
+    private final ExchangeRate exchangeRate = new ExchangeRate();
+    
     /**
      * The cardNumberValidation method validates a given card number and determines its card type.
      *
@@ -28,7 +28,6 @@ public class ValidationForCard {
         String masterCard = "^(5[1-5][0-9]{14})|(56[0-9]{14})$";
         String americanExpress = "^3[47][0-9]{13}$";
         String arca = "^90[0-9]{14}$";
-
         if (Pattern.matches(visa, cardNumber)) {
             validateForCardType("VISA");
             return cardNumber;
@@ -42,7 +41,7 @@ public class ValidationForCard {
             validateForCardType("ARCA");
             return cardNumber;
         } else {
-            return "Invalid card number";
+            throw new IllegalArgumentException("Invalid card");
         }
     }
 
@@ -108,14 +107,7 @@ public class ValidationForCard {
      */
     public boolean isValidCard(Card card) {
         try {
-            if (cardNumberValidation(card.getCardNumber()).equals("Invalid card number")
-                    || validateForCardType(card.getType()).equals("Invalid card type")
-                    || validateExpirationDate(card.getExpirationDate()) == null
-                    || Currency.valueOf(card.getCurrency()).toString() == null) {
-                return false;
-            } else {
-                return true;
-            }
+            return !cardNumberValidation(card.getCardNumber()).equals("Invalid card number") && !validateForCardType(card.getType()).equals("Invalid card type") && validateExpirationDate(card.getExpirationDate()) != null && Currency.valueOf(card.getCurrency()).toString() != null;
         } catch (IllegalArgumentException e) {
             return false;
         }
@@ -130,8 +122,8 @@ public class ValidationForCard {
      * @return the converted amount in the specified currency type, based on the exchange rates
      */
     public double getRate(String currencyTypeOne, String currencyTypeTwo, double amount) {
-        double sendAmount = 1;
-        double receiveAmount = 1;
+        double sendAmount;
+        double receiveAmount;
         sendAmount = switch (Currency.valueOf(currencyTypeOne)) {
             case RUR -> amount * exchangeRate.getRUR();
             case USD -> amount * exchangeRate.getUSD();

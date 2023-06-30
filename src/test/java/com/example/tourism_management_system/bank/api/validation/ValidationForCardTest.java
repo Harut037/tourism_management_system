@@ -1,20 +1,16 @@
 package com.example.tourism_management_system.bank.api.validation;
 
-import com.example.tourism_management_system.bank.api.model.enumForCard.CardType;
-import com.example.tourism_management_system.bank.api.model.enumForCard.Currency;
 import com.example.tourism_management_system.bank.api.model.pojo.Card;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class ValidationForCardTest {
-
+    
     @Test
     void cardNumberValidation() {
         ValidationForCard validationForCard = new ValidationForCard();

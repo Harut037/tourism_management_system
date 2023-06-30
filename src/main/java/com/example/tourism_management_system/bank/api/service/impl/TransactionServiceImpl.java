@@ -32,9 +32,9 @@ public class TransactionServiceImpl implements TransactionService {
     public String makeTransaction(Card card, double price) {
         TransactionEntity transactionEntity = new TransactionEntity(card, price);
         if (card.getBalance() >= price) {
-            cardService.withdrawBalance(card.getCardNumber(), price);
-            double d = validationForCard.getRate(card.getCurrency(), "AMD", price);
-            cardService.rechargeBalance("4847243400981111", d);
+            double d = validationForCard.getRate("AMD", card.getCurrency(), price);
+            cardService.withdrawBalance(card.getCardNumber(), d);
+            cardService.rechargeBalance("4847243400981111", price);
             transactionEntity.setTransactionNumber(validationForCard.generateTransactionNumber());
             transactionEntity.setCurrency(card.getCurrency());
             transactionRepository.save(transactionEntity);
@@ -49,10 +49,13 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public String revertTransaction(String transactionNumber) {
         Optional<TransactionEntity> transactionEntity = transactionRepository.findTransaction(transactionNumber);
-        cardService.withdrawBalance(transactionEntity.get().getReceiver(), transactionEntity.get().getPrice());
-        CardEntity cardEntity = cardService.getCard(transactionEntity.get().getSender()).get();
-        double d = validationForCard.getRate("AMD", cardEntity.getCurrency(), transactionEntity.get().getPrice());
-        cardService.rechargeBalance(transactionEntity.get().getSender(), d);
-        return transactionRepository.revert(transactionNumber);
+        if (transactionEntity.isPresent() && transactionEntity.get().getFlag()) {
+            cardService.withdrawBalance(transactionEntity.get().getReceiver(), transactionEntity.get().getPrice());
+            CardEntity cardEntity = cardService.getCard(transactionEntity.get().getSender()).get();
+            double     d          = validationForCard.getRate("AMD", cardEntity.getCurrency(), transactionEntity.get().getPrice());
+            cardService.rechargeBalance(transactionEntity.get().getSender(), d);
+            transactionRepository.revert(transactionNumber);
+            return "Success";
+        } throw new IllegalArgumentException("Transaction Is Already Reverted");
     }
 }

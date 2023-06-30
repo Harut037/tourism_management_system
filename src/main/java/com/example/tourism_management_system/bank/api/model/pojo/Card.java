@@ -25,7 +25,6 @@ public class Card {
     private String cvv;
     private String currency;
     
-
     public Card(CardEntity cardEntity) {
         setCardNumber(cardEntity.getCardNumber());
         setOwner(cardEntity.getOwner());
