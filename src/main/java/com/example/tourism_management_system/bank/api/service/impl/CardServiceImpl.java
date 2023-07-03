@@ -34,7 +34,7 @@ public class CardServiceImpl implements CardService {
     @Override
     public String createCard(Card card) {
         card.setCvv(validationForCard.generateCvv());
-        card.setStatus(Status.valueOf("ACTIVE").toString());
+        card.setStatus(Status.ACTIVE);
         CardEntity cardEntity = new CardEntity(card);
         cardRepository.save(cardEntity);
         return "Card created successfully";
