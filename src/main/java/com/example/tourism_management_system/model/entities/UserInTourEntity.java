@@ -4,17 +4,17 @@ import com.example.tourism_management_system.model.pojos.UserInTour;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+@EqualsAndHashCode ( callSuper = true )
 @Entity
 @Table(name = "user_in_tour")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserInTourEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class UserInTourEntity extends BaseEntity {
+    
     @ManyToOne
     @JoinColumn(name = "user_id")
     private UserEntity user;
@@ -30,8 +30,6 @@ public class UserInTourEntity {
     private Double price;
     @Column(name = "transaction_number", nullable = false, unique = true)
     private String transactionNumber;
-    @Column(name = "flag", nullable = false)
-    private Boolean flag = true;
 
     public UserInTourEntity(UserInTour userInTour) {
         this.setUser(new UserEntity(userInTour.getUser()));

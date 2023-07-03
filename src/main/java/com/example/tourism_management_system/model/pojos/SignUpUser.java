@@ -1,6 +1,5 @@
 package com.example.tourism_management_system.model.pojos;
 
-import com.example.tourism_management_system.model.entities.UserEntity;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,17 +7,17 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Data
 @NoArgsConstructor ( force = true )
 @AllArgsConstructor
-public class User {
+public class SignUpUser {
+    
     @NonNull
-    @Pattern(regexp = "[A-Z][a-z]+")
-    private String firstName;
+    @Pattern (regexp = "[A-Z][a-z]+", message = "Invalid First Name Pattern")
+    private String    firstName;
     @NonNull
-    @Pattern(regexp = "[A-Z][a-z]+")
+    @Pattern(regexp = "[A-Z][a-z]+", message = "Invalid Last Name Pattern")
     private String    lastName;
     //TODO: validation
     @NonNull
@@ -32,14 +31,4 @@ public class User {
     @NonNull
     @Pattern(regexp = "\\+374\\d{8}", message = "Invalid Phone Number Pattern")
     private String            phoneNumber;
-    private CardForUser       cardForUser;
-    private List <UserInTour> userInTour;
-
-    public User(UserEntity user) {
-        this.setPhoneNumber(user.getPhoneNumber());
-        this.setEmail(user.getEmail());
-        this.setPassword(user.getPassword());
-        this.setPhoneNumber(user.getPhoneNumber());
-        this.setCardForUser(new CardForUser(user.getCardEntityForUser()));
-    }
 }

@@ -193,4 +193,9 @@ public class ValidationForTour {
         }
         throw new IllegalArgumentException();
     }
+    
+    public boolean isValidTourForEdit (Tour tour) {
+        
+        return false;
+    }
 }

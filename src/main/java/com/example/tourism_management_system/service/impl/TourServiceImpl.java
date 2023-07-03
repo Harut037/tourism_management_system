@@ -51,7 +51,17 @@ public class TourServiceImpl implements TourService {
         }
         return list;
     }
-
+    
+    @Override
+    public List <Tour> getAllActiveTours () {
+        List<Tour> list = new ArrayList<>();
+        List<TourEntity> listEntity = tourRepository.findAllActiveTours();
+        for (TourEntity i : listEntity) {
+            list.add(new Tour(i));
+        }
+        return list;
+    }
+    
     @Override
     public List<TourEntity> getAllForSchedule() {
         return tourRepository.findAll();
@@ -153,7 +163,7 @@ public class TourServiceImpl implements TourService {
         boolean check = false;
         if (tour.getStartTime() != null){
             check = true;
-            updateStartTime(tour.getStartTime(),tour.getTourName(),tour.getTourDate());
+            updateStartTime(tour.getStartTime(), tour.getTourName(), tour.getTourDate());
         }
         if (tour.getCost() != null){
             check = true;

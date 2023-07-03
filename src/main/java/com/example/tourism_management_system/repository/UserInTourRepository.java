@@ -1,6 +1,7 @@
 package com.example.tourism_management_system.repository;
 
 import com.example.tourism_management_system.model.entities.ReviewEntity;
+import com.example.tourism_management_system.model.entities.TourEntity;
 import com.example.tourism_management_system.model.entities.UserEntity;
 import com.example.tourism_management_system.model.entities.UserInTourEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -19,8 +20,12 @@ public interface UserInTourRepository extends JpaRepository<UserInTourEntity, Lo
     List<UserInTourEntity> findByUser (UserEntity user);
     
     @Transactional
+    @Query("SELECT u FROM UserInTourEntity u WHERE u.tour = :tour")
+    List<UserInTourEntity> findByTour(TourEntity tour);
+    
+    @Transactional
     @Modifying
-    @Query("UPDATE UserInTourEntity u SET u.flag = false where u.transactionNumber = :transactionNumber")
+    @Query("UPDATE UserInTourEntity u SET u.status = 'CANCELED' where u.transactionNumber = :transactionNumber")
     int cancel (String transactionNumber);
     
     @Transactional

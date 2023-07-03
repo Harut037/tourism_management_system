@@ -77,4 +77,13 @@ public class UserInTourServiceImpl implements UserInTourService {
     public Integer addReview (UserInTour userInTour, Long reviewId) {
         return userInTourRepository.addReview(userInTourRepository.getId(userInTour.getTransactionNumber()), reviewService.getById(reviewId));
     }
+    
+    @Override
+    public List <UserInTour> findByTour (Tour tour) {
+        TourEntity tourEntity = tourService.getTour(tour);
+        List<UserInTourEntity> userInTourEntities = userInTourRepository.findByTour(tourEntity);
+        List<UserInTour> userInTours = new ArrayList <>();
+        userInTourEntities.forEach(userInTourEntity -> userInTours.add(new UserInTour(userInTourEntity)));
+        return userInTours;
+    }
 }

@@ -41,6 +41,5 @@ public class Tour {
         setGeneralQuantity((tourEntity.getGeneralQuantity()));
         setMaxQuantity(tourEntity.getMaxQuantity());
         setCost(tourEntity.getCost());
-        setFlag(tourEntity.getFlag());
     }
 }

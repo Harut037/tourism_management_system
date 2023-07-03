@@ -14,10 +14,10 @@ import java.util.Optional;
 
 @Repository
 public interface TourRepository extends JpaRepository<TourEntity, Long> {
-
+    
     @Transactional
-    @Query("SELECT t FROM TourEntity t WHERE t.flag = true")
-    List<TourEntity> findAll();
+    @Query("SELECT t FROM TourEntity t WHERE t.status = 'ACTIVE'")
+    List<TourEntity> findAllActiveTours();
     
     @Transactional
     @Query("SELECT t FROM TourEntity t WHERE t.tourName = :tourName and t.tourDate = :tourDate")
@@ -43,7 +43,7 @@ public interface TourRepository extends JpaRepository<TourEntity, Long> {
 
     @Transactional
     @Modifying
-    @Query("UPDATE TourEntity t set t.flag = false where t.id =:id")
+    @Query("UPDATE TourEntity t set t.status = 'DELETED' where t.id =:id")
     void flag(Long id);
     
     @Transactional

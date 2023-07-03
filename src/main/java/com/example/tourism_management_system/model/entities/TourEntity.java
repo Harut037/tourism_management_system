@@ -5,22 +5,22 @@ import com.example.tourism_management_system.model.pojos.Tour;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalTime;
 import java.time.LocalDate;
 import java.util.List;
 
+@EqualsAndHashCode ( callSuper = true )
 @Entity
 @Table(name = "Tour", uniqueConstraints = {
         @UniqueConstraint(columnNames = {"tour_name", "tour_date"})})
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class TourEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class TourEntity extends BaseEntity {
+    
     @Column(name = "tour_type", nullable = false)
     private String tourType;
     @Column(name = "tour_name", nullable = false)
@@ -41,8 +41,6 @@ public class TourEntity {
     private Integer maxQuantity;
     @Column(name = "cost", nullable = false)
     private Integer cost;
-    @Column(name = "active", nullable = false)
-    private Boolean flag;
     @OneToMany(mappedBy = "tour")
     private List <UserInTourEntity> userInTourEntities;
     
@@ -57,7 +55,6 @@ public class TourEntity {
         setGeneralQuantity(tour.getGeneralQuantity());
         setMaxQuantity(tour.getMaxQuantity());
         setCost(tour.getCost());
-        setFlag(tour.getFlag());
     }
     
     void setMaxQuantity(int maxQuantity) {

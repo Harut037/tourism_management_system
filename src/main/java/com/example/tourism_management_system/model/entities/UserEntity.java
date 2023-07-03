@@ -1,42 +1,41 @@
 package com.example.tourism_management_system.model.entities;
 
+import com.example.tourism_management_system.model.enums.Status;
+import com.example.tourism_management_system.model.pojos.SignUpUser;
 import com.example.tourism_management_system.model.pojos.User;
 import com.example.tourism_management_system.model.pojos.UserInTour;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+@EqualsAndHashCode ( callSuper = true )
 @Entity
 @Table ( name = "user_entity" )
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserEntity {
+public class UserEntity extends BaseEntity {
     
-    @Id
-    @GeneratedValue ( strategy = GenerationType.IDENTITY )
-    private Long              id;
     @Column ( nullable = false, length = 50 )
     private String            firstName;
     @Column ( nullable = false, length = 50 )
     private String            lastName;
     @Column ( nullable = false, length = 50, unique = true )
-    private String            email;
+    private String    email;
     @Column ( nullable = false )
-    private Date              birthDate;
+    private LocalDate birthDate;
     @Column ( nullable = false )
-    private String            password;
+    private String    password;
     @Column ( nullable = false, length = 12, unique = true )
     private String            phoneNumber;
-    @Column ( nullable = false )
-    private Boolean           flag = true;
     @OneToOne
     @JoinColumn ( name = "role_id" )
     private RoleEntity              roleEntity;
@@ -53,6 +52,16 @@ public class UserEntity {
         this.setBirthDate(user.getBirthDate());
         this.setPassword(user.getPassword());
         this.setPhoneNumber(user.getPhoneNumber());
+    }
+    
+    public UserEntity (SignUpUser signUpUser) {
+        this.setFirstName(signUpUser.getFirstName());
+        this.setLastName(signUpUser.getLastName());
+        this.setEmail(signUpUser.getEmail());
+        this.setBirthDate(signUpUser.getBirthDate());
+        this.setPassword(signUpUser.getPassword());
+        this.setPhoneNumber(signUpUser.getPhoneNumber());
+        this.setStatus(Status.ACTIVE);
     }
     
     public void setPassword(String password){
