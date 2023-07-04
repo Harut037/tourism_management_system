@@ -1,6 +1,7 @@
 package com.example.tourism_management_system.model.entities;
 
 import com.example.tourism_management_system.model.enums.Role;
+import com.example.tourism_management_system.model.enums.Status;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,7 +12,6 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "role")
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
 public class RoleEntity extends BaseEntity {
     
@@ -19,6 +19,10 @@ public class RoleEntity extends BaseEntity {
     private Boolean userRole;
     @Column(name = "tour_administrator_role", nullable = false)
     private Boolean tourAdministratorRole;
+    
+    public RoleEntity () {
+        this.setStatus(Status.ACTIVE);
+    }
     
     @Override
     public String toString () {

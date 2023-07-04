@@ -26,22 +26,20 @@ public class ValidationForTour {
         tourName = tourName.toUpperCase();
         try {
             switch (TourType.valueOf(tourType).toString()) {
-                case "CULTURAL": {
+                case "CULTURAL" -> {
                     return PlacesForCultural.valueOf(tourName).toString();
                 }
-                case "CAMPAIGN": {
+                case "CAMPAIGN" -> {
                     return PlacesForCampaign.valueOf(tourName).toString();
                 }
-                case "ADVENTURE": {
+                case "ADVENTURE" -> {
                     return PlacesForAdventure.valueOf(tourName).toString();
                 }
-                default:
-                    throw new IllegalArgumentException();
+                default -> throw new IllegalArgumentException();
             }
         } catch (IllegalArgumentException i) {
-            i.getMessage();
+            throw new IllegalArgumentException(i.getMessage());
         }
-        return null;
     }
 
     /**
@@ -100,9 +98,8 @@ public class ValidationForTour {
                 default -> throw new IllegalArgumentException();
             }
         } catch (IllegalArgumentException e) {
-            e.getMessage();
+            throw new IllegalArgumentException(e.getMessage());
         }
-        return null;
     }
 
     public List<Object> forCultural(String tourName) {
@@ -165,13 +162,26 @@ public class ValidationForTour {
         tour.setDistance(list.get(1) + " km");
         tour.setDuration(list.get(2) + " hours");
         if (tour.getCost() != null){
-            if (tour.getCost() >= 3000 && tour.getCost() <= 30000){
-                tour.setCost(tour.getCost());
-            }else throw new IllegalArgumentException("The cost cannot be more expensive than 3000 and  cannot be cheaper than 30000");
+            if (tour.getCost() < 3000){
+                throw new IllegalArgumentException("The cost cannot be cheaper than 3000");
+            }
+            if (tour.getCost() > 30000){
+                throw new IllegalArgumentException("The cost cannot be more expensive than 30000");
+            }
         }else {
             tour.setCost((Integer) list.get(3));
         }
-        tour.setFlag(true);
+        if (tour.getMaxQuantity() != null){
+            if (tour.getMaxQuantity()>50){
+                throw new IllegalArgumentException("MaxQuantity Can Not Be More Than 50");
+            }
+            if (tour.getMaxQuantity()<7){
+                throw new IllegalArgumentException("MaxQuantity Can Not Be Less Than 7");
+            }
+        } else {
+            tour.setMaxQuantity(50);
+        }
+        tour.setGeneralQuantity(0);
         return true;
     }
     
@@ -198,10 +208,5 @@ public class ValidationForTour {
             return Transport.BUS.toString();
         }
         throw new IllegalArgumentException();
-    }
-    
-    public boolean isValidTourForEdit (Tour tour) {
-        
-        return false;
     }
 }

@@ -1,5 +1,6 @@
 package com.example.tourism_management_system.model.entities;
 
+import com.example.tourism_management_system.model.enums.Status;
 import com.example.tourism_management_system.model.enums.enumForTour.Transport;
 import com.example.tourism_management_system.model.pojos.Tour;
 import jakarta.persistence.*;
@@ -33,8 +34,9 @@ public class TourEntity extends BaseEntity {
     private String distance;
     @Column(name = "duration", nullable = false)
     private String duration;
+    @Enumerated ( EnumType.STRING )
     @Column(name = "car_type", nullable = false)
-    private String carType;
+    private Transport carType;
     @Column(name = "general_quantity", nullable = false)
     private Integer generalQuantity;
     @Column(name = "max_quantity", nullable = false)
@@ -51,10 +53,11 @@ public class TourEntity extends BaseEntity {
         setStartTime(tour.getStartTime());
         setDuration(tour.getDuration());
         setDistance(tour.getDistance());
-        setCarType(Transport.valueOf("UNDEFINED").toString());
-        setGeneralQuantity(0);
+        setCarType(Transport.UNDEFINED);
+        setGeneralQuantity(tour.getGeneralQuantity());
         setMaxQuantity(tour.getMaxQuantity());
         setCost(tour.getCost());
+        setStatus(Status.ACTIVE);
     }
     
     void setMaxQuantity(int maxQuantity) {

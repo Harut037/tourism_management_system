@@ -1,5 +1,6 @@
 package com.example.tourism_management_system.model.entities;
 
+import com.example.tourism_management_system.model.enums.Status;
 import com.example.tourism_management_system.model.pojos.CardForUser;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -31,5 +32,6 @@ public class CardEntityForUser extends BaseEntity {
         this.cardNumber = cardForUser.getCardNumber();
         this.cvv = cardForUser.getCvv();
         this.expirationDate = cardForUser.getExpirationDate();
+        this.setStatus(Status.ACTIVE);
     }
 }

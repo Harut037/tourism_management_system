@@ -2,8 +2,6 @@ package com.example.tourism_management_system.model.entities;
 
 import com.example.tourism_management_system.model.enums.Status;
 import com.example.tourism_management_system.model.pojos.SignUpUser;
-import com.example.tourism_management_system.model.pojos.User;
-import com.example.tourism_management_system.model.pojos.UserInTour;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,8 +10,6 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @EqualsAndHashCode ( callSuper = true )
@@ -42,17 +38,8 @@ public class UserEntity extends BaseEntity {
     @OneToOne
     @JoinColumn(name = "card_id")
     private CardEntityForUser       cardEntityForUser;
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private List <UserInTourEntity> userInTourEntities;
-    
-    public UserEntity (User user) {
-        this.setFirstName(user.getFirstName());
-        this.setLastName(user.getLastName());
-        this.setEmail(user.getEmail());
-        this.setBirthDate(user.getBirthDate());
-        this.setPassword(user.getPassword());
-        this.setPhoneNumber(user.getPhoneNumber());
-    }
     
     public UserEntity (SignUpUser signUpUser) {
         this.setFirstName(signUpUser.getFirstName());
@@ -66,14 +53,5 @@ public class UserEntity extends BaseEntity {
     
     public void setPassword(String password){
         this.password = new BCryptPasswordEncoder().encode(password);
-    }
-    
-    private List <UserInTourEntity> castUserInTour (List <UserInTour> userInTour) {
-        if ( userInTour != null ){
-            List <UserInTourEntity> userInTourEntities = new ArrayList <>();
-            userInTour.forEach(userInTourEntity -> userInTourEntities.add(new UserInTourEntity(userInTourEntity)));
-            return userInTourEntities;
-        }
-        return Collections.emptyList();
     }
 }

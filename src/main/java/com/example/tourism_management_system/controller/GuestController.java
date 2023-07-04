@@ -3,7 +3,6 @@ package com.example.tourism_management_system.controller;
 import com.example.tourism_management_system.model.pojos.AuthRequest;
 import com.example.tourism_management_system.model.pojos.SignUpUser;
 import com.example.tourism_management_system.model.pojos.Tour;
-import com.example.tourism_management_system.model.pojos.User;
 import com.example.tourism_management_system.service.TourService;
 import com.example.tourism_management_system.service.UserService;
 import com.example.tourism_management_system.service.impl.JwtService;
@@ -35,8 +34,8 @@ public class GuestController {
         this.authenticationManager = authenticationManager;
     }
     
-    @GetMapping ( "/getAllTours" )
-    public @ResponseBody List <Tour> getAllTours () {
+    @GetMapping ( "/getAllActiveTours" )
+    public @ResponseBody List <Tour> getAllActiveTours () {
         return tourService.getAllActiveTours();
     }
     

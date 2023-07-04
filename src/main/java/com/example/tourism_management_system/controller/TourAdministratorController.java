@@ -1,5 +1,6 @@
 package com.example.tourism_management_system.controller;
 
+import com.example.tourism_management_system.model.pojos.CreateTour;
 import com.example.tourism_management_system.model.pojos.Tour;
 import com.example.tourism_management_system.model.pojos.UserInTour;
 import com.example.tourism_management_system.service.TourAdministratorService;
@@ -35,25 +36,25 @@ public class TourAdministratorController {
     }
     
     @PostMapping("/addTour")
-    public String addTour(@RequestBody Tour tour) {
-        if (validationForTour.isValidTour(tour)) {
-            return tourAdministratorService.addTour(tour);
+    public String addTour(@RequestBody CreateTour createTour) {
+        if (validationForTour.isValidTour(new Tour(createTour))) {
+            return tourAdministratorService.addTour(new Tour(createTour));
         }
         return "Invalid Tour";
     }
     
     @PutMapping("/editTour")
-    public String editTour(@RequestBody Tour tour) {
-        if (validationForTour.isValidTour(tour)) {
-            return tourAdministratorService.editTour(tour);
+    public String editTour(@RequestBody CreateTour createTour) {
+        if (validationForTour.isValidTour(new Tour(createTour))) {
+            return tourAdministratorService.editTour(new Tour(createTour));
         }
         return "Invalid Tour";
     }
     
     @PutMapping("/removeTour")
-    public String removeTour(@RequestBody Tour tour) {
-        if (validationForTour.isValidTour(tour)) {
-            return tourAdministratorService.removeTour(tour);
+    public String removeTour(@RequestBody CreateTour createTour) {
+        if (validationForTour.isValidTour(new Tour(createTour))) {
+            return tourAdministratorService.removeTour(new Tour(createTour));
         }
         return "Invalid Tour";
     }
@@ -63,7 +64,6 @@ public class TourAdministratorController {
         return tourService.getAll();
     }
     
-    //TODO
     @GetMapping("/getAllUserInToursOfTour")
     public List<UserInTour>  getAllUserInToursOfTour(@RequestBody Tour tour){
         return tourAdministratorService.getAllUserInToursOfTour(tour);

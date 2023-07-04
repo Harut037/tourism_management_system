@@ -1,45 +1,44 @@
 package com.example.tourism_management_system.model.pojos;
 
 import com.example.tourism_management_system.model.entities.UserEntity;
-import jakarta.validation.constraints.Pattern;
+import com.example.tourism_management_system.model.entities.UserInTourEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
 @NoArgsConstructor ( force = true )
 @AllArgsConstructor
 public class User {
-    @NonNull
-    @Pattern(regexp = "[A-Z][a-z]+")
+    
     private String firstName;
-    @NonNull
-    @Pattern(regexp = "[A-Z][a-z]+")
     private String    lastName;
-    //TODO: validation
-    @NonNull
     private LocalDate birthDate;
-    @NonNull
-    @Pattern(regexp = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z]{2,}$", message = "Invalid Email Pattern")
     private String    email;
-    @NonNull
-    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()_+])[a-zA-Z0-9!@#$%^&*()_+]{8,20}$", message = "Invalid Password Pattern")
     private String password;
-    @NonNull
-    @Pattern(regexp = "\\+374\\d{8}", message = "Invalid Phone Number Pattern")
     private String            phoneNumber;
     private CardForUser       cardForUser;
     private List <UserInTour> userInTour;
 
-    public User(UserEntity user) {
-        this.setPhoneNumber(user.getPhoneNumber());
-        this.setEmail(user.getEmail());
-        this.setPassword(user.getPassword());
-        this.setPhoneNumber(user.getPhoneNumber());
-        this.setCardForUser(new CardForUser(user.getCardEntityForUser()));
+    public User(UserEntity userEntity) {
+        this.setFirstName(userEntity.getFirstName());
+        this.setLastName(userEntity.getLastName());
+        this.setBirthDate(userEntity.getBirthDate());
+        this.setEmail(userEntity.getEmail());
+        this.setPhoneNumber(userEntity.getPhoneNumber());
+        this.setCardForUser(new CardForUser(userEntity.getCardEntityForUser()));
+        this.setUserInTour(castUserInTours(userEntity.getUserInTourEntities()));
+    }
+    
+    private List <UserInTour> castUserInTours (List <UserInTourEntity> userInTourEntities) {
+        if (userInTourEntities == null)
+            return null;
+        List<UserInTour> userInTours = new ArrayList <>();
+        userInTourEntities.forEach(userInTourEntity -> userInTours.add(new UserInTour(userInTourEntity)));
+        return userInTours;
     }
 }

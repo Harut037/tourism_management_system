@@ -1,5 +1,6 @@
 package com.example.tourism_management_system.model.entities;
 
+import com.example.tourism_management_system.model.enums.Status;
 import com.example.tourism_management_system.model.pojos.UserInTour;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -32,10 +33,9 @@ public class UserInTourEntity extends BaseEntity {
     private String transactionNumber;
 
     public UserInTourEntity(UserInTour userInTour) {
-        this.setUser(new UserEntity(userInTour.getUser()));
-        this.setTour(new TourEntity(userInTour.getTour()));
         this.setTransactionNumber(userInTour.getTransactionNumber());
         this.setQuantity(userInTour.getQuantity());
         this.setPrice((double)this.quantity*this.tour.getCost());
+        this.setStatus(Status.ACTIVE);
     }
 }

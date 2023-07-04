@@ -1,5 +1,6 @@
 package com.example.tourism_management_system.model.entities;
 
+import com.example.tourism_management_system.model.enums.Status;
 import com.example.tourism_management_system.model.pojos.Review;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -34,5 +35,6 @@ public class ReviewEntity extends BaseEntity {
         this.support = review.getSupport();
         this.tour = review.getTour();
         this.company = review.getCompany();
+        this.setStatus(Status.ACTIVE);
     }
 }
