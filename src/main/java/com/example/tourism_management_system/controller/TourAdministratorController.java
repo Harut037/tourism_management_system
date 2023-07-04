@@ -1,7 +1,9 @@
 package com.example.tourism_management_system.controller;
 
 import com.example.tourism_management_system.model.pojos.Tour;
+import com.example.tourism_management_system.model.pojos.UserInTour;
 import com.example.tourism_management_system.service.TourAdministratorService;
+import com.example.tourism_management_system.service.TourService;
 import com.example.tourism_management_system.service.impl.JwtService;
 import com.example.tourism_management_system.validation.tour.ValidationForTour;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,12 +18,14 @@ public class TourAdministratorController {
     private final TourAdministratorService tourAdministratorService;
     private final ValidationForTour validationForTour;
     private final JwtService jwtService;
+    private final TourService tourService;
     
     @Autowired
-    public TourAdministratorController(TourAdministratorService tourAdministratorService, ValidationForTour validationForTour, JwtService jwtService) {
+    public TourAdministratorController(TourAdministratorService tourAdministratorService, ValidationForTour validationForTour, JwtService jwtService, TourService tourService) {
         this.tourAdministratorService = tourAdministratorService;
         this.validationForTour = validationForTour;
         this.jwtService = jwtService;
+        this.tourService = tourService;
     }
     
     @GetMapping("/logout")
@@ -53,9 +57,15 @@ public class TourAdministratorController {
         }
         return "Invalid Tour";
     }
-
-    @GetMapping("/getAll")
-    public @ResponseBody List<Tour> getAllTours(){
-        return tourAdministratorService.getAll();
+    
+    @GetMapping("/getAllTours")
+    public List<Tour>  getAllTours(){
+        return tourService.getAll();
+    }
+    
+    //TODO
+    @GetMapping("/getAllUserInToursOfTour")
+    public List<UserInTour>  getAllUserInToursOfTour(@RequestBody Tour tour){
+        return tourAdministratorService.getAllUserInToursOfTour(tour);
     }
 }

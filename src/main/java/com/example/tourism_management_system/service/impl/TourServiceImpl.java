@@ -1,10 +1,6 @@
 package com.example.tourism_management_system.service.impl;
 
 import com.example.tourism_management_system.model.entities.TourEntity;
-import com.example.tourism_management_system.model.enums.enumForTour.PlacesForAdventure;
-import com.example.tourism_management_system.model.enums.enumForTour.PlacesForCampaign;
-import com.example.tourism_management_system.model.enums.enumForTour.PlacesForCultural;
-import com.example.tourism_management_system.model.enums.enumForTour.TourType;
 import com.example.tourism_management_system.model.pojos.Tour;
 import com.example.tourism_management_system.repository.TourRepository;
 import com.example.tourism_management_system.service.TourService;
@@ -156,8 +152,6 @@ public class TourServiceImpl implements TourService {
                 tour.getTourName(), tour.getTourDate());
         return "Successfully has been deleted";
     }
-    
-
 
     @Override
     public String updateStartTime(LocalTime newStartTime, String tourName, LocalDate tourDate) {
@@ -186,7 +180,6 @@ public class TourServiceImpl implements TourService {
     public TourEntity getTour (Tour tour) {
         return tourRepository.findTour(tour.getTourName(), tour.getTourDate()).get();
     }
-
 
     @Override
     public String update(Tour tour) {

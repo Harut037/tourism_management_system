@@ -16,6 +16,4 @@ public interface TourAdministratorService {
     String removeTour (Tour tour);
     
     List<UserInTour> getAllUserInToursOfTour (Tour tour);
-
-    List<Tour> getAll();
 }

@@ -1,6 +1,5 @@
 package com.example.tourism_management_system.service.impl;
 
-import com.example.tourism_management_system.model.entities.TourEntity;
 import com.example.tourism_management_system.model.pojos.Tour;
 import com.example.tourism_management_system.model.pojos.UserInTour;
 import com.example.tourism_management_system.service.TourAdministratorService;
@@ -41,10 +40,5 @@ public class TourAdministratorServiceImpl implements TourAdministratorService {
     @Override
     public List <UserInTour> getAllUserInToursOfTour (Tour tour) {
         return userInTourService.findByTour(tour);
-    }
-
-    @Override
-    public List<Tour> getAll() {
-        return tourService.getAll();
     }
 }
