@@ -37,7 +37,7 @@ public class Tour {
         setCost(tourEntity.getCost());
     }
     
-    public Tour(CreateTour createTour){
+    public Tour(GetTour createTour){
         setTourType(createTour.getTourType());
         setTourName(createTour.getTourName());
         setTourDate(createTour.getTourDate());

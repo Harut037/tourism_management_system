@@ -11,7 +11,7 @@ import java.time.LocalTime;
 @Data
 @NoArgsConstructor ( force = true )
 @AllArgsConstructor
-public class CreateTour {
+public class GetTour {
     @NonNull
     private String    tourType;
     @NonNull

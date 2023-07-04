@@ -1,6 +1,6 @@
 package com.example.tourism_management_system.controller;
 
-import com.example.tourism_management_system.model.pojos.CreateTour;
+import com.example.tourism_management_system.model.pojos.GetTour;
 import com.example.tourism_management_system.model.pojos.Tour;
 import com.example.tourism_management_system.model.pojos.UserInTour;
 import com.example.tourism_management_system.service.TourAdministratorService;
@@ -36,25 +36,25 @@ public class TourAdministratorController {
     }
     
     @PostMapping("/addTour")
-    public String addTour(@RequestBody CreateTour createTour) {
-        if (validationForTour.isValidTour(new Tour(createTour))) {
-            return tourAdministratorService.addTour(new Tour(createTour));
+    public String addTour(@RequestBody GetTour getTour) {
+        if (validationForTour.isValidTour(new Tour(getTour))) {
+            return tourAdministratorService.addTour(new Tour(getTour));
         }
         return "Invalid Tour";
     }
     
     @PutMapping("/editTour")
-    public String editTour(@RequestBody CreateTour createTour) {
-        if (validationForTour.isValidTour(new Tour(createTour))) {
-            return tourAdministratorService.editTour(new Tour(createTour));
+    public String editTour(@RequestBody GetTour getTour) {
+        if (validationForTour.isValidTour(new Tour(getTour))) {
+            return tourAdministratorService.editTour(new Tour(getTour));
         }
         return "Invalid Tour";
     }
     
     @PutMapping("/removeTour")
-    public String removeTour(@RequestBody CreateTour createTour) {
-        if (validationForTour.isValidTour(new Tour(createTour))) {
-            return tourAdministratorService.removeTour(new Tour(createTour));
+    public String removeTour(@RequestBody GetTour getTour) {
+        if (validationForTour.isValidTour(new Tour(getTour))) {
+            return tourAdministratorService.removeTour(new Tour(getTour));
         }
         return "Invalid Tour";
     }
