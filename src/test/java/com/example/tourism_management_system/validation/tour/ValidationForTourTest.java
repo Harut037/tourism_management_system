@@ -1,5 +1,6 @@
 package com.example.tourism_management_system.validation.tour;
 
+import com.example.tourism_management_system.model.enums.enumForTour.Transport;
 import com.example.tourism_management_system.model.pojos.Tour;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,7 +20,7 @@ class ValidationForTourTest {
 
     @Test
     void testTourName() {
-        ValidationForTour validationForTour = new ValidationForTour(tourRepository);
+        ValidationForTour validationForTour = new ValidationForTour();
 
         String culturalTourName = validationForTour.tourName("CULTURAL", "AMBERD");
         Assertions.assertEquals("AMBERD", culturalTourName);
@@ -51,11 +52,10 @@ class ValidationForTourTest {
         String invalidTourName3 = validationForTour.tourName("ADVENTURE", "DILIJAN");
         Assertions.assertNull(invalidTourName3);
     }
-
-
+    
     @Test
     void testValidateDate() {
-        ValidationForTour validationForTour = new ValidationForTour(tourRepository);
+        ValidationForTour validationForTour = new ValidationForTour();
 
         LocalDate futureDate = LocalDate.now().plusDays(4);
         LocalDate validatedDate = validationForTour.validateDate(futureDate);
@@ -80,7 +80,7 @@ class ValidationForTourTest {
 
     @Test
     void testValidateStartTime() {
-        ValidationForTour validationForTour = new ValidationForTour(tourRepository);
+        ValidationForTour validationForTour = new ValidationForTour();
 
         LocalTime validStartTime = LocalTime.of(9, 30);
         LocalTime validatedStartTime = validationForTour.validateStartTime(validStartTime);
@@ -100,12 +100,12 @@ class ValidationForTourTest {
 
         LocalTime endStartTime = LocalTime.NOON;
         validatedStartTime = validationForTour.validateStartTime(endStartTime);
-        Assertions.assertEquals(null, validatedStartTime);
+        assertNull(validatedStartTime);
     }
 
     @Test
     void testCarType() {
-        ValidationForTour validationForTour = new ValidationForTour(tourRepository);
+        ValidationForTour validationForTour = new ValidationForTour();
 
         String carTypeBus = "BUS";
         String resultBus = validationForTour.carType(carTypeBus);
@@ -129,12 +129,12 @@ class ValidationForTourTest {
 
         String invalidCarType = "Buses";
         String result0 = validationForTour.carType(invalidCarType);
-        Assertions.assertEquals(null, result0);
+        assertNull(result0);
     }
 
     @Test
     void testToValidateQuantity() {
-        ValidationForTour validation = new ValidationForTour(tourRepository);
+        ValidationForTour validation = new ValidationForTour();
 
         String carTypeMinivan = "MINIVAN";
         int quantityForMinivan = validation.validateQuantity(carTypeMinivan);
@@ -170,7 +170,7 @@ class ValidationForTourTest {
 
     @Test
     void testForValidateTourInformation() {
-        ValidationForTour validation = new ValidationForTour(tourRepository);
+        ValidationForTour validation = new ValidationForTour();
 
         String tourType1 = "CULTURAL";
         String tourName1 = "TATEV";
@@ -268,7 +268,7 @@ class ValidationForTourTest {
 
     @Test
     public void testForCultural_ValidTourName() {
-        ValidationForTour validation = new ValidationForTour(tourRepository);
+        ValidationForTour validation = new ValidationForTour();
 
         String validTourName = "SEVAN";
         List<Object> result = validation.forCultural(validTourName);
@@ -287,14 +287,14 @@ class ValidationForTourTest {
 
         String invalidTourName = "Garni";
         Assertions.assertNotEquals(invalidTourName, result.get(0));
-        Assertions.assertFalse(validTourName.equals(invalidTourName));
+        assertNotEquals(validTourName, invalidTourName);
         assertNotEquals(validTourName, invalidTourName);
         Assertions.assertEquals(9, result.get(2));
     }
 
     @Test
     public void testForAdventure_ValidTourName() {
-        ValidationForTour validation = new ValidationForTour(tourRepository);
+        ValidationForTour validation = new ValidationForTour();
 
         String validTourName = "RAFTING";
         List<Object> result = validation.forAdventure(validTourName);
@@ -313,13 +313,13 @@ class ValidationForTourTest {
 
         String invalidTourName = "Zip_Lines";
         Assertions.assertNotEquals(invalidTourName, result.get(0));
-        Assertions.assertFalse(validTourName.equals(invalidTourName));
+        assertNotEquals(validTourName, invalidTourName);
         assertNotEquals(validTourName, invalidTourName);
     }
 
     @Test
     public void testForCampaign_ValidTourName() {
-        ValidationForTour validation = new ValidationForTour(tourRepository);
+        ValidationForTour validation = new ValidationForTour();
 
         String validTourName = "DIMAC";
         List<Object> result = validation.forCampaign(validTourName);
@@ -338,20 +338,20 @@ class ValidationForTourTest {
 
         String invalidTourName = "Apakeqar";
         Assertions.assertNotEquals(invalidTourName, result.get(0));
-        Assertions.assertFalse(validTourName.equals(invalidTourName));
+        assertNotEquals(validTourName, invalidTourName);
         assertNotEquals(validTourName, invalidTourName);
     }
 
     @Test
     void testForIsValidTour() {
-        ValidationForTour validationForTour = new ValidationForTour(tourRepository);
+        ValidationForTour validationForTour = new ValidationForTour();
 
         Tour validTour = new Tour();
         validTour.setTourType("ADVENTURE");
         validTour.setTourName("LastiveR");
         validTour.setTourDate(LocalDate.now().plusDays(4));
         validTour.setStartTime(LocalTime.of(8, 0));
-        validTour.setCarType("MINIVAN");
+        validTour.setCarType(Transport.MINIVAN);
         boolean resultValid = validationForTour.isValidTour(validTour);
         assertTrue(resultValid);
         Assertions.assertEquals("280 km", validTour.getDistance());
@@ -364,7 +364,7 @@ class ValidationForTourTest {
         tour.setTourName("LastiveR");
         tour.setTourDate(LocalDate.now().plusDays(4));
         tour.setStartTime(LocalTime.of(8, 0));
-        tour.setCarType("MINIVAN");
+        tour.setCarType(Transport.MINIVAN);
         boolean result = validationForTour.isValidTour(tour);
         assertFalse(result);
 
@@ -373,7 +373,7 @@ class ValidationForTourTest {
         tour1.setTourName("");
         tour1.setTourDate(LocalDate.now().plusDays(4));
         tour1.setStartTime(LocalTime.of(8, 0));
-        tour1.setCarType("MINIVAN");
+        tour1.setCarType(Transport.MINIVAN);
         boolean result1 = validationForTour.isValidTour(tour1);
         assertFalse(result1);
 
@@ -382,7 +382,7 @@ class ValidationForTourTest {
         tour2.setTourName("Lastiver");
         tour2.setTourDate(null);
         tour2.setStartTime(LocalTime.of(8, 0));
-        tour2.setCarType("MINIVAN");
+        tour2.setCarType(Transport.MINIVAN);
         boolean result2 = validationForTour.isValidTour(tour2);
         assertFalse(result2);
 
@@ -391,7 +391,7 @@ class ValidationForTourTest {
         tour3.setTourName("");
         tour3.setTourDate(LocalDate.now().plusDays(4));
         tour3.setStartTime(null);
-        tour3.setCarType("MINIVAN");
+        tour3.setCarType(Transport.MINIVAN);
         boolean result3 = validationForTour.isValidTour(tour3);
         assertFalse(result3);
 
@@ -400,7 +400,7 @@ class ValidationForTourTest {
         tour4.setTourName("");
         tour4.setTourDate(LocalDate.now().plusDays(4));
         tour4.setStartTime(LocalTime.of(7, 0));
-        tour4.setCarType("");
+        tour4.setCarType(null);
         boolean result4 = validationForTour.isValidTour(tour4);
         assertFalse(result4);
 
@@ -409,7 +409,7 @@ class ValidationForTourTest {
         tour5.setTourName("");
         tour5.setTourDate(null);
         tour5.setStartTime(null);
-        tour5.setCarType("");
+        tour5.setCarType(null);
         boolean result5 = validationForTour.isValidTour(tour5);
         assertFalse(result5);
 
@@ -417,7 +417,7 @@ class ValidationForTourTest {
         invalidTourType.setTourType("ABC");
         invalidTourType.setTourName("LASTIVER");
         invalidTourType.setTourDate(LocalDate.now().plusDays(5));
-        invalidTourType.setCarType("MINIBUS");
+        invalidTourType.setCarType(Transport.MINIBUS);
         invalidTourType.setStartTime(LocalTime.of(9, 0));
         boolean resultInvalidType = validationForTour.isValidTour(invalidTourType);
         assertFalse(resultInvalidType);
@@ -426,7 +426,7 @@ class ValidationForTourTest {
         invalidStartTime.setTourType("ADVENTURE");
         invalidStartTime.setTourName("LASTIVER");
         invalidStartTime.setTourDate(LocalDate.now().plusDays(4));
-        invalidStartTime.setCarType("MINIVAN");
+        invalidStartTime.setCarType(Transport.MINIVAN);
         invalidStartTime.setStartTime(LocalTime.of(5, 0));
         boolean resultInvalidTime = validationForTour.isValidTour(invalidStartTime);
         assertFalse(resultInvalidTime);
@@ -435,7 +435,7 @@ class ValidationForTourTest {
 
     @Test
     void testForIsEnableForBooking() {
-        ValidationForTour validationForTour = new ValidationForTour(tourRepository);
+        ValidationForTour validationForTour = new ValidationForTour();
 
         Tour tour = new Tour();
         LocalDate tourDate = LocalDate.now().minusDays(1);
@@ -480,7 +480,7 @@ class ValidationForTourTest {
 
     @Test
     void testForIsEnableForCanceling() {
-        ValidationForTour validationForTour = new ValidationForTour(tourRepository);
+        ValidationForTour validationForTour = new ValidationForTour();
 
         Tour tour = new Tour();
         LocalDate tourDate = LocalDate.now().minusDays(1);
@@ -506,8 +506,7 @@ class ValidationForTourTest {
         boolean result3 = validationForTour.isEnableForCanceling(tour3);
         assertFalse(result3);
     }
-
-
+    
     @Mock
     private Tour tour;
 
@@ -517,7 +516,7 @@ class ValidationForTourTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        validationForTour = new ValidationForTour(tourRepository);
+        validationForTour = new ValidationForTour();
     }
 
     @Test
