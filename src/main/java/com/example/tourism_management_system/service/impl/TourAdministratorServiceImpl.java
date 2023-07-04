@@ -42,4 +42,9 @@ public class TourAdministratorServiceImpl implements TourAdministratorService {
     public List <UserInTour> getAllUserInToursOfTour (Tour tour) {
         return userInTourService.findByTour(tour);
     }
+
+    @Override
+    public List<Tour> getAll() {
+        return tourService.getAll();
+    }
 }
