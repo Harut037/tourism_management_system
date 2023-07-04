@@ -1,16 +1,11 @@
 package com.example.tourism_management_system.model.entities;
 
 import com.example.tourism_management_system.model.enums.Status;
-import jakarta.persistence.Column;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDate;
 
@@ -19,6 +14,7 @@ import java.time.LocalDate;
  */
 @MappedSuperclass
 @Data
+@EntityListeners ( AuditingEntityListener.class)
 public class BaseEntity {
     
     @Id
