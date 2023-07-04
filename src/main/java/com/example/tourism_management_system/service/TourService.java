@@ -12,6 +12,8 @@ public interface TourService {
     String save(Tour tour);
 
     List<Tour> getAll();
+    
+    List<Tour> getAllActiveTours();
 
     List<TourEntity> getAllForSchedule();
 

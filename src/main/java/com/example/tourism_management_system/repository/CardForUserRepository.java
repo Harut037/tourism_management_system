@@ -10,6 +10,6 @@ public interface CardForUserRepository extends JpaRepository<CardEntityForUser, 
     
     @Transactional
     @Modifying
-    @Query("UPDATE CardEntityForUser c SET c.flag = false")
+    @Query("UPDATE CardEntityForUser c SET c.status = 'DELETED' WHERE c.cardNumber = :cardNumber")
     int deleteByCardNumber (String cardNumber);
 }

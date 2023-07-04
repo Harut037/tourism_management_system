@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.Optional;
 
 @Repository
@@ -50,7 +50,7 @@ public interface UserRepository extends JpaRepository <UserEntity, Long> {
     @Transactional
     @Modifying
     @Query ("UPDATE UserEntity u SET u.birthDate = :newBirthDate WHERE u.email = :email")
-    void updateBirthDate (Date newBirthDate, String email);
+    void updateBirthDate (LocalDate newBirthDate, String email);
     
     @Transactional
     @Modifying

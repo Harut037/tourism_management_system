@@ -2,7 +2,6 @@ package com.example.tourism_management_system.bank.api.model.entity;
 
 import com.example.tourism_management_system.bank.api.model.enumForCard.Status;
 import com.example.tourism_management_system.bank.api.model.pojo.Card;
-import com.example.tourism_management_system.model.pojos.CardForUser;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -32,8 +31,9 @@ public class CardEntity {
     private double balance;
     @Column(name = "expiration_date", nullable = false)
     private LocalDate expirationDate;
+    @Enumerated ( EnumType.STRING )
     @Column(name = "status", nullable = false)
-    private String status;
+    private Status status;
     @Column(name = "currency", nullable = false)
     private String currency;
 

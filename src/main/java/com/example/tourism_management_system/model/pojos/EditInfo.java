@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor
@@ -13,9 +13,9 @@ import java.sql.Date;
 public class EditInfo {
     
     @Pattern(regexp = "[A-Z][a-z]+")
-    private String firstName;
+    private String    firstName;
     @Pattern(regexp = "[A-Z][a-z]+")
-    private String lastName;
+    private String    lastName;
     //TODO: validation
-    private Date birthDate;
+    private LocalDate birthDate;
 }

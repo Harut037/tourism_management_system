@@ -1,6 +1,7 @@
 package com.example.tourism_management_system.security.config;
 
 import com.example.tourism_management_system.model.entities.UserEntity;
+import com.example.tourism_management_system.model.enums.Status;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,6 +16,7 @@ public class UserDetailsImpl implements UserDetails {
     private final String                 email;
     private final String                 password;
     private final List<GrantedAuthority> authorities;
+    private final Status status;
     
     public UserDetailsImpl (UserEntity userEntity) {
         email = userEntity.getEmail();
@@ -22,6 +24,7 @@ public class UserDetailsImpl implements UserDetails {
         this.authorities= Arrays.stream(userEntity.getRoleEntity().toString().split(","))
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
+        status = userEntity.getStatus();
     }
     
     @Override
@@ -41,12 +44,12 @@ public class UserDetailsImpl implements UserDetails {
     
     @Override
     public boolean isAccountNonExpired () {
-        return true;
+        return status != Status.EXPIRED;
     }
     
     @Override
     public boolean isAccountNonLocked () {
-        return true;
+        return status != Status.BLOCKED;
     }
     
     @Override
@@ -56,6 +59,6 @@ public class UserDetailsImpl implements UserDetails {
     
     @Override
     public boolean isEnabled () {
-        return true;
+        return status == Status.ACTIVE;
     }
 }

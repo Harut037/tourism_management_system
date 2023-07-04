@@ -4,24 +4,21 @@ import com.example.tourism_management_system.model.enums.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+@EqualsAndHashCode ( callSuper = true )
 @Entity
 @Table(name = "role")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class RoleEntity {
+public class RoleEntity extends BaseEntity {
     
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
     @Column(name = "user_role", nullable = false)
     private Boolean userRole;
     @Column(name = "tour_administrator_role", nullable = false)
     private Boolean tourAdministratorRole;
-    @Column(name = "flag", nullable = false)
-    private Boolean flag = true;
     
     @Override
     public String toString () {

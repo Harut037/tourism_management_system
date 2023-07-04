@@ -1,6 +1,7 @@
 package com.example.tourism_management_system.bank.api.model.pojo;
 
 import com.example.tourism_management_system.bank.api.model.entity.CardEntity;
+import com.example.tourism_management_system.bank.api.model.enumForCard.Status;
 import com.example.tourism_management_system.model.pojos.CardForUser;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
@@ -21,8 +22,8 @@ public class Card {
     private String type;
     private double balance;
     private LocalDate expirationDate;
-    private String status;
-    private String cvv;
+    private Status    status;
+    private String    cvv;
     private String currency;
     
     public Card(CardEntity cardEntity) {

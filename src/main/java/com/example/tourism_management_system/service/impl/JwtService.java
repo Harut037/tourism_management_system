@@ -18,7 +18,7 @@ import java.util.function.Function;
 public class JwtService {
     
     private static final String SECRET = "9JyCfVdm8CZWwP0f42ixsmJbNYapKIkr9JyCfVdm8CZWwP0f42ixsmJbNYapKIkr";
-    public static Map<String, Boolean> invalidatedTokens = new HashMap<>(); // Stores invalidated tokens
+    public static Map<String, Boolean> invalidatedTokens = new HashMap<>();
     
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);

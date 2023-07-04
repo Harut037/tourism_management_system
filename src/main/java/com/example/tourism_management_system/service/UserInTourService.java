@@ -18,4 +18,6 @@ public interface UserInTourService {
     UserInTour getUserInTour (String transactionNumber);
     
     Integer addReview (UserInTour userInTour, Long reviewId);
+    
+    List<UserInTour> findByTour (Tour tour);
 }

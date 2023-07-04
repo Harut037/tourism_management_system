@@ -9,7 +9,7 @@ import java.util.List;
 @Service
 public interface UserService {
     
-    String signUp(final User user);
+    String signUp(final SignUpUser signUpUser);
     
     String editInfo(final EditInfo editInfo, final String email);
     

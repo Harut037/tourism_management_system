@@ -1,6 +1,5 @@
 package com.example.tourism_management_system.service.impl;
 
-import com.example.tourism_management_system.bank.api.model.pojo.Card;
 import com.example.tourism_management_system.bank.api.service.CardService;
 import com.example.tourism_management_system.model.entities.TourEntity;
 import com.example.tourism_management_system.model.entities.UserEntity;
@@ -58,10 +57,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String signUp(final User user) {
-        UserEntity userEntity = new UserEntity(user);
-        Optional<UserEntity> op1 = userRepository.findByEmail(user.getEmail());
-        Optional<UserEntity> op2 = userRepository.findByPhoneNumber(user.getPhoneNumber());
+    public String signUp(final SignUpUser signUpUser) {
+        UserEntity userEntity = new UserEntity(signUpUser);
+        Optional<UserEntity> op1 = userRepository.findByEmail(signUpUser.getEmail());
+        Optional<UserEntity> op2 = userRepository.findByPhoneNumber(signUpUser.getPhoneNumber());
         if (op1.isPresent()) {
             throw new IllegalArgumentException("This Email Is Already In Use: " + op1.get().getEmail());
         }

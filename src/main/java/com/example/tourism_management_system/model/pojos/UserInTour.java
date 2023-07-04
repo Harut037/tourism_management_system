@@ -28,10 +28,10 @@ public class UserInTour {
         }
     }
     
-    public UserInTour (User user, Tour tour, Integer quantity1) {
+    public UserInTour (User user, Tour tour, Integer quantity) {
         this.setUser(user);
         this.setTour(tour);
-        this.setQuantity(quantity1);
+        this.setQuantity(quantity);
         this.setPrice((double)this.quantity*this.tour.getCost());
     }
 }
