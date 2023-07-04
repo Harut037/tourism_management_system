@@ -164,7 +164,13 @@ public class ValidationForTour {
         List<Object> list = validateTourInformation(tour.getTourType(), tour.getTourName());
         tour.setDistance(list.get(1) + " km");
         tour.setDuration(list.get(2) + " hours");
-        tour.setCost((Integer) list.get(3));
+        if (tour.getCost() != null){
+            if (tour.getCost() >= 3000 && tour.getCost() <= 30000){
+                tour.setCost(tour.getCost());
+            }else throw new IllegalArgumentException("The cost cannot be more expensive than 3000 and  cannot be cheaper than 30000");
+        }else {
+            tour.setCost((Integer) list.get(3));
+        }
         tour.setFlag(true);
         return true;
     }

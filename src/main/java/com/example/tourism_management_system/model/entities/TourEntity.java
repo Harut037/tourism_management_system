@@ -54,7 +54,7 @@ public class TourEntity {
         setDuration(tour.getDuration());
         setDistance(tour.getDistance());
         setCarType(Transport.valueOf("UNDEFINED").toString());
-        setGeneralQuantity(tour.getGeneralQuantity());
+        setGeneralQuantity(0);
         setMaxQuantity(tour.getMaxQuantity());
         setCost(tour.getCost());
         setFlag(tour.getFlag());

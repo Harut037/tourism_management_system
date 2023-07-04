@@ -1,6 +1,10 @@
 package com.example.tourism_management_system.service.impl;
 
 import com.example.tourism_management_system.model.entities.TourEntity;
+import com.example.tourism_management_system.model.enums.enumForTour.PlacesForAdventure;
+import com.example.tourism_management_system.model.enums.enumForTour.PlacesForCampaign;
+import com.example.tourism_management_system.model.enums.enumForTour.PlacesForCultural;
+import com.example.tourism_management_system.model.enums.enumForTour.TourType;
 import com.example.tourism_management_system.model.pojos.Tour;
 import com.example.tourism_management_system.repository.TourRepository;
 import com.example.tourism_management_system.service.TourService;
@@ -148,22 +152,7 @@ public class TourServiceImpl implements TourService {
         return "Successfully has been deleted";
     }
     
-    @Override
-    public String update(Tour tour) {
-        boolean check = false;
-        if (tour.getStartTime() != null){
-            check = true;
-            updateStartTime(tour.getStartTime(),tour.getTourName(),tour.getTourDate());
-        }
-        if (tour.getCost() != null){
-            check = true;
-            updateCost(tour.getCost(),tour.getTourName(),tour.getTourDate());
-        }
-        if (check){
-            return "Updates have been done successfully";
-        }
-        throw new IllegalArgumentException("All Fields Are Null");
-    }
+
 
     @Override
     public String updateStartTime(LocalTime newStartTime, String tourName, LocalDate tourDate) {
@@ -176,7 +165,13 @@ public class TourServiceImpl implements TourService {
         tourRepository.updateCost(newCost,tourName,tourDate);
         return "Update has been done successfully";
     }
-    
+
+    @Override
+    public String updateMaxQuantity(Integer newMaxQuantity, String tourName, LocalDate tourDate) {
+        tourRepository.updateMaxQuantity(newMaxQuantity,tourName,tourDate);
+        return "Update has benn done successfully";
+    }
+
     @Override
     public Long getId (Tour tour) {
         return tourRepository.findTour(tour.getTourName(),tour.getTourDate()).get().getId();
@@ -185,5 +180,29 @@ public class TourServiceImpl implements TourService {
     @Override
     public TourEntity getTour (Tour tour) {
         return tourRepository.findTour(tour.getTourName(), tour.getTourDate()).get();
+    }
+
+
+    @Override
+    public String update(Tour tour) {
+        boolean check = false;
+        if (tour.getStartTime() != null){
+            check = true;
+            updateStartTime(tour.getStartTime(),tour.getTourName(),tour.getTourDate());
+        }
+        if (tour.getMaxQuantity() != null){
+            if (tour.getMaxQuantity() <=50 && tour.getMaxQuantity() >= 7){
+                check = true;
+                updateMaxQuantity(tour.getMaxQuantity(),tour.getTourName(),tour.getTourDate());
+            } else throw new IllegalArgumentException("MaxQuantity Can Not Be More Than 50 and Can Not Be Less Than 7");
+        }
+        if (tour.getCost() != null){
+            check = true;
+            updateCost(tour.getCost(),tour.getTourName(),tour.getTourDate());
+        }
+        if (check){
+            return "Updates have been done successfully";
+        }
+        throw new IllegalArgumentException("All Fields Are Null");
     }
 }

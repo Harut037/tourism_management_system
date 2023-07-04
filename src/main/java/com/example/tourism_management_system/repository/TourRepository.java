@@ -65,4 +65,10 @@ public interface TourRepository extends JpaRepository<TourEntity, Long> {
     @Modifying
     @Query("UPDATE TourEntity  t SET t.generalQuantity = :newGeneralQuantity where t.tourName = :tourName and t.tourDate = :tourDate")
     void updateQuantity(Integer newGeneralQuantity,String tourName, LocalDate tourDate);
+
+    @Transactional
+    @Modifying
+    @Query("UPDATE TourEntity  t SET t.maxQuantity = :newMaxQuantity where t.tourName = :tourName and t.tourDate = :tourDate")
+    void updateMaxQuantity(Integer newMaxQuantity,String tourName, LocalDate tourDate);
+
 }

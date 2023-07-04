@@ -9,7 +9,7 @@ public enum PlacesForAdventure {
 
     private final int duration;
     private final int distance;
-    private final int cost;
+    private  final int cost;
 
     public int getDuration() {
         return duration;
@@ -22,6 +22,7 @@ public enum PlacesForAdventure {
     public int getCost() {
         return cost;
     }
+
 
     PlacesForAdventure(int distance, int duration, int cost) {
         if (distance >= 7 && duration > 0 && cost >= 0) {

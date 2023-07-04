@@ -28,6 +28,7 @@ public enum PlacesForCultural {
         return cost;
     }
 
+
     PlacesForCultural(int distance, int duration, int cost) {
         if (distance >= 7 && duration > 0 && cost >= 0) {
             this.distance = distance;

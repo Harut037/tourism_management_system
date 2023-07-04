@@ -7,6 +7,8 @@ import com.example.tourism_management_system.validation.tour.ValidationForTour;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping ( value = "/TourAdministrator" )
 public class TourAdministratorController {
@@ -50,5 +52,10 @@ public class TourAdministratorController {
             return tourAdministratorService.removeTour(tour);
         }
         return "Invalid Tour";
+    }
+
+    @GetMapping("/getAll")
+    public @ResponseBody List<Tour> getAllTours(){
+        return tourAdministratorService.getAll();
     }
 }

@@ -6,6 +6,8 @@ import com.example.tourism_management_system.service.TourService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class TourAdministratorServiceImpl implements TourAdministratorService {
     
@@ -29,5 +31,10 @@ public class TourAdministratorServiceImpl implements TourAdministratorService {
     @Override
     public String removeTour (Tour tour) {
         return tourService.deleteById(tourService.getId(tour));
+    }
+
+    @Override
+    public List<Tour> getAll() {
+      return  tourService.getAll();
     }
 }

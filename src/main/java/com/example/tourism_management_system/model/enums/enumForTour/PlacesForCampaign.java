@@ -7,9 +7,9 @@ public enum PlacesForCampaign {
     AZHDAHAK(100, 10, 7000),
     SMBATABERD(310, 13, 13000);
 
-    private final int duration;
-    private final int distance;
-    private final int cost;
+    private  final int duration;
+    private  final int distance;
+    private  final int cost;
 
     public int getDuration() {
         return duration;
