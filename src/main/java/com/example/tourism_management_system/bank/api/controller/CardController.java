@@ -23,7 +23,7 @@ public class CardController {
         this.cardService = cardService;
         this.validationForCard = validationForCard;
     }
-    
+
     @GetMapping("/getAll")
     public List<Card> getAllCards() {
         List<CardEntity> cardEntities = cardService.getAllCards();
@@ -31,7 +31,7 @@ public class CardController {
         for (CardEntity cardEntity : cardEntities) {
             cards.add(new Card(cardEntity));
         }
-       return cards;
+        return cards;
 
     }
 
@@ -42,7 +42,6 @@ public class CardController {
         }
         throw new IllegalArgumentException();
     }
-
 
     @PutMapping("/recharge/{cardNumber}/{balance}")
     public String rechargeBalance(@PathVariable("cardNumber") String cardNumber, @PathVariable("balance") double balance) {

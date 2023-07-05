@@ -18,16 +18,25 @@ import java.io.IOException;
 
 @Component
 public class JwtAuthFilter extends OncePerRequestFilter {
-    
+
     private final JwtService jwtService;
     private final UserDetailsServiceImpl userDetailsService;
-    
+
     @Autowired
-    public JwtAuthFilter (JwtService jwtService, UserDetailsServiceImpl userDetailsService) {
+    public JwtAuthFilter(JwtService jwtService, UserDetailsServiceImpl userDetailsService) {
         this.jwtService = jwtService;
         this.userDetailsService = userDetailsService;
     }
-    
+
+    /**
+     * Performs the filtering logic for the authentication and authorization process.
+     *
+     * @param request     The HTTP servlet request.
+     * @param response    The HTTP servlet response.
+     * @param filterChain The filter chain for invoking the next filter in the chain.
+     * @throws ServletException if there is an error during the filtering process.
+     * @throws IOException      if there is an I/O error during the filtering process.
+     */
     @Override
     protected void doFilterInternal(HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
         String authHeader = request.getHeader("Authorization");
@@ -37,7 +46,6 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             token = authHeader.substring(7);
             username = jwtService.extractUsername(token);
         }
-        
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
             if (jwtService.validateToken(token, userDetails)) {

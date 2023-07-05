@@ -1,15 +1,15 @@
 package com.example.tourism_management_system.model.enums.enumForTour;
 
 public enum PlacesForAdventure {
-    
-    LASTIVER (280,9,17000),
-    HORSEBACK_AGHMAGHAN(275,14,27000),
-    RAFTING (370,10,25000),
+
+    LASTIVER(280, 9, 17000),
+    HORSEBACK_AGHMAGHAN(275, 14, 27000),
+    RAFTING(370, 10, 25000),
     ZIPLINES(310, 12, 28000);
 
     private final int duration;
     private final int distance;
-    private  final int cost;
+    private final int cost;
 
     public int getDuration() {
         return duration;
@@ -22,7 +22,6 @@ public enum PlacesForAdventure {
     public int getCost() {
         return cost;
     }
-
 
     PlacesForAdventure(int distance, int duration, int cost) {
         if (distance >= 7 && duration > 0 && cost >= 0) {

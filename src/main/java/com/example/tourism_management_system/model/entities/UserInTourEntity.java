@@ -8,14 +8,14 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-@EqualsAndHashCode ( callSuper = true )
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "user_in_tour")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserInTourEntity extends BaseEntity {
-    
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private UserEntity user;
@@ -35,7 +35,7 @@ public class UserInTourEntity extends BaseEntity {
     public UserInTourEntity(UserInTour userInTour) {
         this.setTransactionNumber(userInTour.getTransactionNumber());
         this.setQuantity(userInTour.getQuantity());
-        this.setPrice((double)this.quantity*this.tour.getCost());
+        this.setPrice((double) this.quantity * this.tour.getCost());
         this.setStatus(Status.ACTIVE);
     }
 }

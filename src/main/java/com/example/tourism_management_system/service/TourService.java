@@ -12,7 +12,7 @@ public interface TourService {
     String save(Tour tour);
 
     List<Tour> getAll();
-    
+
     List<Tour> getAllActiveTours();
 
     List<TourEntity> getAllForSchedule();
@@ -28,20 +28,20 @@ public interface TourService {
     List<Tour> sortByDistance();
 
     List<Tour> sortByQuantity();
-    
-    String updateForCanceling (Tour tour, Integer quantity);
-    
-    String updateForBooking (Tour tour, Integer quantity);
-    
-    String update (Tour tour);
+
+    String updateForCanceling(Tour tour, Integer quantity);
+
+    String updateForBooking(Tour tour, Integer quantity);
+
+    String update(Tour tour);
 
     String updateStartTime(LocalTime newStartTime, String tourName, LocalDate tourDate);
 
-    String updateCost(double newCost,String tourName, LocalDate tourDate );
+    String updateCost(double newCost, String tourName, LocalDate tourDate);
 
-    String updateMaxQuantity(Integer newMaxQuantity,String tourName, LocalDate tourDate);
+    String updateMaxQuantity(Integer newMaxQuantity, String tourName, LocalDate tourDate);
 
-    Long getId (Tour tour);
-    
-    TourEntity getTour (Tour tour);
+    Long getId(Tour tour);
+
+    TourEntity getTour(Tour tour);
 }

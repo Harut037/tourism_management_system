@@ -10,7 +10,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Data
-@NoArgsConstructor ( force = true )
+@NoArgsConstructor(force = true)
 @AllArgsConstructor
 public class Tour {
     private String tourType;
@@ -18,13 +18,13 @@ public class Tour {
     private LocalDate tourDate;
     private LocalTime startTime;
     private String duration;
-    private String    distance;
+    private String distance;
     private Transport carType;
-    private Integer   generalQuantity ;
+    private Integer generalQuantity;
     private Integer maxQuantity;
     private Integer cost;
 
-    public Tour(TourEntity tourEntity){
+    public Tour(TourEntity tourEntity) {
         setTourType(tourEntity.getTourType());
         setTourName(tourEntity.getTourName());
         setTourDate(tourEntity.getTourDate());
@@ -36,8 +36,8 @@ public class Tour {
         setMaxQuantity(tourEntity.getMaxQuantity());
         setCost(tourEntity.getCost());
     }
-    
-    public Tour(GetTour createTour){
+
+    public Tour(GetTour createTour) {
         setTourType(createTour.getTourType());
         setTourName(createTour.getTourName());
         setTourDate(createTour.getTourDate());

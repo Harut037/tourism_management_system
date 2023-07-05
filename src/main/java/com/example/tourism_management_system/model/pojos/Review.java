@@ -9,15 +9,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Review {
-    
+
     private String feedback;
     private Integer driver;
     private Integer guide;
     private Integer support;
     private Integer tour;
     private Integer company;
-    
-    public Review (ReviewEntity reviewEntity) {
+
+    public Review(ReviewEntity reviewEntity) {
         this.feedback = reviewEntity.getFeedback();
         this.driver = reviewEntity.getDriver();
         this.guide = reviewEntity.getGuide();

@@ -6,8 +6,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface ReviewService {
-    
-    Long save (Review review);
-    
-    ReviewEntity getById (Long reviewId);
+
+    Long save(Review review);
+
+    ReviewEntity getById(Long reviewId);
 }

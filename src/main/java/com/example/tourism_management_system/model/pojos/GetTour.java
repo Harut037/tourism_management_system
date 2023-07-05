@@ -9,13 +9,14 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Data
-@NoArgsConstructor ( force = true )
+@NoArgsConstructor(force = true)
 @AllArgsConstructor
 public class GetTour {
+
     @NonNull
-    private String    tourType;
+    private String tourType;
     @NonNull
-    private String    tourName;
+    private String tourName;
     @NonNull
     private LocalDate tourDate;
     @NonNull

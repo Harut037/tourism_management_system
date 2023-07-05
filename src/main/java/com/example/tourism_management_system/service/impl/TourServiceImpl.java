@@ -26,9 +26,10 @@ public class TourServiceImpl implements TourService {
     }
 
     /**
-     * Overrides the default save behavior to save Tour objects.
+     * Saves a new tour by creating a TourEntity object and persisting it in the tour repository.
      *
-     * @param tour the Tour objects to be saved
+     * @param tour the Tour object to be saved
+     * @return a string indicating the success of the operation
      */
     @Override
     public String save(Tour tour) {
@@ -38,9 +39,9 @@ public class TourServiceImpl implements TourService {
     }
 
     /**
-     * Overrides the default getAll behavior to retrieve all TourEntity objects.
+     * Retrieves a list of all tours from the tour repository.
      *
-     * @return a list of all TourEntity objects
+     * @return a list of Tour objects representing all tours
      */
     @Override
     public List<Tour> getAll() {
@@ -52,33 +53,44 @@ public class TourServiceImpl implements TourService {
         return list;
     }
 
+    /**
+     * Retrieves a list of all active tours from the system.
+     *
+     * @return a list of Tour objects representing all active tours
+     */
     @Override
     public List<Tour> getAllActiveTours() {
         return null;
     }
 
+    /**
+     * Retrieves a list of all tours available for scheduling.
+     *
+     * @return a list of TourEntity objects representing the tours available for scheduling
+     */
     @Override
     public List<TourEntity> getAllForSchedule() {
         return tourRepository.findAll();
     }
 
     /**
-     * Overrides the default getById behavior to retrieve a TourEntity object by its id.
+     * Retrieves a tour by its ID.
      *
-     * @param id the ID of the tour to be retrieved
-     * @return an Optional containing the TourEntity object if found, or an empty Optional if not found
+     * @param id the ID of the tour to retrieve
+     * @return the Tour object with the specified ID, or null if not found
      */
     @Override
     public Tour getById(Long id) {
         Optional<TourEntity> op = tourRepository.findById(id);
         return op.map(Tour::new).orElse(null);
     }
-    
+
+
     /**
-     * Overrides the default deleteById behavior to delete a TourEntity object by its ID.
+     * Deletes a tour by its ID.
      *
-     * @param id the ID of the tour to be deleted
-     * @return a string indicating the success of the deletion operation
+     * @param id the ID of the tour to delete
+     * @return a string indicating the result of the deletion operation
      */
     @Override
     public String deleteById(Long id) {
@@ -87,11 +99,11 @@ public class TourServiceImpl implements TourService {
             return "Successfully has been deleted";
         } else return "This id does not exist.";
     }
-    
+
     /**
-     * Overrides the default sortByCost behavior to retrieve all TourEntity objects sorted by cost.
+     * Retrieves a list of tours sorted by cost in ascending order.
      *
-     * @return a list of TourEntity objects sorted by cost
+     * @return a list of Tour objects representing the tours sorted by cost
      */
     @Override
     public List<Tour> sortByCost() {
@@ -101,11 +113,11 @@ public class TourServiceImpl implements TourService {
             tours.add(new Tour(i));
         return tours;
     }
-    
+
     /**
-     * Overrides the default sortByDate behavior to retrieve all TourEntity objects sorted by tour date.
+     * Retrieves a list of tours sorted by date in ascending order.
      *
-     * @return a list of TourEntity objects sorted by tour date
+     * @return a list of Tour objects representing the tours sorted by date
      */
     @Override
     public List<Tour> sortByDate() {
@@ -116,6 +128,11 @@ public class TourServiceImpl implements TourService {
         return tours;
     }
 
+    /**
+     * Retrieves a list of tours sorted by distance in ascending order.
+     *
+     * @return a list of Tour objects representing the tours sorted by distance
+     */
     @Override
     public List<Tour> sortByDistance() {
         List<TourEntity> tourEntities = tourRepository.findAllOrderByDistance();
@@ -124,11 +141,11 @@ public class TourServiceImpl implements TourService {
             tours.add(new Tour(i));
         return tours;
     }
-    
+
     /**
-     * Overrides the default sortByQuantity behavior to retrieve all TourEntity objects sorted by quantity.
+     * Retrieves a list of tours sorted by quantity in ascending order.
      *
-     * @return a list of TourEntity objects sorted by quantity
+     * @return a list of Tour objects representing the tours sorted by quantity
      */
     @Override
     public List<Tour> sortByQuantity() {
@@ -138,14 +155,28 @@ public class TourServiceImpl implements TourService {
             tours.add(new Tour(i));
         return tours;
     }
-    
+
+    /**
+     * Updates the quantity of a tour for canceling a certain number of spots.
+     *
+     * @param tour     the Tour object for which to update the quantity
+     * @param quantity the number of spots to cancel
+     * @return a string indicating the success of the update operation
+     */
     @Override
     public String updateForCanceling(Tour tour, Integer quantity) {
         tourRepository.updateQuantity(tour.getGeneralQuantity() - quantity,
                 tour.getTourName(), tour.getTourDate());
         return "Successfully has been deleted";
     }
-    
+
+    /**
+     * Updates the quantity of a tour for booking a certain number of spots.
+     *
+     * @param tour     the Tour object for which to update the quantity
+     * @param quantity the number of spots to book
+     * @return a string indicating the success of the update operation
+     */
     @Override
     public String updateForBooking(Tour tour, Integer quantity) {
         tourRepository.updateQuantity(tour.getGeneralQuantity() + quantity,
@@ -153,52 +184,97 @@ public class TourServiceImpl implements TourService {
         return "Successfully has been deleted";
     }
 
+    /**
+     * Updates the start time of a tour with the specified tour name and date.
+     *
+     * @param newStartTime the new start time to update
+     * @param tourName     the name of the tour
+     * @param tourDate     the date of the tour
+     * @return a string indicating the success of the update operation
+     */
     @Override
     public String updateStartTime(LocalTime newStartTime, String tourName, LocalDate tourDate) {
         tourRepository.updateStartTime(newStartTime, tourName, tourDate);
         return "Update has been done successfully";
     }
 
+    /**
+     * Updates the cost of a tour with the specified tour name and date.
+     *
+     * @param newCost  the new cost to update
+     * @param tourName the name of the tour
+     * @param tourDate the date of the tour
+     * @return a string indicating the success of the update operation
+     */
     @Override
     public String updateCost(double newCost, String tourName, LocalDate tourDate) {
-        tourRepository.updateCost(newCost,tourName,tourDate);
+        tourRepository.updateCost(newCost, tourName, tourDate);
         return "Update has been done successfully";
     }
 
+    /**
+     * Updates the maximum quantity of a tour with the specified tour name and date.
+     *
+     * @param newMaxQuantity the new maximum quantity to update
+     * @param tourName       the name of the tour
+     * @param tourDate       the date of the tour
+     * @return a string indicating the success of the update operation
+     */
     @Override
     public String updateMaxQuantity(Integer newMaxQuantity, String tourName, LocalDate tourDate) {
-        tourRepository.updateMaxQuantity(newMaxQuantity,tourName,tourDate);
+        tourRepository.updateMaxQuantity(newMaxQuantity, tourName, tourDate);
         return "Update has benn done successfully";
     }
 
+
+    /**
+     * Retrieves the ID of a tour by searching for it based on the tour name and date.
+     *
+     * @param tour the Tour object for which to retrieve the ID
+     * @return the ID of the tour
+     */
     @Override
-    public Long getId (Tour tour) {
-        return tourRepository.findTour(tour.getTourName(),tour.getTourDate()).get().getId();
+    public Long getId(Tour tour) {
+        return tourRepository.findTour(tour.getTourName(), tour.getTourDate()).get().getId();
     }
-    
+
+    /**
+     * Retrieves the TourEntity object corresponding to the specified Tour object based on the tour name and date.
+     *
+     * @param tour the Tour object for which to retrieve the TourEntity
+     * @return the TourEntity object corresponding to the specified Tour
+     */
     @Override
-    public TourEntity getTour (Tour tour) {
+    public TourEntity getTour(Tour tour) {
         return tourRepository.findTour(tour.getTourName(), tour.getTourDate()).get();
     }
 
+    /**
+     * Updates the properties of a tour based on the specified Tour object.
+     * The tour is updated with the new start time, maximum quantity, and cost if provided.
+     *
+     * @param tour the Tour object containing the updated tour information
+     * @return a string indicating the success of the update operation
+     * @throws IllegalArgumentException if all fields of the Tour object are null, or if the maximum quantity is outside the valid range
+     */
     @Override
     public String update(Tour tour) {
         boolean check = false;
-        if (tour.getStartTime() != null){
+        if (tour.getStartTime() != null) {
             check = true;
-            updateStartTime(tour.getStartTime(),tour.getTourName(),tour.getTourDate());
+            updateStartTime(tour.getStartTime(), tour.getTourName(), tour.getTourDate());
         }
-        if (tour.getMaxQuantity() != null){
-            if (tour.getMaxQuantity() <=50 && tour.getMaxQuantity() >= 7){
+        if (tour.getMaxQuantity() != null) {
+            if (tour.getMaxQuantity() <= 50 && tour.getMaxQuantity() >= 7) {
                 check = true;
-                updateMaxQuantity(tour.getMaxQuantity(),tour.getTourName(),tour.getTourDate());
+                updateMaxQuantity(tour.getMaxQuantity(), tour.getTourName(), tour.getTourDate());
             } else throw new IllegalArgumentException("MaxQuantity Can Not Be More Than 50 and Can Not Be Less Than 7");
         }
-        if (tour.getCost() != null){
+        if (tour.getCost() != null) {
             check = true;
-            updateCost(tour.getCost(),tour.getTourName(),tour.getTourDate());
+            updateCost(tour.getCost(), tour.getTourName(), tour.getTourDate());
         }
-        if (check){
+        if (check) {
             return "Updates have been done successfully";
         }
         throw new IllegalArgumentException("All Fields Are Null");

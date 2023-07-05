@@ -11,18 +11,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-@NoArgsConstructor ( force = true )
+@NoArgsConstructor(force = true)
 @AllArgsConstructor
 public class User {
-    
+
     private String firstName;
-    private String    lastName;
+    private String lastName;
     private LocalDate birthDate;
-    private String    email;
+    private String email;
     private String password;
-    private String            phoneNumber;
-    private CardForUser       cardForUser;
-    private List <UserInTour> userInTour;
+    private String phoneNumber;
+    private CardForUser cardForUser;
+    private List<UserInTour> userInTour;
 
     public User(UserEntity userEntity) {
         this.setFirstName(userEntity.getFirstName());
@@ -33,11 +33,17 @@ public class User {
         this.setCardForUser(new CardForUser(userEntity.getCardEntityForUser()));
         this.setUserInTour(castUserInTours(userEntity.getUserInTourEntities()));
     }
-    
-    private List <UserInTour> castUserInTours (List <UserInTourEntity> userInTourEntities) {
+
+    /**
+     * Converts a list of UserInTourEntity objects to a list of UserInTour objects.
+     *
+     * @param userInTourEntities The list of UserInTourEntity objects to be converted.
+     * @return The converted list of UserInTour objects.
+     */
+    private List<UserInTour> castUserInTours(List<UserInTourEntity> userInTourEntities) {
         if (userInTourEntities == null)
             return null;
-        List<UserInTour> userInTours = new ArrayList <>();
+        List<UserInTour> userInTours = new ArrayList<>();
         userInTourEntities.forEach(userInTourEntity -> userInTours.add(new UserInTour(userInTourEntity)));
         return userInTours;
     }

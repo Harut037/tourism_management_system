@@ -10,14 +10,14 @@ import java.util.List;
 @Service
 public interface UserInTourService {
     String save(UserInTour userInTour, Tour tour, String email);
-    
-    List<UserInTour> findByUser (UserEntity user);
-    
-    String cancel (UserInTour userInTour);
-    
-    UserInTour getUserInTour (String transactionNumber);
-    
-    Integer addReview (UserInTour userInTour, Long reviewId);
-    
-    List<UserInTour> findByTour (Tour tour);
+
+    List<UserInTour> findByUser(UserEntity user);
+
+    String cancel(UserInTour userInTour);
+
+    UserInTour getUserInTour(String transactionNumber);
+
+    Integer addReview(UserInTour userInTour, Long reviewId);
+
+    List<UserInTour> findByTour(Tour tour);
 }

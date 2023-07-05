@@ -1,11 +1,7 @@
 package com.example.tourism_management_system.bank.api.service;
 
-
 import com.example.tourism_management_system.bank.api.model.pojo.Card;
-import com.example.tourism_management_system.model.entities.CardEntityForUser;
 import com.example.tourism_management_system.model.pojos.CardForUser;
-
-import java.util.List;
 
 public interface CardService {
 
@@ -14,6 +10,4 @@ public interface CardService {
     boolean compareCard(CardForUser cardForUser);
     
     Card getCard (CardForUser cardForUser);
-
-
 }

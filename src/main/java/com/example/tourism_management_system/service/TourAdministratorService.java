@@ -8,12 +8,12 @@ import java.util.List;
 
 @Service
 public interface TourAdministratorService {
-    
-    String addTour (Tour tour);
-    
-    String editTour (Tour tour);
-    
-    String removeTour (Tour tour);
-    
-    List<UserInTour> getAllUserInToursOfTour (Tour tour);
+
+    String addTour(Tour tour);
+
+    String editTour(Tour tour);
+
+    String removeTour(Tour tour);
+
+    List<UserInTour> getAllUserInToursOfTour(Tour tour);
 }

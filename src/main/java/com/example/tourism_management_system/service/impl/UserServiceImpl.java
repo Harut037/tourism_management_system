@@ -15,10 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -32,10 +29,10 @@ public class UserServiceImpl implements UserService {
     private final JwtService jwtService;
     private final RoleService roleService;
     private final CardForUserService cardForUserService;
-    private final ReviewService            reviewService;
+    private final ReviewService reviewService;
     private final TourService tourService;
     private final ValidationForCardForUser validationForCardForUser;
-    
+
     @Autowired
     public UserServiceImpl(UserRepository userRepository, ValidationForTour validationForTour, TransactionService transactionService, CardService cardService, JwtService jwtService, RoleService roleService, CardForUserService cardForUserService, ReviewService reviewService, TourService tourService, ValidationForCardForUser validationForCardForUser) {
         this.userRepository = userRepository;
@@ -49,13 +46,26 @@ public class UserServiceImpl implements UserService {
         this.tourService = tourService;
         this.validationForCardForUser = validationForCardForUser;
     }
-    
+
+    /**
+     * Retrieves the ID of the user associated with the specified email.
+     *
+     * @param email the email of the user
+     * @return the ID of the user, or null if the user is not found
+     */
     @Override
-    public Long getIdByEmail (String email) {
+    public Long getIdByEmail(String email) {
         Optional<UserEntity> op = userRepository.findByEmail(email);
         return op.map(UserEntity::getId).orElse(null);
     }
 
+    /**
+     * Registers a new user based on the provided SignUpUser object.
+     *
+     * @param signUpUser the SignUpUser object containing the user's registration details
+     * @return a string indicating the success of the registration process
+     * @throws IllegalArgumentException if the email or phone number is already in use
+     */
     @Override
     public String signUp(final SignUpUser signUpUser) {
         UserEntity userEntity = new UserEntity(signUpUser);
@@ -76,6 +86,14 @@ public class UserServiceImpl implements UserService {
         return "Success";
     }
 
+    /**
+     * Updates the user's information based on the provided EditInfo object.
+     *
+     * @param editInfo the EditInfo object containing the updated user information
+     * @param email    the email of the user
+     * @return a string indicating the success of the update operation
+     * @throws IllegalArgumentException if all fields in the EditInfo object are null
+     */
     @Override
     public String editInfo(final EditInfo editInfo, final String email) {
         boolean t = false;
@@ -96,27 +114,58 @@ public class UserServiceImpl implements UserService {
         }
         throw new IllegalArgumentException("All Fields Are Null");
     }
-    
+
+    /**
+     * Changes the password for the user with the specified email.
+     *
+     * @param email    the email of the user
+     * @param password the new password to set
+     * @return true if the password change was successful, false otherwise
+     */
     @Override
     public Boolean passwordChange(String email, String password) {
         password = new BCryptPasswordEncoder().encode(password);
         return userRepository.resetPassword(email, password) > 0;
     }
-    
+
+    /**
+     * Initiates the password reset process for the user with the specified email.
+     *
+     * @param email the email of the user
+     * @return a token generated for the password reset process
+     * @throws IllegalArgumentException if no user is found with the specified email
+     */
     @Override
     public String forgotPassword(String email) {
         Optional<UserEntity> op = userRepository.findByEmail(email);
         if (op.isPresent()) {
             return jwtService.generateToken(email);
-        } throw new IllegalArgumentException("Not Found User With Such Email");
+        }
+        throw new IllegalArgumentException("Not Found User With Such Email");
     }
 
+
+    /**
+     * Resets the password for the user with the specified email.
+     *
+     * @param email    the email of the user
+     * @param password the new password to set
+     * @return true if the password reset was successful, false otherwise
+     */
     @Override
     public Boolean resetChange(String email, String password) {
         password = new BCryptPasswordEncoder().encode(password);
         return userRepository.resetPassword(email, password) > 0;
     }
 
+    /**
+     * Books a tour for the user with the specified email.
+     *
+     * @param bookTour the tour booking details
+     * @param email    the email of the user
+     * @return a message indicating the success of the booking
+     * @throws IllegalArgumentException if the tour is not enabled for booking, or if the user has no card, or if the transaction is not successful
+     */
     @Override
     public String bookTour(BookTour bookTour, String email) {
         TourEntity tourEntity = tourService.getTour(bookTour.getTour());
@@ -137,31 +186,52 @@ public class UserServiceImpl implements UserService {
         throw new IllegalArgumentException("Not Enable For Booking");
     }
 
+    /**
+     * Cancels the tour with the specified transaction number.
+     *
+     * @param transactionNumber the transaction number of the tour to be canceled
+     * @return a message indicating the success of the cancellation
+     * @throws IllegalArgumentException if the tour is not available for canceling or if there is an error reverting the transaction
+     */
     @Override
     public String cancelTour(String transactionNumber) {
-        if(validationForTour.isEnableForCanceling(userInTourService.getUserInTour(transactionNumber).getTour())){
+        if (validationForTour.isEnableForCanceling(userInTourService.getUserInTour(transactionNumber).getTour())) {
             UserInTour userInTour = userInTourService.getUserInTour(transactionNumber);
             String result = transactionService.revertTransaction(userInTour.getTransactionNumber());
-            if(result.equals("Success")){
+            if (result.equals("Success")) {
                 return userInTourService.cancel(userInTour);
             }
             throw new IllegalArgumentException("Error For Reverting Transaction Occurs");
         }
         throw new IllegalArgumentException("Not Available For Canceling");
     }
-    
+
+    /**
+     * Allows a user to leave a review for a tour.
+     *
+     * @param leaveReview the review information provided by the user
+     * @param email       the email of the user leaving the review
+     * @return a message indicating the success of leaving the review
+     * @throws IllegalArgumentException if there is an error while adding the review
+     */
     @Override
     public String leaveReview(LeaveReview leaveReview, String email) {
         Long reviewId = reviewService.save(leaveReview.getReview());
-        if (userInTourService.addReview(userInTourService.getUserInTour(leaveReview.getTransactionNumber()), reviewId) > 0){
+        if (userInTourService.addReview(userInTourService.getUserInTour(leaveReview.getTransactionNumber()), reviewId) > 0) {
             return "Success";
         }
         throw new IllegalArgumentException("Error Occurred Please Try Again");
     }
-    
+
+    /**
+     * Retrieves the history of tours for a user.
+     *
+     * @param email the email of the user
+     * @return a list of tours representing the user's tour history
+     */
     @Override
-    public List <Tour> getHistoryOfTours (String email) {
-        List<Tour> tours = new ArrayList <>();
+    public List<Tour> getHistoryOfTours(String email) {
+        List<Tour> tours = new ArrayList<>();
         List<UserInTour> userInTours = userInTourService.findByUser(userRepository.findByEmail(email).get());
         if (userInTours == null)
             return Collections.emptyList();
@@ -170,27 +240,54 @@ public class UserServiceImpl implements UserService {
         }
         return tours;
     }
-    
+
+    /**
+     * Retrieves the information of a user.
+     *
+     * @param email the email of the user
+     * @return a User object containing the user's information, or null if the user is not found
+     */
     @Override
-    public User getInfo (String email) {
+    public User getInfo(String email) {
         Optional<UserEntity> op = userRepository.findByEmail(email);
         return op.map(User::new).orElse(null);
     }
-    
+
+    /**
+     * Changes the email address of a user.
+     *
+     * @param email    the current email address of the user
+     * @param newEmail the new email address to be set
+     * @return true if the email address is successfully changed, false otherwise
+     */
     @Override
-    public Boolean changeEmail (String email, String newEmail) {
+    public Boolean changeEmail(String email, String newEmail) {
         return userRepository.updateEmail(email, newEmail) > 0;
     }
-    
+
+    /**
+     * Changes the phone number of a user.
+     *
+     * @param email          the email address of the user
+     * @param newPhoneNumber the new phone number to be set
+     * @return true if the phone number is successfully changed, false otherwise
+     */
     @Override
-    public Boolean changePhoneNumber (String email, String newPhoneNumber) {
+    public Boolean changePhoneNumber(String email, String newPhoneNumber) {
         return userRepository.updatePhoneNumber(email, newPhoneNumber) > 0;
     }
-    
-    
+
+    /**
+     * Adds a new card to the user's account.
+     *
+     * @param cardForUser the card information to be added
+     * @param email       the email address of the user
+     * @return true if the card is successfully added, false otherwise
+     * @throws IllegalArgumentException if the card information is invalid or already exists
+     */
     @Override
-    public Boolean addCard (CardForUser cardForUser, String email) {
-        if (validationForCardForUser.isValidCard(cardForUser)){
+    public Boolean addCard(CardForUser cardForUser, String email) {
+        if (validationForCardForUser.isValidCard(cardForUser)) {
             boolean isExist = cardService.compareCard(cardForUser);
             if (isExist) {
                 CardEntityForUser card = cardForUserService.save(cardForUser);
@@ -200,17 +297,37 @@ public class UserServiceImpl implements UserService {
         }
         throw new IllegalArgumentException("Wrong Card");
     }
-    
+
+    /**
+     * Deletes a card from the user's account.
+     *
+     * @param cardForUser the card to be deleted
+     * @param email       the email address of the user
+     * @return true if the card is successfully deleted, false otherwise
+     * @throws IllegalArgumentException if there is an error deleting the card
+     */
     @Override
-    public Boolean deleteCard (CardForUser cardForUser, String email) {
-        if(cardForUserService.deleteCard(cardForUser)) {
+    public Boolean deleteCard(CardForUser cardForUser, String email) {
+        if (cardForUserService.deleteCard(cardForUser)) {
             return userRepository.deleteCard(email) > 0;
         }
         throw new IllegalArgumentException("Error deleting");
     }
-    
+
+    /**
+     * Retrieves a user entity based on the provided email.
+     *
+     * @param email the email address of the user
+     * @return the user entity
+     * @throws NoSuchElementException if no user entity is found with the given email
+     */
     @Override
-    public UserEntity getUser (String email) {
-        return userRepository.findByEmail(email).get();
+    public UserEntity getUser(String email) {
+        Optional<UserEntity> userEntityOptional = userRepository.findByEmail(email);
+        if (userEntityOptional.isPresent()) {
+            return userEntityOptional.get();
+        } else {
+            throw new NoSuchElementException("No user entity found with the email: " + email);
+        }
     }
 }

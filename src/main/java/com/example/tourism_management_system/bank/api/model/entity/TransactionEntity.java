@@ -1,8 +1,6 @@
 package com.example.tourism_management_system.bank.api.model.entity;
 
-
 import com.example.tourism_management_system.bank.api.model.pojo.Card;
-import com.example.tourism_management_system.bank.api.validation.ValidationForCard;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -34,7 +32,6 @@ public class TransactionEntity {
     private String currency;
     @Column(name = "flag", nullable = false)
     private Boolean flag;
-
 
     public TransactionEntity(Card card, double price) {
         setSender(card.getCardNumber());

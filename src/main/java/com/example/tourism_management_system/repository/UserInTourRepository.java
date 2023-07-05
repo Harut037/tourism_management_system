@@ -14,30 +14,30 @@ import java.util.List;
 
 @Repository
 public interface UserInTourRepository extends JpaRepository<UserInTourEntity, Long> {
-    
+
     @Transactional
     @Query("SELECT u FROM UserInTourEntity u WHERE u.user = :user")
-    List<UserInTourEntity> findByUser (UserEntity user);
-    
+    List<UserInTourEntity> findByUser(UserEntity user);
+
     @Transactional
     @Query("SELECT u FROM UserInTourEntity u WHERE u.tour = :tour")
     List<UserInTourEntity> findByTour(TourEntity tour);
-    
+
     @Transactional
     @Modifying
     @Query("UPDATE UserInTourEntity u SET u.status = 'CANCELED' where u.transactionNumber = :transactionNumber")
-    int cancel (String transactionNumber);
-    
+    int cancel(String transactionNumber);
+
     @Transactional
     @Query("SELECT u FROM UserInTourEntity u WHERE u.transactionNumber = :transactionNumber")
-    UserInTourEntity getUserInTourEntity (String transactionNumber);
-    
+    UserInTourEntity getUserInTourEntity(String transactionNumber);
+
     @Transactional
     @Query("SELECT u.id FROM UserInTourEntity u WHERE u.transactionNumber = :transactionNumber")
-    Long getId (String transactionNumber);
-    
+    Long getId(String transactionNumber);
+
     @Transactional
     @Modifying
     @Query("UPDATE UserInTourEntity u SET u.reviewEntity = :reviewEntity where u.id = :id")
-    int addReview (Long id, ReviewEntity reviewEntity);
+    int addReview(Long id, ReviewEntity reviewEntity);
 }

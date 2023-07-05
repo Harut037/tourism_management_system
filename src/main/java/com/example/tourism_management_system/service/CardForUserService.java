@@ -6,8 +6,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface CardForUserService {
-    
-    CardEntityForUser save (CardForUser cardForUser);
-    
-    Boolean deleteCard (CardForUser cardForUser);
+
+    CardEntityForUser save(CardForUser cardForUser);
+
+    Boolean deleteCard(CardForUser cardForUser);
 }

@@ -9,21 +9,33 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class CardForUserServiceImpl implements CardForUserService {
-    
+
     private final CardForUserRepository cardForUserRepository;
-    
+
     @Autowired
-    public CardForUserServiceImpl (CardForUserRepository cardForUserRepository) {
+    public CardForUserServiceImpl(CardForUserRepository cardForUserRepository) {
         this.cardForUserRepository = cardForUserRepository;
     }
-    
+
+    /**
+     * Saves a CardForUser object by creating and persisting a corresponding CardEntityForUser object.
+     *
+     * @param cardForUser the CardForUser object to save
+     * @return the saved CardEntityForUser object
+     */
     @Override
-    public CardEntityForUser save (CardForUser cardForUser) {
+    public CardEntityForUser save(CardForUser cardForUser) {
         return cardForUserRepository.save(new CardEntityForUser(cardForUser));
     }
-    
+
+    /**
+     * Deletes a CardForUser object by removing the corresponding CardEntityForUser from the repository.
+     *
+     * @param cardForUser the CardForUser object to delete
+     * @return true if the card was successfully deleted, false otherwise
+     */
     @Override
-    public Boolean deleteCard (CardForUser cardForUser) {
-        return cardForUserRepository.deleteByCardNumber(cardForUser.getCardNumber())>0;
+    public Boolean deleteCard(CardForUser cardForUser) {
+        return cardForUserRepository.deleteByCardNumber(cardForUser.getCardNumber()) > 0;
     }
 }

@@ -16,12 +16,13 @@ import java.util.regex.Pattern;
 public class ValidationForCard {
 
     private final ExchangeRate exchangeRate = new ExchangeRate();
-    
+
     /**
-     * The cardNumberValidation method validates a given card number and determines its card type.
+     * Validates the provided card number against known card number patterns for various card types (Visa, MasterCard, American Express, and Arca).
      *
-     * @param cardNumber the card number to be validated
-     * @return the validated card number if it is valid and recognized, or an error message if it is invalid or unrecognized
+     * @param cardNumber The card number to be validated.
+     * @return The validated card number if it matches any of the known patterns.
+     * @throws IllegalArgumentException if the card number does not match any of the known patterns.
      */
     public String cardNumberValidation(String cardNumber) {
         String visa = "^4[0-9]{12}(?:[0-9]{3})?$";
@@ -46,10 +47,10 @@ public class ValidationForCard {
     }
 
     /**
-     * The validateForCardType method validates a given card type and returns the corresponding card type string.
+     * Validates and converts the provided card type to a standardized format.
      *
-     * @param cardType the type of the card (VISA, MASTER_CARD, or AMERICAN_EXPRESS)
-     * @return the validated card type as a string, or an error message if the card type is invalid or unrecognized
+     * @param cardType The card type to be validated and converted.
+     * @return The standardized card type if it is valid, or a message indicating an invalid card type.
      */
     public String validateForCardType(String cardType) {
         if (cardType.equals("MASTERCARD")) {
@@ -81,10 +82,10 @@ public class ValidationForCard {
     }
 
     /**
-     * The validateExpirationDate method validates a given expiration date and checks if it is after the current date.
+     * Validates the provided expiration date against the current date.
      *
-     * @param expirationDate the expiration date to be validated
-     * @return the validated expiration date if it is after the current date, or null if it is not
+     * @param expirationDate The expiration date to be validated.
+     * @return The validated expiration date if it is after the current date, or null if it is not.
      */
     public LocalDate validateExpirationDate(LocalDate expirationDate) {
         LocalDate currentDate = LocalDate.now();
@@ -99,11 +100,14 @@ public class ValidationForCard {
     }
 
     /**
-     * The isValidCard method checks if a given card object is valid by validating its card number, card type, expiration date, and currency.
-     * If any of these validations fail, the method returns false. Otherwise, it returns true.
+     * Checks if the provided card is valid based on various validation criteria:
+     * The card number is validated and is not considered an invalid card number.
+     * The card type is validated and is not considered an invalid card type.
+     * The expiration date is validated and is not null (indicating it is after the current date).
+     * The currency is validated and is a valid Currency enum value.
      *
-     * @param card the card object to be validated
-     * @return true if the card object is valid, false otherwise
+     * @param card The card to be validated.
+     * @return true if the card is considered valid based on the validation criteria, false otherwise.
      */
     public boolean isValidCard(Card card) {
         try {
@@ -114,35 +118,40 @@ public class ValidationForCard {
     }
 
     /**
-     * The getRate method calculates the exchange rate between two currencies and converts an amount from one currency to another.
+     * Calculates the amount after currency conversion between two currency types.
      *
-     * @param currencyTypeOne the type of the currency to convert from
-     * @param currencyTypeTwo the type of the currency to convert to
-     * @param amount          the amount to be converted
-     * @return the converted amount in the specified currency type, based on the exchange rates
+     * @param currencyTypeOne The currency type to convert from.
+     * @param currencyTypeTwo The currency type to convert to.
+     * @param amount          The amount to be converted.
+     * @return The converted amount after the currency conversion.
+     * @throws IllegalArgumentException if any of the provided currency types is invalid.
      */
     public double getRate(String currencyTypeOne, String currencyTypeTwo, double amount) {
         double sendAmount;
         double receiveAmount;
-        sendAmount = switch (Currency.valueOf(currencyTypeOne)) {
-            case RUR -> amount * exchangeRate.getRUR();
-            case USD -> amount * exchangeRate.getUSD();
-            case AMD -> amount;
-            case EUR -> amount * exchangeRate.getEUR();
-        };
-        receiveAmount = switch (Currency.valueOf(currencyTypeTwo)) {
-            case RUR -> sendAmount / exchangeRate.getRUR();
-            case USD -> sendAmount / exchangeRate.getUSD();
-            case AMD -> sendAmount;
-            case EUR -> sendAmount / exchangeRate.getEUR();
-        };
-        return receiveAmount;
+        try {
+            sendAmount = switch (Currency.valueOf(currencyTypeOne)) {
+                case RUR -> amount * exchangeRate.getRUR();
+                case USD -> amount * exchangeRate.getUSD();
+                case AMD -> amount;
+                case EUR -> amount * exchangeRate.getEUR();
+            };
+            receiveAmount = switch (Currency.valueOf(currencyTypeTwo)) {
+                case RUR -> sendAmount / exchangeRate.getRUR();
+                case USD -> sendAmount / exchangeRate.getUSD();
+                case AMD -> sendAmount;
+                case EUR -> sendAmount / exchangeRate.getEUR();
+            };
+            return receiveAmount;
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("Invalid currency type.");
+        }
     }
 
     /**
-     * The generateTransactionNumber method generates a unique transaction number by combining a timestamp and a random number.
+     * Generates a unique transaction number based on the current timestamp and a random number.
      *
-     * @return a unique transaction number in the format "yyyyMMddHHmm" followed by a 4-digit random number
+     * @return The generated transaction number.
      */
     public String generateTransactionNumber() {
         String timestamp = new SimpleDateFormat("yyyyMMdd").format(new Date());
@@ -152,6 +161,11 @@ public class ValidationForCard {
         return timestamp + formattedRandomNumber;
     }
 
+    /**
+     * Generates a CVV (Card Verification Value) consisting of three random digits.
+     *
+     * @return The generated CVV as a string.
+     */
     public String generateCvv() {
         StringBuilder cvv = new StringBuilder();
         Random random = new Random();

@@ -13,7 +13,7 @@ import java.time.LocalTime;
 import java.time.LocalDate;
 import java.util.List;
 
-@EqualsAndHashCode ( callSuper = true )
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "Tour", uniqueConstraints = {
         @UniqueConstraint(columnNames = {"tour_name", "tour_date"})})
@@ -21,7 +21,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TourEntity extends BaseEntity {
-    
+
     @Column(name = "tour_type", nullable = false)
     private String tourType;
     @Column(name = "tour_name", nullable = false)
@@ -34,7 +34,7 @@ public class TourEntity extends BaseEntity {
     private String distance;
     @Column(name = "duration", nullable = false)
     private String duration;
-    @Enumerated ( EnumType.STRING )
+    @Enumerated(EnumType.STRING)
     @Column(name = "car_type", nullable = false)
     private Transport carType;
     @Column(name = "general_quantity", nullable = false)
@@ -44,9 +44,9 @@ public class TourEntity extends BaseEntity {
     @Column(name = "cost", nullable = false)
     private Integer cost;
     @OneToMany(mappedBy = "tour")
-    private List <UserInTourEntity> userInTourEntities;
-    
-    public TourEntity (Tour tour) {
+    private List<UserInTourEntity> userInTourEntities;
+
+    public TourEntity(Tour tour) {
         setTourType(tour.getTourType());
         setTourName(tour.getTourName());
         setTourDate(tour.getTourDate());
@@ -59,12 +59,18 @@ public class TourEntity extends BaseEntity {
         setCost(tour.getCost());
         setStatus(Status.ACTIVE);
     }
-    
+
+    /**
+     * Sets the maximum quantity value.
+     *
+     * @param maxQuantity The maximum quantity to be set.
+     * @throws IllegalArgumentException if the provided maxQuantity is greater than 50 or less than 7.
+     */
     void setMaxQuantity(int maxQuantity) {
-        if (maxQuantity>50){
+        if (maxQuantity > 50) {
             throw new IllegalArgumentException("MaxQuantity Can Not Be More Than 50");
         }
-        if (maxQuantity<7){
+        if (maxQuantity < 7) {
             throw new IllegalArgumentException("MaxQuantity Can Not Be Less Than 7");
         }
         this.maxQuantity = maxQuantity;

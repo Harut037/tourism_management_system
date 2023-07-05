@@ -14,22 +14,22 @@ import java.time.LocalDate;
  */
 @MappedSuperclass
 @Data
-@EntityListeners ( AuditingEntityListener.class)
+@EntityListeners(AuditingEntityListener.class)
 public class BaseEntity {
-    
+
     @Id
-    @GeneratedValue ( strategy = GenerationType.IDENTITY )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     @CreatedDate
-    @Column ( name = "created" )
+    @Column(name = "created")
     private LocalDate created;
-    
+
     @LastModifiedDate
-    @Column ( name = "updated" )
+    @Column(name = "updated")
     private LocalDate updated;
-    
-    @Enumerated ( EnumType.STRING )
-    @Column ( name = "status" )
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
     private Status status;
 }

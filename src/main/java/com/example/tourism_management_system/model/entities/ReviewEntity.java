@@ -8,14 +8,14 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-@EqualsAndHashCode ( callSuper = true )
+@EqualsAndHashCode(callSuper = true)
 @Entity
-@Table ( name = "review" )
+@Table(name = "review")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class ReviewEntity extends BaseEntity {
-    
+
     private String feedback;
     @Column(name = "driver", nullable = false)
     private Integer driver;
@@ -27,8 +27,8 @@ public class ReviewEntity extends BaseEntity {
     private Integer tour;
     @Column(name = "company", nullable = false)
     private Integer company;
-    
-    public ReviewEntity (Review review) {
+
+    public ReviewEntity(Review review) {
         this.feedback = review.getFeedback();
         this.driver = review.getDriver();
         this.guide = review.getGuide();

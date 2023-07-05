@@ -12,36 +12,36 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import java.time.LocalDate;
 import java.util.List;
 
-@EqualsAndHashCode ( callSuper = true )
+@EqualsAndHashCode(callSuper = true)
 @Entity
-@Table ( name = "user_entity" )
+@Table(name = "user_entity")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserEntity extends BaseEntity {
-    
-    @Column ( nullable = false, length = 50 )
-    private String            firstName;
-    @Column ( nullable = false, length = 50 )
-    private String            lastName;
-    @Column ( nullable = false, length = 50, unique = true )
-    private String    email;
-    @Column ( nullable = false )
+
+    @Column(nullable = false, length = 50)
+    private String firstName;
+    @Column(nullable = false, length = 50)
+    private String lastName;
+    @Column(nullable = false, length = 50, unique = true)
+    private String email;
+    @Column(nullable = false)
     private LocalDate birthDate;
-    @Column ( nullable = false )
-    private String    password;
-    @Column ( nullable = false, length = 12, unique = true )
-    private String            phoneNumber;
+    @Column(nullable = false)
+    private String password;
+    @Column(nullable = false, length = 12, unique = true)
+    private String phoneNumber;
     @OneToOne
-    @JoinColumn ( name = "role_id" )
-    private RoleEntity              roleEntity;
+    @JoinColumn(name = "role_id")
+    private RoleEntity roleEntity;
     @OneToOne
     @JoinColumn(name = "card_id")
-    private CardEntityForUser       cardEntityForUser;
+    private CardEntityForUser cardEntityForUser;
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
-    private List <UserInTourEntity> userInTourEntities;
-    
-    public UserEntity (SignUpUser signUpUser) {
+    private List<UserInTourEntity> userInTourEntities;
+
+    public UserEntity(SignUpUser signUpUser) {
         this.setFirstName(signUpUser.getFirstName());
         this.setLastName(signUpUser.getLastName());
         this.setEmail(signUpUser.getEmail());
@@ -50,8 +50,8 @@ public class UserEntity extends BaseEntity {
         this.setPhoneNumber(signUpUser.getPhoneNumber());
         this.setStatus(Status.ACTIVE);
     }
-    
-    public void setPassword(String password){
+
+    public void setPassword(String password) {
         this.password = new BCryptPasswordEncoder().encode(password);
     }
 }

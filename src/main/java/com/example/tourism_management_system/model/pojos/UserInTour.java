@@ -9,13 +9,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserInTour {
-    
-    private User         user;
-    private Tour         tour;
-    private Integer      quantity;
-    private Double        price;
+
+    private User user;
+    private Tour tour;
+    private Integer quantity;
+    private Double price;
     private String transactionNumber;
-    private Review        review;
+    private Review review;
 
     public UserInTour(UserInTourEntity userInTourEntity) {
         this.setUser(new User(userInTourEntity.getUser()));
@@ -27,11 +27,11 @@ public class UserInTour {
             this.setReview(new Review(userInTourEntity.getReviewEntity()));
         }
     }
-    
-    public UserInTour (User user, Tour tour, Integer quantity) {
+
+    public UserInTour(User user, Tour tour, Integer quantity) {
         this.setUser(user);
         this.setTour(tour);
         this.setQuantity(quantity);
-        this.setPrice((double)this.quantity*this.tour.getCost());
+        this.setPrice((double) this.quantity * this.tour.getCost());
     }
 }

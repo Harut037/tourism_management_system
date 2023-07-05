@@ -8,12 +8,12 @@ import java.time.format.DateTimeFormatter;
 
 @Component
 public class ValidationForCardForUser {
-    
+
     /**
-     * The validateExpirationDate method validates a given expiration date and checks if it is after the current date.
+     * Validates the expiration date against the current date.
      *
-     * @param expirationDate the expiration date to be validated
-     * @return the validated expiration date if it is after the current date, or null if it is not
+     * @param expirationDate The expiration date to be validated.
+     * @return The validated expiration date if it is after the current date, or null if the expiration date is null or before the current date.
      */
     public LocalDate validateExpirationDate(LocalDate expirationDate) {
         LocalDate currentDate = LocalDate.now();
@@ -26,13 +26,12 @@ public class ValidationForCardForUser {
             return null;
         }
     }
-    
+
     /**
-     * The isValidCard method checks if a given card object is valid by validating its card number, card type, expiration date, and currency.
-     * If any of these validations fail, the method returns false. Otherwise, it returns true.
+     * Checks if a given card is valid.
      *
-     * @param cardForUser the card object to be validated
-     * @return true if the card object is valid, false otherwise
+     * @param cardForUser The card information to be validated.
+     * @return true if the card is valid, false otherwise.
      */
     public boolean isValidCard(CardForUser cardForUser) {
         try {

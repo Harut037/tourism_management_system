@@ -18,19 +18,19 @@ public class CardServiceImpl implements CardService {
 
     private final ValidationForCard validationForCard;
     private final CardRepository cardRepository;
-    
+
     @Autowired
-    public CardServiceImpl (CardRepository cardRepository, ValidationForCard validationForCard) {
+    public CardServiceImpl(CardRepository cardRepository, ValidationForCard validationForCard) {
         this.cardRepository = cardRepository;
         this.validationForCard = validationForCard;
     }
 
     /**
-     * The createCard method creates a new card by converting a Card object into a CardEntity and saving it to the cardRepository.
+     * Creates a new card and saves it in the card repository.
      *
-     * @param card the Card object containing the card information to be created
+     * @param card The card object to be created and saved.
+     * @return A string indicating the success message of the card creation process.
      */
-
     @Override
     public String createCard(Card card) {
         card.setCvv(validationForCard.generateCvv());
@@ -40,6 +40,12 @@ public class CardServiceImpl implements CardService {
         return "Card created successfully";
     }
 
+    /**
+     * Compares the provided card details with the cards stored in the card repository.
+     *
+     * @param cardForUser The card details to be compared.
+     * @return {@code true} if a card with matching details is found in the repository, {@code false} otherwise.
+     */
     @Override
     public boolean compareCard(CardForUser cardForUser) {
         Optional<CardEntity> cardEntity = cardRepository.findCard(cardForUser.getCardNumber(), cardForUser.getOwner(),
@@ -48,10 +54,10 @@ public class CardServiceImpl implements CardService {
     }
 
     /**
-     * The getCard method retrieves a CardEntity from the cardRepository based on the provided card number.
+     * Retrieves a card entity from the card repository based on the provided card number.
      *
-     * @param cardNumber the card number used to search for the card entity
-     * @return an Optional containing the CardEntity if found, or an empty Optional if not found
+     * @param cardNumber The card number associated with the card entity to be retrieved.
+     * @return An optional containing the card entity if found, or an empty optional if not found.
      */
     public Optional<CardEntity> getCard(String cardNumber) {
         return cardRepository.findCardEntityByCardNumber(cardNumber);
@@ -65,13 +71,13 @@ public class CardServiceImpl implements CardService {
     public List<CardEntity> getAllCards() {
         return cardRepository.findAll();
     }
-    
+
     /**
-     * The rechargeBalance method updates the balance of a card by adding the specified amount to the existing balance.
+     * Recharges the balance of a card identified by the provided card number.
      *
-     * @param cardNumber the card number for which the balance needs to be recharged
-     * @param balance    the amount to be added to the existing balance
-     * @return a string indicating the success of the balance recharge
+     * @param cardNumber The card number associated with the card to be recharged.
+     * @param balance    The amount of balance to be added to the card.
+     * @return A string indicating the success message of the balance recharge process.
      */
     public String rechargeBalance(String cardNumber, double balance) {
         Optional<CardEntity> cardEntity = cardRepository.findCardEntityByCardNumber(cardNumber);
@@ -83,11 +89,11 @@ public class CardServiceImpl implements CardService {
     }
 
     /**
-     * The withdrawBalance method updates the balance of a card by deducting the specified amount from the existing balance.
+     * Withdraws the specified balance from the card identified by the provided card number.
      *
-     * @param cardNumber the card number for which the balance needs to be withdrawn
-     * @param balance    the amount to be deducted from the existing balance
-     * @return a string indicating the success of the balance withdrawal or an error message if the transaction cannot be completed
+     * @param cardNumber The card number associated with the card to withdraw balance from.
+     * @param balance    The amount of balance to be withdrawn from the card.
+     * @return A string indicating the status of the withdrawal transaction.
      */
     public String withdrawBalance(String cardNumber, double balance) {
         Optional<CardEntity> cardEntity = cardRepository.findCardEntityByCardNumber(cardNumber);
@@ -97,7 +103,7 @@ public class CardServiceImpl implements CardService {
         } else return "You don't have enough money to complete the transaction";
         return "Transaction completed successfully";
     }
-    
+
     /**
      * The checkBalance method retrieves the current balance of a card.
      *
@@ -108,9 +114,15 @@ public class CardServiceImpl implements CardService {
         Optional<CardEntity> cardEntity = cardRepository.findCardEntityByCardNumber(cardNumber);
         return "Your current balance` " + cardEntity.get().getBalance() + " " + cardEntity.get().getCurrency();
     }
-    
+
+    /**
+     * Retrieves a Card object based on the provided CardForUser details.
+     *
+     * @param cardForUser The CardForUser object containing the card details to retrieve.
+     * @return A Card object created from the CardEntity found in the card repository.
+     */
     @Override
-    public Card getCard (CardForUser cardForUser) {
+    public Card getCard(CardForUser cardForUser) {
         return new Card(cardRepository.findCardEntityByCardNumber(cardForUser.getCardNumber()).get());
     }
 }

@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -22,10 +21,10 @@ public class Card {
     private String type;
     private double balance;
     private LocalDate expirationDate;
-    private Status    status;
-    private String    cvv;
+    private Status status;
+    private String cvv;
     private String currency;
-    
+
     public Card(CardEntity cardEntity) {
         setCardNumber(cardEntity.getCardNumber());
         setOwner(cardEntity.getOwner());
@@ -36,7 +35,7 @@ public class Card {
         setCurrency(cardEntity.getCurrency());
         setCvv(cardEntity.getCvv());
     }
-    
+
     public Card(CardForUser cardForUser) {
         setCardNumber(cardForUser.getCardNumber());
         setOwner(cardForUser.getOwner());

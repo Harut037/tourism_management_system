@@ -15,11 +15,8 @@ import java.util.Optional;
 public class TransactionServiceImpl implements TransactionService {
 
     private final TransactionRepository transactionRepository;
-
     private final ValidationForCard validationForCard;
-
     private final CardServiceImpl cardService;
-
 
     @Autowired
     public TransactionServiceImpl(TransactionRepository transactionRepository, ValidationForCard validationForCard, CardServiceImpl cardService) {
@@ -28,6 +25,13 @@ public class TransactionServiceImpl implements TransactionService {
         this.cardService = cardService;
     }
 
+    /**
+     * Performs a transaction using the provided card and price.
+     *
+     * @param card  The Card object associated with the transaction.
+     * @param price The price of the transaction.
+     * @return The transaction number if the transaction is successful, or a message indicating insufficient funds.
+     */
     @Override
     public String makeTransaction(Card card, double price) {
         TransactionEntity transactionEntity = new TransactionEntity(card, price);
@@ -39,23 +43,28 @@ public class TransactionServiceImpl implements TransactionService {
             transactionEntity.setCurrency(card.getCurrency());
             transactionRepository.save(transactionEntity);
             return transactionEntity.getTransactionNumber();
-
         } else
             return "You don`t have enough money";
-
-
     }
 
+    /**
+     * Reverts a transaction based on the provided transaction number.
+     *
+     * @param transactionNumber The transaction number associated with the transaction to be reverted.
+     * @return A string indicating the success status of the transaction reversion.
+     * @throws IllegalArgumentException if the transaction is already reverted or not found.
+     */
     @Override
     public String revertTransaction(String transactionNumber) {
         Optional<TransactionEntity> transactionEntity = transactionRepository.findTransaction(transactionNumber);
         if (transactionEntity.isPresent() && transactionEntity.get().getFlag()) {
             cardService.withdrawBalance(transactionEntity.get().getReceiver(), transactionEntity.get().getPrice());
             CardEntity cardEntity = cardService.getCard(transactionEntity.get().getSender()).get();
-            double     d          = validationForCard.getRate("AMD", cardEntity.getCurrency(), transactionEntity.get().getPrice());
+            double d = validationForCard.getRate("AMD", cardEntity.getCurrency(), transactionEntity.get().getPrice());
             cardService.rechargeBalance(transactionEntity.get().getSender(), d);
             transactionRepository.revert(transactionNumber);
             return "Success";
-        } throw new IllegalArgumentException("Transaction Is Already Reverted");
+        }
+        throw new IllegalArgumentException("Transaction Is Already Reverted");
     }
 }

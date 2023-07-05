@@ -15,12 +15,12 @@ import java.util.List;
 public class ValidationForTour {
 
     /**
-     * The tourName method returns the corresponding place name based on the provided tour type and tour name.
-     * The tour type and tour name are used to determine the enum value and retrieve the corresponding place name.
+     * Retrieves the corresponding tour name based on the given tour type and tour name.
      *
-     * @param tourType the type of the tour (CULTURAL, CAMPAIGN, or ADVENTURE)
-     * @param tourName the name of the tour
-     * @return the corresponding place name for the given tour type and tour name, or null if not found or an invalid argument is provided
+     * @param tourType The type of the tour.
+     * @param tourName The name of the tour.
+     * @return The corresponding tour name based on the tour type and name.
+     * @throws IllegalArgumentException If the tour type or tour name is invalid.
      */
     public String tourName(String tourType, String tourName) {
         tourName = tourName.toUpperCase();
@@ -73,13 +73,14 @@ public class ValidationForTour {
             return startTime;
         } else return null;
     }
-    
+
     /**
-     * The ValidateTourInformation method validates the tour name and retrieves information about the cultural tour.
-     * Finding the name of the tour, it gets the parameters about it
+     * Validates the tour information and returns a list of objects containing the validated information.
      *
-     * @param tourName name the cultural tour
-     * @return a list of objects containing information about the cultural tour or void if the tour name is not recognized
+     * @param tourType The type of tour.
+     * @param tourName The name of the tour place.
+     * @return A list of objects containing the validated information.
+     * @throws IllegalArgumentException If the tour type or tour name is invalid.
      */
     public List<Object> validateTourInformation(String tourType, String tourName) {
         tourName = tourName.toUpperCase();
@@ -102,6 +103,12 @@ public class ValidationForTour {
         }
     }
 
+    /**
+     * Returns a list of objects containing the validated information for a cultural tour.
+     *
+     * @param tourName The name of the cultural tour.
+     * @return A list of objects containing the validated information.
+     */
     public List<Object> forCultural(String tourName) {
         tourName = tourName.toUpperCase();
         List<Object> objectList = null;
@@ -116,6 +123,12 @@ public class ValidationForTour {
         return objectList;
     }
 
+    /**
+     * Returns a list of objects containing the validated information for an adventure tour.
+     *
+     * @param tourName The name of the adventure tour.
+     * @return A list of objects containing the validated information.
+     */
     public List<Object> forAdventure(String tourName) {
         tourName = tourName.toUpperCase();
         List<Object> objectList = null;
@@ -129,7 +142,13 @@ public class ValidationForTour {
         }
         return objectList;
     }
-    
+
+    /**
+     * Returns a list of objects containing the validated information for a campaign tour.
+     *
+     * @param tourName The name of the campaign tour.
+     * @return A list of objects containing the validated information.
+     */
     public List<Object> forCampaign(String tourName) {
         tourName = tourName.toUpperCase();
         List<Object> objectList = null;
@@ -143,13 +162,13 @@ public class ValidationForTour {
         }
         return objectList;
     }
-    
+
     /**
-     * The isValidTour method checks if a given tour object is valid by validating its tour name, tour date, car type, and start time.
-     * If any of these validations fail, the method returns false. Otherwise, it retrieves information about the tour and updates the tour object.
+     * Validates a tour and returns True if it is valid, False otherwise.
      *
-     * @param tour the tour object to be validated
-     * @return true if the tour object is valid and information is successfully retrieved, false otherwise
+     * @param tour The tour to be validated.
+     * @return True if the tour is valid, False otherwise.
+     * @throws IllegalArgumentException If the tour is not valid.
      */
     public boolean isValidTour(Tour tour) {
         if (tourName(tour.getTourType(), tour.getTourName()) == null ||
@@ -161,21 +180,21 @@ public class ValidationForTour {
         List<Object> list = validateTourInformation(tour.getTourType(), tour.getTourName());
         tour.setDistance(list.get(1) + " km");
         tour.setDuration(list.get(2) + " hours");
-        if (tour.getCost() != null){
-            if (tour.getCost() < 3000){
+        if (tour.getCost() != null) {
+            if (tour.getCost() < 3000) {
                 throw new IllegalArgumentException("The cost cannot be cheaper than 3000");
             }
-            if (tour.getCost() > 30000){
+            if (tour.getCost() > 30000) {
                 throw new IllegalArgumentException("The cost cannot be more expensive than 30000");
             }
-        }else {
+        } else {
             tour.setCost((Integer) list.get(3));
         }
-        if (tour.getMaxQuantity() != null){
-            if (tour.getMaxQuantity()>50){
+        if (tour.getMaxQuantity() != null) {
+            if (tour.getMaxQuantity() > 50) {
                 throw new IllegalArgumentException("MaxQuantity Can Not Be More Than 50");
             }
-            if (tour.getMaxQuantity()<7){
+            if (tour.getMaxQuantity() < 7) {
                 throw new IllegalArgumentException("MaxQuantity Can Not Be Less Than 7");
             }
         } else {
@@ -184,7 +203,14 @@ public class ValidationForTour {
         tour.setGeneralQuantity(0);
         return true;
     }
-    
+
+    /**
+     * Checks if a tour is enabled for booking.
+     *
+     * @param tour     The tour to check.
+     * @param quantity The number of tickets to book.
+     * @return True if the tour is enabled for booking, false otherwise.
+     */
     public boolean isEnableForBooking(Tour tour, int quantity) {
         LocalDate currentDate = LocalDate.now();
         LocalDate beforeDate = currentDate.minusDays(2);
@@ -192,6 +218,12 @@ public class ValidationForTour {
         return !tourDate.isBefore(beforeDate) && (quantity + tour.getGeneralQuantity()) <= tour.getMaxQuantity();
     }
 
+    /**
+     * Checks if a tour is enabled for canceling.
+     *
+     * @param tour The tour to check.
+     * @return True if the tour is enabled for canceling, false otherwise.
+     */
     public boolean isEnableForCanceling(Tour tour) {
         LocalDate currentDate = LocalDate.now();
         LocalDate beforeDate = currentDate.minusDays(2);
@@ -199,12 +231,19 @@ public class ValidationForTour {
         return !tourDate.isBefore(beforeDate);
     }
 
-    public String forCarType(Integer quantity){
-        if (quantity >= 1 && quantity <= 7){
+    /**
+     * Returns the type of car for a given number of passengers.
+     *
+     * @param quantity The number of passengers.
+     * @return The type of car, as a string.
+     * @throws IllegalArgumentException If the number of passengers is not within the valid range.
+     */
+    public String forCarType(Integer quantity) {
+        if (quantity >= 1 && quantity <= 7) {
             return Transport.MINIVAN.toString();
-        }else if (quantity >= 8 && quantity <= 18){
+        } else if (quantity >= 8 && quantity <= 18) {
             return Transport.MINIBUS.toString();
-        }else if (quantity >= 19 && quantity <= 50){
+        } else if (quantity >= 19 && quantity <= 50) {
             return Transport.BUS.toString();
         }
         throw new IllegalArgumentException();

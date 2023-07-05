@@ -7,9 +7,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
 public interface CardForUserRepository extends JpaRepository<CardEntityForUser, Long> {
-    
+
     @Transactional
     @Modifying
     @Query("UPDATE CardEntityForUser c SET c.status = 'DELETED' WHERE c.cardNumber = :cardNumber")
-    int deleteByCardNumber (String cardNumber);
+    int deleteByCardNumber(String cardNumber);
 }

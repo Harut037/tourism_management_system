@@ -14,14 +14,14 @@ import java.util.Optional;
 
 @Repository
 public interface TourRepository extends JpaRepository<TourEntity, Long> {
-    
+
     @Transactional
     @Query("SELECT t FROM TourEntity t WHERE t.status = 'ACTIVE'")
     List<TourEntity> findAllActiveTours();
-    
+
     @Transactional
     @Query("SELECT t FROM TourEntity t WHERE t.tourName = :tourName and t.tourDate = :tourDate")
-    Optional <TourEntity> findTour(String tourName, LocalDate tourDate);
+    Optional<TourEntity> findTour(String tourName, LocalDate tourDate);
 
     @Transactional
     @Modifying
@@ -45,30 +45,29 @@ public interface TourRepository extends JpaRepository<TourEntity, Long> {
     @Modifying
     @Query("UPDATE TourEntity t set t.status = 'DELETED' where t.id =:id")
     void flag(Long id);
-    
+
     @Transactional
     @Modifying
     @Query("UPDATE TourEntity t SET t.startTime = :newStartTime where t.tourName = :tourName and t.tourDate = :tourDate")
     void updateStartTime(LocalTime newStartTime, String tourName, LocalDate tourDate);
-    
+
     @Transactional
     @Modifying
     @Query("UPDATE TourEntity  t SET t.cost = :newCost where t.tourName = :tourName and t.tourDate = :tourDate")
-    void updateCost(double newCost,String tourName, LocalDate tourDate);
-    
+    void updateCost(double newCost, String tourName, LocalDate tourDate);
+
     @Transactional
     @Modifying
     @Query("UPDATE TourEntity  t SET t.carType = :newCarType where t.tourName = :tourName and t.tourDate = :tourDate")
-    void updateCarType(String newCarType,String tourName, LocalDate tourDate);
-    
+    void updateCarType(String newCarType, String tourName, LocalDate tourDate);
+
     @Transactional
     @Modifying
     @Query("UPDATE TourEntity  t SET t.generalQuantity = :newGeneralQuantity where t.tourName = :tourName and t.tourDate = :tourDate")
-    void updateQuantity(Integer newGeneralQuantity,String tourName, LocalDate tourDate);
+    void updateQuantity(Integer newGeneralQuantity, String tourName, LocalDate tourDate);
 
     @Transactional
     @Modifying
     @Query("UPDATE TourEntity  t SET t.maxQuantity = :newMaxQuantity where t.tourName = :tourName and t.tourDate = :tourDate")
-    void updateMaxQuantity(Integer newMaxQuantity,String tourName, LocalDate tourDate);
-
+    void updateMaxQuantity(Integer newMaxQuantity, String tourName, LocalDate tourDate);
 }
