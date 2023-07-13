@@ -49,7 +49,7 @@ public class GuestController {
         return userService.signUp(signUpUser);
     }
     
-    @PostMapping ( "/signIn" )
+    @GetMapping ( "/signIn" )
     public String signIn (@RequestBody AuthRequest authRequest) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getEmail(), authRequest.getPassword()));
         if (authentication.isAuthenticated()) {

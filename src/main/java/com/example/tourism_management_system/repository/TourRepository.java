@@ -1,6 +1,7 @@
 package com.example.tourism_management_system.repository;
 
 import com.example.tourism_management_system.model.entities.TourEntity;
+import com.example.tourism_management_system.model.enums.enumForTour.Transport;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -59,7 +60,7 @@ public interface TourRepository extends JpaRepository<TourEntity, Long> {
     @Transactional
     @Modifying
     @Query("UPDATE TourEntity  t SET t.carType = :newCarType where t.tourName = :tourName and t.tourDate = :tourDate")
-    void updateCarType(String newCarType, String tourName, LocalDate tourDate);
+    void updateCarType(Transport newCarType, String tourName, LocalDate tourDate);
 
     @Transactional
     @Modifying

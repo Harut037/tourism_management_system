@@ -2,7 +2,6 @@ package com.example.tourism_management_system.controller;
 
 import com.example.tourism_management_system.model.pojos.GetTour;
 import com.example.tourism_management_system.model.pojos.Tour;
-import com.example.tourism_management_system.model.pojos.User;
 import com.example.tourism_management_system.model.pojos.UserInTour;
 import com.example.tourism_management_system.service.TourAdministratorService;
 import com.example.tourism_management_system.service.TourService;
@@ -38,8 +37,9 @@ public class TourAdministratorController {
 
     @PostMapping("/addTour")
     public String addTour(@RequestBody GetTour getTour) {
-        if (validationForTour.isValidTour(new Tour(getTour))) {
-            return tourAdministratorService.addTour(new Tour(getTour));
+        Tour tour = new Tour(getTour);
+        if (validationForTour.isValidTour(tour)) {
+            return tourAdministratorService.addTour(tour);
         }
         return "Invalid Tour";
     }

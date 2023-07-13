@@ -1,5 +1,6 @@
 package com.example.tourism_management_system.model.pojos;
 
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,7 +20,6 @@ public class SignUpUser {
     @NonNull
     @Pattern(regexp = "[A-Z][a-z]+", message = "Invalid Last Name Pattern")
     private String lastName;
-    //TODO validation
     @NonNull
     private LocalDate birthDate;
     @NonNull

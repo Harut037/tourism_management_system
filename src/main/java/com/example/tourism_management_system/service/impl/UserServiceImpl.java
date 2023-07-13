@@ -11,6 +11,7 @@ import com.example.tourism_management_system.service.*;
 import com.example.tourism_management_system.bank.api.service.TransactionService;
 import com.example.tourism_management_system.validation.tour.ValidationForCardForUser;
 import com.example.tourism_management_system.validation.tour.ValidationForTour;
+import com.example.tourism_management_system.validation.tour.ValidationForUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -68,6 +69,8 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public String signUp(final SignUpUser signUpUser) {
+        ValidationForUser validationForUser = new ValidationForUser();
+        validationForUser.isAdult(signUpUser.getBirthDate());
         UserEntity userEntity = new UserEntity(signUpUser);
         Optional<UserEntity> op1 = userRepository.findByEmail(signUpUser.getEmail());
         Optional<UserEntity> op2 = userRepository.findByPhoneNumber(signUpUser.getPhoneNumber());
@@ -161,6 +164,7 @@ public class UserServiceImpl implements UserService {
     /**
      * Books a tour for the user with the specified email.
      *
+     *
      * @param bookTour the tour booking details
      * @param email    the email of the user
      * @return a message indicating the success of the booking
@@ -176,7 +180,7 @@ public class UserServiceImpl implements UserService {
                 throw new IllegalArgumentException("There Is No Card For This User");
             }
             String transactionNumber = transactionService.makeTransaction(cardService.getCard(user.getCardForUser()), userInTour.getPrice());
-            if (transactionNumber == null || transactionNumber.equals("Not Successful")) {
+            if (transactionNumber == null || transactionNumber.equals("You don`t have enough money")) {
                 throw new IllegalArgumentException("Not Successful Transaction Please Try Again");
             }
             userInTour.setTransactionNumber(transactionNumber);

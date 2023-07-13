@@ -1,6 +1,7 @@
 package com.example.tourism_management_system.validation.tour;
 
 import com.example.tourism_management_system.model.entities.TourEntity;
+import com.example.tourism_management_system.model.enums.enumForTour.Transport;
 import com.example.tourism_management_system.repository.TourRepository;
 import com.example.tourism_management_system.service.impl.JwtService;
 import com.example.tourism_management_system.service.impl.TourServiceImpl;
@@ -33,7 +34,7 @@ public class Scheduler {
      * Deletes past date tours and updates car type for upcoming tours.
      * This method is scheduled to run every hour.
      */
-//    @Scheduled(fixedRate = 5000)
+    @Scheduled(fixedRate = 5000)
     @Scheduled(cron = "0 0 * * * *")
     public void deletePastDateTours() {
         LocalDate currentDate = LocalDate.now();
@@ -41,7 +42,7 @@ public class Scheduler {
         for (TourEntity tour : tours) {
             if (tour.getTourDate().minusDays(2).isBefore(currentDate) || tour.getTourDate().minusDays(2).isEqual(currentDate)) {
                 String s = validation.forCarType(tour.getGeneralQuantity());
-                tourRepository.updateCarType(s, tour.getTourName(), tour.getTourDate());
+                tourRepository.updateCarType(Transport.valueOf(s), tour.getTourName(), tour.getTourDate());
             }
             if (tour.getTourDate().isBefore(currentDate)) {
                 tourService.deleteById(tour.getId());
@@ -56,7 +57,7 @@ public class Scheduler {
      * checks if each token is expired using the isTokenExpired() method,
      * and removes the expired tokens from the list.
      */
-    @Scheduled(fixedRate = 1000 * 60 * 30)
+    @Scheduled(fixedRate = 1000 * 60 * 60)
     public void deleteExpiredTokensFromBlackList() {
         Map<String, Boolean> map = JwtService.invalidatedTokens;
         Map<String, Boolean> newMap = new HashMap<>();

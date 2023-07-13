@@ -35,6 +35,7 @@ public class UserInTourEntity extends BaseEntity {
     public UserInTourEntity(UserInTour userInTour) {
         this.setTransactionNumber(userInTour.getTransactionNumber());
         this.setQuantity(userInTour.getQuantity());
+        this.setTour(new TourEntity(userInTour.getTour()));
         this.setPrice((double) this.quantity * this.tour.getCost());
         this.setStatus(Status.ACTIVE);
     }

@@ -35,8 +35,8 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public String makeTransaction(Card card, double price) {
         TransactionEntity transactionEntity = new TransactionEntity(card, price);
-        if (card.getBalance() >= price) {
-            double d = validationForCard.getRate("AMD", card.getCurrency(), price);
+        double d = validationForCard.getRate("AMD", card.getCurrency(), price);
+        if (card.getBalance() >= d) {
             cardService.withdrawBalance(card.getCardNumber(), d);
             cardService.rechargeBalance("4847243400981111", price);
             transactionEntity.setTransactionNumber(validationForCard.generateTransactionNumber());

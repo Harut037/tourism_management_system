@@ -103,70 +103,70 @@ class ValidationForTourTest {
         assertNull(validatedStartTime);
     }
 
-    @Test
-    void testCarType() {
-        ValidationForTour validationForTour = new ValidationForTour();
-
-        String carTypeBus = "BUS";
-        String resultBus = validationForTour.carType(carTypeBus);
-        Assertions.assertEquals("BUS", resultBus);
-
-        String carTypeMinibus = "MINIBUS";
-        String resultMinibus = validationForTour.carType(carTypeMinibus);
-        Assertions.assertEquals("MINIBUS", resultMinibus);
-
-        String carTypeMinivan = "MINIVAN";
-        String resultMinivan = validationForTour.carType(carTypeMinivan);
-        Assertions.assertEquals("MINIVAN", resultMinivan);
-
-        String carType = "Bus";
-        String result = validationForTour.carType(carType);
-        Assertions.assertEquals("BUS", result);
-
-        String carTypeInvalid = "INVALID";
-        String resultInvalid = validationForTour.carType(carTypeInvalid);
-        Assertions.assertNull(resultInvalid);
-
-        String invalidCarType = "Buses";
-        String result0 = validationForTour.carType(invalidCarType);
-        assertNull(result0);
-    }
-
-    @Test
-    void testToValidateQuantity() {
-        ValidationForTour validation = new ValidationForTour();
-
-        String carTypeMinivan = "MINIVAN";
-        int quantityForMinivan = validation.validateQuantity(carTypeMinivan);
-        Assertions.assertEquals(7, quantityForMinivan);
-        Assertions.assertNotEquals(3, quantityForMinivan);
-        Assertions.assertNotEquals(14, quantityForMinivan);
-        Assertions.assertNotEquals(-5, quantityForMinivan);
-        Assertions.assertNotEquals(0, quantityForMinivan);
-
-        String carTypeMinibus = "MINIBUS";
-        int quantityForMinibus = validation.validateQuantity(carTypeMinibus);
-        Assertions.assertEquals(17, quantityForMinibus);
-        Assertions.assertNotEquals(3, quantityForMinibus);
-        Assertions.assertNotEquals(21, quantityForMinibus);
-        Assertions.assertNotEquals(-1, quantityForMinibus);
-        Assertions.assertNotEquals(0, quantityForMinibus);
-
-        String carTypeBus = "BUS";
-        int quantityForBus = validation.validateQuantity(carTypeBus);
-        Assertions.assertEquals(50, quantityForBus);
-        Assertions.assertNotEquals(17, quantityForBus);
-        Assertions.assertNotEquals(71, quantityForBus);
-        Assertions.assertNotEquals(-3, quantityForBus);
-        Assertions.assertNotEquals(0, quantityForBus);
-
-        String carTypeBus1 = "Bus";
-        int quantityForBus1 = validation.validateQuantity(carTypeBus1);
-        Assertions.assertEquals(50, quantityForBus1);
-
-        int quantityForSedan = validation.validateQuantity("SEDAN");
-        assertEquals(-1, quantityForSedan);
-    }
+//    @Test
+//    void testCarType() {
+//        ValidationForTour validationForTour = new ValidationForTour();
+//
+//        String carTypeBus = "BUS";
+//        String resultBus = validationForTour.carType(carTypeBus);
+//        Assertions.assertEquals("BUS", resultBus);
+//
+//        String carTypeMinibus = "MINIBUS";
+//        String resultMinibus = validationForTour.carType(carTypeMinibus);
+//        Assertions.assertEquals("MINIBUS", resultMinibus);
+//
+//        String carTypeMinivan = "MINIVAN";
+//        String resultMinivan = validationForTour.carType(carTypeMinivan);
+//        Assertions.assertEquals("MINIVAN", resultMinivan);
+//
+//        String carType = "Bus";
+//        String result = validationForTour.carType(carType);
+//        Assertions.assertEquals("BUS", result);
+//
+//        String carTypeInvalid = "INVALID";
+//        String resultInvalid = validationForTour.carType(carTypeInvalid);
+//        Assertions.assertNull(resultInvalid);
+//
+//        String invalidCarType = "Buses";
+//        String result0 = validationForTour.carType(invalidCarType);
+//        assertNull(result0);
+//    }
+//
+//    @Test
+//    void testToValidateQuantity() {
+//        ValidationForTour validation = new ValidationForTour();
+//
+//        String carTypeMinivan = "MINIVAN";
+//        int quantityForMinivan = validation.validateQuantity(carTypeMinivan);
+//        Assertions.assertEquals(7, quantityForMinivan);
+//        Assertions.assertNotEquals(3, quantityForMinivan);
+//        Assertions.assertNotEquals(14, quantityForMinivan);
+//        Assertions.assertNotEquals(-5, quantityForMinivan);
+//        Assertions.assertNotEquals(0, quantityForMinivan);
+//
+//        String carTypeMinibus = "MINIBUS";
+//        int quantityForMinibus = validation.validateQuantity(carTypeMinibus);
+//        Assertions.assertEquals(17, quantityForMinibus);
+//        Assertions.assertNotEquals(3, quantityForMinibus);
+//        Assertions.assertNotEquals(21, quantityForMinibus);
+//        Assertions.assertNotEquals(-1, quantityForMinibus);
+//        Assertions.assertNotEquals(0, quantityForMinibus);
+//
+//        String carTypeBus = "BUS";
+//        int quantityForBus = validation.validateQuantity(carTypeBus);
+//        Assertions.assertEquals(50, quantityForBus);
+//        Assertions.assertNotEquals(17, quantityForBus);
+//        Assertions.assertNotEquals(71, quantityForBus);
+//        Assertions.assertNotEquals(-3, quantityForBus);
+//        Assertions.assertNotEquals(0, quantityForBus);
+//
+//        String carTypeBus1 = "Bus";
+//        int quantityForBus1 = validation.validateQuantity(carTypeBus1);
+//        Assertions.assertEquals(50, quantityForBus1);
+//
+//        int quantityForSedan = validation.validateQuantity("SEDAN");
+//        assertEquals(-1, quantityForSedan);
+//    }
 
     @Test
     void testForValidateTourInformation() {

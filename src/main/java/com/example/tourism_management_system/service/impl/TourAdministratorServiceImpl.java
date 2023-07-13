@@ -5,7 +5,6 @@ import com.example.tourism_management_system.model.pojos.UserInTour;
 import com.example.tourism_management_system.service.TourAdministratorService;
 import com.example.tourism_management_system.service.TourService;
 import com.example.tourism_management_system.service.UserInTourService;
-import com.example.tourism_management_system.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

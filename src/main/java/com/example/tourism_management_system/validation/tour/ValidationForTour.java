@@ -201,6 +201,7 @@ public class ValidationForTour {
             tour.setMaxQuantity(50);
         }
         tour.setGeneralQuantity(0);
+        tour.setCarType(Transport.UNDEFINED);
         return true;
     }
 
@@ -213,7 +214,7 @@ public class ValidationForTour {
      */
     public boolean isEnableForBooking(Tour tour, int quantity) {
         LocalDate currentDate = LocalDate.now();
-        LocalDate beforeDate = currentDate.minusDays(2);
+        LocalDate beforeDate = currentDate.plusDays(2);
         LocalDate tourDate = tour.getTourDate();
         return !tourDate.isBefore(beforeDate) && (quantity + tour.getGeneralQuantity()) <= tour.getMaxQuantity();
     }
@@ -226,7 +227,7 @@ public class ValidationForTour {
      */
     public boolean isEnableForCanceling(Tour tour) {
         LocalDate currentDate = LocalDate.now();
-        LocalDate beforeDate = currentDate.minusDays(2);
+        LocalDate beforeDate = currentDate.plusDays(2);
         LocalDate tourDate = tour.getTourDate();
         return !tourDate.isBefore(beforeDate);
     }
