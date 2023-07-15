@@ -1,11 +1,13 @@
 package com.example.tourism_management_system.service.impl;
 
+import com.example.tourism_management_system.bank.api.service.TransactionService;
 import com.example.tourism_management_system.model.entities.TourEntity;
+import com.example.tourism_management_system.model.enums.Status;
 import com.example.tourism_management_system.model.pojos.Tour;
 import com.example.tourism_management_system.repository.TourRepository;
 import com.example.tourism_management_system.service.TourService;
+import com.example.tourism_management_system.service.UserInTourService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -14,15 +16,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@Component
 @Service
 public class TourServiceImpl implements TourService {
 
     private final TourRepository tourRepository;
+    @Autowired
+    private UserInTourService userInTourService;
+    private final TransactionService transactionService;
 
     @Autowired
-    public TourServiceImpl(TourRepository tourRepository) {
+    public TourServiceImpl(TourRepository tourRepository, TransactionService transactionService) {
         this.tourRepository = tourRepository;
+        this.transactionService = transactionService;
     }
 
     /**
@@ -84,8 +89,12 @@ public class TourServiceImpl implements TourService {
         Optional<TourEntity> op = tourRepository.findById(id);
         return op.map(Tour::new).orElse(null);
     }
-
-
+    
+    @Override
+    public TourEntity getEntityById (Long id) {
+        return tourRepository.findById(id).get();
+    }
+    
     /**
      * Deletes a tour by its ID.
      *
@@ -94,10 +103,19 @@ public class TourServiceImpl implements TourService {
      */
     @Override
     public String deleteById(Long id) {
-        if (tourRepository.findById(id).isPresent()) {
-            tourRepository.flag(id);
-            return "Successfully has been deleted";
-        } else return "This id does not exist.";
+        List<String> transactionNumbers = userInTourService.getTransactionNumbers(id);
+        String result = transactionService.revertTransactionList(transactionNumbers);
+        if (result.equals("Success")) {
+            for (String transactionNumber : transactionNumbers) {
+                userInTourService.cancelByUs(transactionNumber);
+            }
+            if (tourRepository.findById(id).isPresent()) {
+                tourRepository.delete(id, Status.DELETED);
+                return "Successfully has been deleted";
+            } else return "This id does not exist.";
+        } else {
+            throw new IllegalArgumentException("Could Not Delete");
+        }
     }
 
     /**
@@ -278,5 +296,10 @@ public class TourServiceImpl implements TourService {
             return "Updates have been done successfully";
         }
         throw new IllegalArgumentException("All Fields Are Null");
+    }
+    
+    @Override
+    public void doneById (Long id) {
+        tourRepository.done(id, Status.DONE);
     }
 }

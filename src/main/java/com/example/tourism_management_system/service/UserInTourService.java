@@ -20,4 +20,8 @@ public interface UserInTourService {
     Integer addReview(UserInTour userInTour, Long reviewId);
 
     List<UserInTour> findByTour(Tour tour);
+    
+    List<String> getTransactionNumbers (Long tourId);
+    
+    void cancelByUs (String transactionNumber);
 }

@@ -46,16 +46,18 @@ public class TourAdministratorController {
 
     @PutMapping("/editTour")
     public String editTour(@RequestBody GetTour getTour) {
-        if (validationForTour.isValidTour(new Tour(getTour))) {
-            return tourAdministratorService.editTour(new Tour(getTour));
+        Tour tour = new Tour(getTour);
+        if (validationForTour.isValidTourForEdit(tour)) {
+            return tourAdministratorService.editTour(tour);
         }
         return "Invalid Tour";
     }
 
     @PutMapping("/removeTour")
     public String removeTour(@RequestBody GetTour getTour) {
-        if (validationForTour.isValidTour(new Tour(getTour))) {
-            return tourAdministratorService.removeTour(new Tour(getTour));
+        Tour tour = new Tour(getTour);
+        if (validationForTour.isValidTourForRemove(tour)) {
+            return tourAdministratorService.removeTour(tour);
         }
         return "Invalid Tour";
     }

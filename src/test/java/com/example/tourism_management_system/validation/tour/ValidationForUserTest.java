@@ -11,12 +11,10 @@ class ValidationForUserTest {
         ValidationForUser validation = new ValidationForUser();
 
         LocalDate birthDate = LocalDate.of(2000, 1, 1);
-        LocalDate result = validation.isAdult(birthDate);
-        Assertions.assertEquals(birthDate, result);
+        Assertions.assertTrue(validation.isAdult(birthDate));
 
-        LocalDate birtDate0 = LocalDate.now().minusYears(18).minusDays(1);
-        LocalDate result0 = validation.isAdult(birtDate0);
-        Assertions.assertEquals(birtDate0, result0);
+        LocalDate birthDate0 = LocalDate.now().minusYears(16).minusDays(1);
+        Assertions.assertTrue(validation.isAdult(birthDate0));
 
         LocalDate birthDate1 = LocalDate.of(2007, 4, 25);
         Assertions.assertThrows(IllegalArgumentException.class, () -> {

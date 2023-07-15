@@ -1,6 +1,7 @@
 package com.example.tourism_management_system.repository;
 
 import com.example.tourism_management_system.model.entities.TourEntity;
+import com.example.tourism_management_system.model.enums.Status;
 import com.example.tourism_management_system.model.enums.enumForTour.Transport;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -44,9 +45,14 @@ public interface TourRepository extends JpaRepository<TourEntity, Long> {
 
     @Transactional
     @Modifying
-    @Query("UPDATE TourEntity t set t.status = 'DELETED' where t.id =:id")
-    void flag(Long id);
-
+    @Query("UPDATE TourEntity t set t.status = :status where t.id =:id")
+    void delete(Long id, Status status);
+    
+    @Transactional
+    @Modifying
+    @Query("UPDATE TourEntity t set t.status = :status where t.id =:id")
+    void done(Long id, Status status);
+    
     @Transactional
     @Modifying
     @Query("UPDATE TourEntity t SET t.startTime = :newStartTime where t.tourName = :tourName and t.tourDate = :tourDate")
@@ -71,4 +77,9 @@ public interface TourRepository extends JpaRepository<TourEntity, Long> {
     @Modifying
     @Query("UPDATE TourEntity  t SET t.maxQuantity = :newMaxQuantity where t.tourName = :tourName and t.tourDate = :tourDate")
     void updateMaxQuantity(Integer newMaxQuantity, String tourName, LocalDate tourDate);
+    
+    @Transactional
+    @Modifying
+    @Query("UPDATE TourEntity t set t.status = :status where t.id =:id")
+    void reserved (Long id, Status status);
 }

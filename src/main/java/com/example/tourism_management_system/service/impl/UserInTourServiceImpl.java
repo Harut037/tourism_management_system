@@ -3,6 +3,7 @@ package com.example.tourism_management_system.service.impl;
 import com.example.tourism_management_system.model.entities.TourEntity;
 import com.example.tourism_management_system.model.entities.UserEntity;
 import com.example.tourism_management_system.model.entities.UserInTourEntity;
+import com.example.tourism_management_system.model.enums.Status;
 import com.example.tourism_management_system.model.pojos.Tour;
 import com.example.tourism_management_system.model.pojos.User;
 import com.example.tourism_management_system.model.pojos.UserInTour;
@@ -22,15 +23,15 @@ import java.util.List;
 public class UserInTourServiceImpl implements UserInTourService {
 
     private final UserInTourRepository userInTourRepository;
-    private final TourService tourService;
+    @Autowired
+    private TourService tourService;
     @Autowired
     private UserService userService;
     private final ReviewService reviewService;
 
     @Autowired
-    public UserInTourServiceImpl(UserInTourRepository userInTourRepository, TourService tourService, ReviewService reviewService) {
+    public UserInTourServiceImpl(UserInTourRepository userInTourRepository, ReviewService reviewService) {
         this.userInTourRepository = userInTourRepository;
-        this.tourService = tourService;
         this.reviewService = reviewService;
     }
 
@@ -66,7 +67,7 @@ public class UserInTourServiceImpl implements UserInTourService {
     @Override
     public List<UserInTour> findByUser(UserEntity user) {
         List<UserInTour> userInTours = new ArrayList<>();
-        List<UserInTourEntity> userInTourEntities = userInTourRepository.findByUser(user);
+        List<UserInTourEntity> userInTourEntities = userInTourRepository.findByUser(user, Status.DONE);
         if (userInTourEntities == null) {
             return Collections.emptyList();
         }
@@ -85,7 +86,7 @@ public class UserInTourServiceImpl implements UserInTourService {
      */
     @Override
     public String cancel(UserInTour userInTour) {
-        int result = userInTourRepository.cancel(userInTour.getTransactionNumber());
+        int result = userInTourRepository.cancel(userInTour.getTransactionNumber(), Status.CANCELED);
         if (result > 0) {
             return tourService.updateForCanceling(userInTour.getTour(), userInTour.getQuantity());
         }
@@ -128,5 +129,16 @@ public class UserInTourServiceImpl implements UserInTourService {
         List<UserInTour> userInTours = new ArrayList<>();
         userInTourEntities.forEach(userInTourEntity -> userInTours.add(new UserInTour(userInTourEntity)));
         return userInTours;
+    }
+    
+    @Override
+    public List <String> getTransactionNumbers (Long tourId) {
+        TourEntity tourEntity = tourService.getEntityById(tourId);
+        return userInTourRepository.getTransactionNumbers(tourEntity);
+    }
+    
+    @Override
+    public void cancelByUs (String transactionNumber) {
+        userInTourRepository.cancel(transactionNumber, Status.CANCELED);
     }
 }

@@ -9,6 +9,7 @@ import com.example.tourism_management_system.bank.api.validation.ValidationForCa
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -58,13 +59,30 @@ public class TransactionServiceImpl implements TransactionService {
     public String revertTransaction(String transactionNumber) {
         Optional<TransactionEntity> transactionEntity = transactionRepository.findTransaction(transactionNumber);
         if (transactionEntity.isPresent() && transactionEntity.get().getFlag()) {
-            cardService.withdrawBalance(transactionEntity.get().getReceiver(), transactionEntity.get().getPrice());
-            CardEntity cardEntity = cardService.getCard(transactionEntity.get().getSender()).get();
-            double d = validationForCard.getRate("AMD", cardEntity.getCurrency(), transactionEntity.get().getPrice());
-            cardService.rechargeBalance(transactionEntity.get().getSender(), d);
-            transactionRepository.revert(transactionNumber);
+            revert(transactionNumber, transactionEntity);
             return "Success";
         }
-        throw new IllegalArgumentException("Transaction Is Already Reverted");
+        throw new IllegalArgumentException("Transaction Is Already Reverted: Transaction Number - " + transactionEntity.get().getTransactionNumber());
+    }
+    
+    @Override
+    public String revertTransactionList (List <String> transactionNumbers) {
+        for (String transactionNumber : transactionNumbers) {
+            Optional<TransactionEntity> transactionEntity = transactionRepository.findTransaction(transactionNumber);
+            if (transactionEntity.isPresent() && transactionEntity.get().getFlag()) {
+                revert(transactionNumber, transactionEntity);
+            } else {
+                throw new IllegalArgumentException("Transaction Is Already Reverted: Transaction Number - " + transactionEntity.get().getTransactionNumber());
+            }
+        }
+        return "Success";
+    }
+    
+    private void revert (String transactionNumber, Optional <TransactionEntity> transactionEntity) {
+        cardService.withdrawBalance(transactionEntity.get().getReceiver(), transactionEntity.get().getPrice());
+        CardEntity cardEntity = cardService.getCard(transactionEntity.get().getSender()).get();
+        double     d          = validationForCard.getRate("AMD", cardEntity.getCurrency(), transactionEntity.get().getPrice());
+        cardService.rechargeBalance(transactionEntity.get().getSender(), d);
+        transactionRepository.revert(transactionNumber);
     }
 }

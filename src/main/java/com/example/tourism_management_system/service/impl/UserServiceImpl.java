@@ -31,11 +31,13 @@ public class UserServiceImpl implements UserService {
     private final RoleService roleService;
     private final CardForUserService cardForUserService;
     private final ReviewService reviewService;
-    private final TourService tourService;
+    @Autowired
+    private TourService tourService;
     private final ValidationForCardForUser validationForCardForUser;
+    private final ValidationForUser validationForUser;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, ValidationForTour validationForTour, TransactionService transactionService, CardService cardService, JwtService jwtService, RoleService roleService, CardForUserService cardForUserService, ReviewService reviewService, TourService tourService, ValidationForCardForUser validationForCardForUser) {
+    public UserServiceImpl(UserRepository userRepository, ValidationForTour validationForTour, TransactionService transactionService, CardService cardService, JwtService jwtService, RoleService roleService, CardForUserService cardForUserService, ReviewService reviewService, ValidationForCardForUser validationForCardForUser, ValidationForUser validationForUser) {
         this.userRepository = userRepository;
         this.validationForTour = validationForTour;
         this.transactionService = transactionService;
@@ -44,8 +46,8 @@ public class UserServiceImpl implements UserService {
         this.roleService = roleService;
         this.cardForUserService = cardForUserService;
         this.reviewService = reviewService;
-        this.tourService = tourService;
         this.validationForCardForUser = validationForCardForUser;
+        this.validationForUser = validationForUser;
     }
 
     /**
@@ -69,7 +71,6 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public String signUp(final SignUpUser signUpUser) {
-        ValidationForUser validationForUser = new ValidationForUser();
         validationForUser.isAdult(signUpUser.getBirthDate());
         UserEntity userEntity = new UserEntity(signUpUser);
         Optional<UserEntity> op1 = userRepository.findByEmail(signUpUser.getEmail());
@@ -108,7 +109,7 @@ public class UserServiceImpl implements UserService {
             t = true;
             userRepository.updateLastName(editInfo.getLastName(), email);
         }
-        if (editInfo.getBirthDate() != null) {
+        if (editInfo.getBirthDate() != null && validationForUser.isAdult(editInfo.getBirthDate())) {
             t = true;
             userRepository.updateBirthDate(editInfo.getBirthDate(), email);
         }
@@ -122,12 +123,13 @@ public class UserServiceImpl implements UserService {
      * Changes the password for the user with the specified email.
      *
      * @param email    the email of the user
-     * @param password the new password to set
+     * @param oldPassword the old password to check
+     * @param newPassword the new password to set
      * @return true if the password change was successful, false otherwise
      */
     @Override
     public Boolean passwordChange(String email, String oldPassword, String newPassword) {
-        if(new BCryptPasswordEncoder().encode(oldPassword).equals(userRepository.getPassword(email))){
+        if(new BCryptPasswordEncoder().matches(oldPassword, userRepository.getPassword(email))){
             newPassword = new BCryptPasswordEncoder().encode(newPassword);
             return userRepository.resetPassword(email, newPassword) > 0;
         }
@@ -166,7 +168,6 @@ public class UserServiceImpl implements UserService {
 
     /**
      * Books a tour for the user with the specified email.
-     *
      *
      * @param bookTour the tour booking details
      * @param email    the email of the user
@@ -237,15 +238,10 @@ public class UserServiceImpl implements UserService {
      * @return a list of tours representing the user's tour history
      */
     @Override
-    public List<Tour> getHistoryOfTours(String email) {
+    public List<UserInTour> getHistoryOfTours(String email) {
         List<Tour> tours = new ArrayList<>();
         List<UserInTour> userInTours = userInTourService.findByUser(userRepository.findByEmail(email).get());
-        if (userInTours == null)
-            return Collections.emptyList();
-        for (UserInTour userInTour : userInTours) {
-            tours.add(userInTour.getTour());
-        }
-        return tours;
+        return userInTours;
     }
 
     /**
@@ -308,14 +304,17 @@ public class UserServiceImpl implements UserService {
     /**
      * Deletes a card from the user's account.
      *
-     * @param cardForUser the card to be deleted
      * @param email       the email address of the user
      * @return true if the card is successfully deleted, false otherwise
      * @throws IllegalArgumentException if there is an error deleting the card
      */
     @Override
-    public Boolean deleteCard(CardForUser cardForUser, String email) {
-        if (cardForUserService.deleteCard(cardForUser)) {
+    public Boolean deleteCard(String email) {
+        UserEntity userEntity = userRepository.findByEmail(email).get();
+        if (userEntity.getCardEntityForUser() == null) {
+            throw new IllegalArgumentException("This User Don't Have Card");
+        }
+        if (cardForUserService.deleteCard(userEntity.getCardEntityForUser().getCardNumber())) {
             return userRepository.deleteCard(email) > 0;
         }
         throw new IllegalArgumentException("Error deleting");

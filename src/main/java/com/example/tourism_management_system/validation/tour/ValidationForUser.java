@@ -1,7 +1,10 @@
 package com.example.tourism_management_system.validation.tour;
 
+import org.springframework.stereotype.Component;
+
 import java.time.LocalDate;
 
+@Component
 public class ValidationForUser {
 
     /**
@@ -11,10 +14,10 @@ public class ValidationForUser {
      * @return The birthdate if it represents an adult (age 18 or older).
      * @throws IllegalArgumentException if the birthdate represents a person younger than 18 years.
      */
-    public LocalDate isAdult(LocalDate birthDate) {
+    public boolean isAdult(LocalDate birthDate) {
         LocalDate validatedDate = LocalDate.now().minusYears(16);
         if (birthDate.isBefore(validatedDate)) {
-            return birthDate;
+            return true;
         } else {
             throw new IllegalArgumentException("Age must be at least 16.");
         }

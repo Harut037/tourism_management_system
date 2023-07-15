@@ -1,10 +1,12 @@
 package com.example.tourism_management_system.validation.tour;
 
 import com.example.tourism_management_system.model.entities.TourEntity;
+import com.example.tourism_management_system.model.enums.Status;
 import com.example.tourism_management_system.model.enums.enumForTour.Transport;
 import com.example.tourism_management_system.repository.TourRepository;
+import com.example.tourism_management_system.repository.UserInTourRepository;
+import com.example.tourism_management_system.service.TourService;
 import com.example.tourism_management_system.service.impl.JwtService;
-import com.example.tourism_management_system.service.impl.TourServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -17,17 +19,19 @@ import java.util.Map;
 @Component
 public class Scheduler {
 
-    private final TourServiceImpl tourService;
-    private final JwtService jwtService;
+    private final TourService tourService;
+    private final JwtService  jwtService;
     private final ValidationForTour validation;
     private final TourRepository tourRepository;
+    private final UserInTourRepository userInTourRepository;
 
     @Autowired
-    public Scheduler(TourServiceImpl tourService, JwtService jwtService, TourRepository tourRepository, ValidationForTour validation) {
+    public Scheduler(TourService tourService, JwtService jwtService, TourRepository tourRepository, ValidationForTour validation, UserInTourRepository userInTourRepository) {
         this.tourService = tourService;
         this.jwtService = jwtService;
         this.validation = validation;
         this.tourRepository = tourRepository;
+        this.userInTourRepository = userInTourRepository;
     }
 
     /**
@@ -40,12 +44,14 @@ public class Scheduler {
         LocalDate currentDate = LocalDate.now();
         List<TourEntity> tours = tourService.getAllForSchedule();
         for (TourEntity tour : tours) {
-            if (tour.getTourDate().minusDays(2).isBefore(currentDate) || tour.getTourDate().minusDays(2).isEqual(currentDate)) {
+            if (tour.getTourDate().isBefore(currentDate) && (tour.getStatus().equals(Status.ACTIVE) || tour.getStatus().equals(Status.RESERVED))) {
+                tourService.doneById(tour.getId());
+            }
+            if (tour.getStatus().equals(Status.ACTIVE) && tour.getTourDate().minusDays(2).isBefore(currentDate) || tour.getTourDate().minusDays(2).isEqual(currentDate)) {
                 String s = validation.forCarType(tour.getGeneralQuantity());
                 tourRepository.updateCarType(Transport.valueOf(s), tour.getTourName(), tour.getTourDate());
-            }
-            if (tour.getTourDate().isBefore(currentDate)) {
-                tourService.deleteById(tour.getId());
+                tourRepository.reserved(tour.getId(), Status.RESERVED);
+                userInTourRepository.done(tour, Status.DONE);
             }
         }
     }
@@ -57,7 +63,7 @@ public class Scheduler {
      * checks if each token is expired using the isTokenExpired() method,
      * and removes the expired tokens from the list.
      */
-    @Scheduled(fixedRate = 1000 * 60 * 60)
+    @Scheduled(fixedRate = 1000 * 60 * 60 * 5)
     public void deleteExpiredTokensFromBlackList() {
         Map<String, Boolean> map = JwtService.invalidatedTokens;
         Map<String, Boolean> newMap = new HashMap<>();

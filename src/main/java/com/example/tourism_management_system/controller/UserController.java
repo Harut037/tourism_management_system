@@ -31,7 +31,7 @@ public class UserController {
     }
     
     @GetMapping( "/tourHistory")
-    public List <Tour> getTourHistory (@RequestHeader(value = "Authorization") String authorizationToken) {
+    public List <UserInTour> getTourHistory (@RequestHeader(value = "Authorization") String authorizationToken) {
         String email = jwtService.extractUsername(authorizationToken.substring(7));
         if (email == null)
             throw new UsernameNotFoundException("No Such User");
@@ -71,30 +71,19 @@ public class UserController {
             throw new IllegalArgumentException("New Password Should Be Different From Old Password");
         }
     }
-    
-    @GetMapping ( "/forgotPassword" )
-    public String forgotPassword (String email) {
-        if (!email.matches(EMAIL_REGEXP))
-            throw new IllegalArgumentException("Invalid email");
-        return userService.forgotPassword(email);
-    }
 
-    @PutMapping ( "/changeForgotPassword" )
+    @PutMapping ( "/resetPassword" )
     public Boolean resetPassword (@RequestHeader(value = "Authorization") String authorizationToken,
                                   @Valid @RequestBody @NonNull PasswordChange passwordChange) {
         String email = jwtService.extractUsername(authorizationToken.substring(7));
         if (email == null)
             throw new UsernameNotFoundException("No Such User");
-        if (!passwordChange.getOldPassword().equals(passwordChange.getNewPassword())) {
-            return userService.resetChange(email, passwordChange.getNewPassword());
-        } else {
-            throw new IllegalArgumentException("New Password Should Be Different From Old Password");
-        }
+        return userService.resetChange(email, passwordChange.getNewPassword());
     }
     
     @PutMapping ( "/changeEmail" )
     public Boolean changeEmail (@RequestHeader(value = "Authorization") String authorizationToken,
-                                @NonNull String newEmail) {
+                                @RequestBody @NonNull String newEmail) {
         String email = jwtService.extractUsername(authorizationToken.substring(7));
         if (email == null)
             throw new UsernameNotFoundException("No Such User");
@@ -105,7 +94,7 @@ public class UserController {
     
     @PutMapping ( "/changePhoneNumber" )
     public Boolean changePhoneNumber (@RequestHeader(value = "Authorization") String authorizationToken,
-                                      @Valid @RequestBody @NonNull String newPhoneNumber) {
+                                      @RequestBody @NonNull String newPhoneNumber) {
         String email = jwtService.extractUsername(authorizationToken.substring(7));
         if (email == null)
             throw new UsernameNotFoundException("No Such User");
@@ -132,7 +121,7 @@ public class UserController {
         return userService.cancelTour(transactionNumber);
     }
     
-    @PutMapping("/leaveReview")
+    @PostMapping("/leaveReview")
     public String leaveReview (@RequestHeader(value = "Authorization") String authorizationToken,
                                @Valid @RequestBody @NonNull LeaveReview leaveReview) {
         String email = jwtService.extractUsername(authorizationToken.substring(7));
@@ -154,12 +143,11 @@ public class UserController {
     }
     
     @PutMapping("/deleteCard")
-    public String deleteCard (@RequestHeader(value = "Authorization") String authorizationToken,
-                              @Valid @RequestBody @NonNull CardForUser cardForUser) {
+    public String deleteCard (@RequestHeader(value = "Authorization") String authorizationToken) {
         String email = jwtService.extractUsername(authorizationToken.substring(7));
         if (email == null)
             throw new UsernameNotFoundException("No Such User");
-        if( userService.deleteCard(cardForUser, email))
+        if( userService.deleteCard(email))
             return "Success";
         throw new IllegalArgumentException("Couldn't delete'");
     }
@@ -168,25 +156,5 @@ public class UserController {
     public String logout (@RequestHeader(value = "Authorization") String authorizationToken) {
         jwtService.invalidateToken(authorizationToken.substring(7));
         return authorizationToken;
-    }
-
-    @GetMapping("/sortByDate")
-    public List<Tour> sortByDate() {
-        return tourService.sortByDate();
-    }
-
-    @GetMapping("/sortByCost")
-    public List<Tour> sortByCost() {
-        return tourService.sortByCost();
-    }
-
-    @GetMapping("/sortByDistance")
-    public List<Tour> sortByDistance() {
-        return tourService.sortByDistance();
-    }
-
-    @GetMapping("/sortByQuantity")
-    public List<Tour> sortByQuantity(){
-        return tourService.sortByQuantity();
     }
 }

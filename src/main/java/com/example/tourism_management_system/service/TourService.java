@@ -18,6 +18,8 @@ public interface TourService {
     List<TourEntity> getAllForSchedule();
 
     Tour getById(Long id);
+    
+    TourEntity getEntityById(Long id);
 
     String deleteById(Long id);
 
@@ -44,4 +46,6 @@ public interface TourService {
     Long getId(Tour tour);
 
     TourEntity getTour(Tour tour);
+    
+    void doneById (Long id);
 }

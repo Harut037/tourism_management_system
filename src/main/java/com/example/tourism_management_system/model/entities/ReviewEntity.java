@@ -3,6 +3,8 @@ package com.example.tourism_management_system.model.entities;
 import com.example.tourism_management_system.model.enums.Status;
 import com.example.tourism_management_system.model.pojos.Review;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -17,14 +19,24 @@ import lombok.NoArgsConstructor;
 public class ReviewEntity extends BaseEntity {
 
     private String feedback;
+    @Min (0)
+    @Max (10)
     @Column(name = "driver", nullable = false)
     private Integer driver;
+    @Min (0)
+    @Max (10)
     @Column(name = "guide", nullable = false)
     private Integer guide;
+    @Min (0)
+    @Max (10)
     @Column(name = "support", nullable = false)
     private Integer support;
+    @Min (0)
+    @Max (10)
     @Column(name = "tour", nullable = false)
     private Integer tour;
+    @Min (0)
+    @Max (10)
     @Column(name = "company", nullable = false)
     private Integer company;
 

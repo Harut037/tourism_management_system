@@ -27,7 +27,7 @@ public class TransactionEntity {
     @Column(name = "date", nullable = false)
     private String date;
     @Column(name = "price", nullable = false)
-    private double price;
+    private Double price;
     @Column(name = "currency", nullable = false)
     private String currency;
     @Column(name = "flag", nullable = false)
@@ -35,7 +35,7 @@ public class TransactionEntity {
 
     public TransactionEntity(Card card, double price) {
         setSender(card.getCardNumber());
-        setReceiver("4847243400981111");
+        setReceiver("4444444444444444");
         setDate(LocalDate.now().toString());
         setCurrency(card.getCurrency());
         setPrice(price);

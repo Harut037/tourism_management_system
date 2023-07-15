@@ -21,6 +21,8 @@ import java.util.List;
 @RequestMapping ( value = "/Guest" )
 public class GuestController {
     
+    final String EMAIL_REGEXP = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z]{2,}$";
+    
     private final TourService           tourService;
     private final UserService           userService;
     private final JwtService            jwtService;
@@ -57,5 +59,32 @@ public class GuestController {
         } else {
             throw new UsernameNotFoundException("invalid user request !");
         }
+    }
+    
+    @GetMapping ( "/forgotPassword" )
+    public String forgotPassword (@RequestBody @NonNull String email) {
+        if (!email.matches(EMAIL_REGEXP))
+            throw new IllegalArgumentException("Invalid email");
+        return userService.forgotPassword(email);
+    }
+    
+    @GetMapping("/sortByDate")
+    public List<Tour> sortByDate() {
+        return tourService.sortByDate();
+    }
+    
+    @GetMapping("/sortByCost")
+    public List<Tour> sortByCost() {
+        return tourService.sortByCost();
+    }
+    
+    @GetMapping("/sortByDistance")
+    public List<Tour> sortByDistance() {
+        return tourService.sortByDistance();
+    }
+    
+    @GetMapping("/sortByQuantity")
+    public List<Tour> sortByQuantity(){
+        return tourService.sortByQuantity();
     }
 }

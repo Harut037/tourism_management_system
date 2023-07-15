@@ -27,7 +27,7 @@ public interface UserService {
     
     Long getIdByEmail (String email);
     
-    List <Tour> getHistoryOfTours(String email);
+    List <UserInTour> getHistoryOfTours(String email);
     
     User getInfo (String email);
     
@@ -37,7 +37,7 @@ public interface UserService {
     
     Boolean addCard (CardForUser cardForUser, String email);
     
-    Boolean deleteCard (CardForUser cardForUser, String email);
+    Boolean deleteCard (String email);
     
     UserEntity getUser (String email);
 }

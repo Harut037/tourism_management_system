@@ -9,5 +9,5 @@ public interface CardForUserService {
 
     CardEntityForUser save(CardForUser cardForUser);
 
-    Boolean deleteCard(CardForUser cardForUser);
+    Boolean deleteCard(String cardNumber);
 }

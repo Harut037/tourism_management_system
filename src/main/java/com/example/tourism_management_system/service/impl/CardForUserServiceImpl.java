@@ -1,6 +1,7 @@
 package com.example.tourism_management_system.service.impl;
 
 import com.example.tourism_management_system.model.entities.CardEntityForUser;
+import com.example.tourism_management_system.model.enums.Status;
 import com.example.tourism_management_system.model.pojos.CardForUser;
 import com.example.tourism_management_system.repository.CardForUserRepository;
 import com.example.tourism_management_system.service.CardForUserService;
@@ -31,11 +32,11 @@ public class CardForUserServiceImpl implements CardForUserService {
     /**
      * Deletes a CardForUser object by removing the corresponding CardEntityForUser from the repository.
      *
-     * @param cardForUser the CardForUser object to delete
+     * @param cardNumber the Card Number to delete
      * @return true if the card was successfully deleted, false otherwise
      */
     @Override
-    public Boolean deleteCard(CardForUser cardForUser) {
-        return cardForUserRepository.deleteByCardNumber(cardForUser.getCardNumber()) > 0;
+    public Boolean deleteCard(String cardNumber) {
+        return cardForUserRepository.deleteByCardNumber(cardNumber, Status.DELETED) > 0;
     }
 }

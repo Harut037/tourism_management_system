@@ -2,6 +2,8 @@ package com.example.tourism_management_system.validation.tour;
 
 import com.example.tourism_management_system.model.enums.enumForTour.*;
 import com.example.tourism_management_system.model.pojos.Tour;
+import com.example.tourism_management_system.service.TourService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -13,7 +15,14 @@ import java.util.List;
 
 @Component
 public class ValidationForTour {
-
+    
+    private final TourService tourService;
+    
+    @Autowired
+    public ValidationForTour (TourService tourService) {
+        this.tourService = tourService;
+    }
+    
     /**
      * Retrieves the corresponding tour name based on the given tour type and tour name.
      *
@@ -240,7 +249,10 @@ public class ValidationForTour {
      * @throws IllegalArgumentException If the number of passengers is not within the valid range.
      */
     public String forCarType(Integer quantity) {
-        if (quantity >= 1 && quantity <= 7) {
+        if (quantity == 0) {
+            return Transport.UNDEFINED.toString();
+        }
+        else if (quantity >= 1 && quantity <= 7) {
             return Transport.MINIVAN.toString();
         } else if (quantity >= 8 && quantity <= 18) {
             return Transport.MINIBUS.toString();
@@ -248,5 +260,15 @@ public class ValidationForTour {
             return Transport.BUS.toString();
         }
         throw new IllegalArgumentException();
+    }
+    
+    //TODO: Implement
+    public boolean isValidTourForEdit (Tour tour) {
+        return false;
+    }
+    
+    
+    public boolean isValidTourForRemove (Tour tour) {
+        return tourService.getId(tour) != null && tourService.getId(tour) > 0;
     }
 }
