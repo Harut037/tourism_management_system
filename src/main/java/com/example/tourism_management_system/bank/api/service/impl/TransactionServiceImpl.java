@@ -38,9 +38,9 @@ public class TransactionServiceImpl implements TransactionService {
         double d = validationForCard.getRate("AMD", card.getCurrency(), price);
         if (card.getBalance() >= d) {
             cardService.withdrawBalance(card.getCardNumber(), d);
-            cardService.rechargeBalance("4847243400981111", price);
+            cardService.rechargeBalance("4444444444444444", price);
             transactionEntity.setTransactionNumber(validationForCard.generateTransactionNumber());
-            transactionEntity.setCurrency(card.getCurrency());
+            transactionEntity.setCurrency("AMD");
             transactionRepository.save(transactionEntity);
             return transactionEntity.getTransactionNumber();
         } else

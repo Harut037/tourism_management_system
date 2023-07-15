@@ -34,7 +34,7 @@ public class Scheduler {
      * Deletes past date tours and updates car type for upcoming tours.
      * This method is scheduled to run every hour.
      */
-    @Scheduled(fixedRate = 5000)
+//    @Scheduled(fixedRate = 5000)
     @Scheduled(cron = "0 0 * * * *")
     public void deletePastDateTours() {
         LocalDate currentDate = LocalDate.now();
