@@ -126,9 +126,12 @@ public class UserServiceImpl implements UserService {
      * @return true if the password change was successful, false otherwise
      */
     @Override
-    public Boolean passwordChange(String email, String password) {
-        password = new BCryptPasswordEncoder().encode(password);
-        return userRepository.resetPassword(email, password) > 0;
+    public Boolean passwordChange(String email, String oldPassword, String newPassword) {
+        if(new BCryptPasswordEncoder().encode(oldPassword).equals(userRepository.getPassword(email))){
+            newPassword = new BCryptPasswordEncoder().encode(newPassword);
+            return userRepository.resetPassword(email, newPassword) > 0;
+        }
+        throw new IllegalArgumentException("Old Password Is Incorrect");
     }
 
     /**
