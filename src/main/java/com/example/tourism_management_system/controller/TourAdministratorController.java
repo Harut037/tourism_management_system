@@ -15,7 +15,6 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/TourAdministrator")
 public class TourAdministratorController {
-
     private final TourAdministratorService tourAdministratorService;
     private final ValidationForTour validationForTour;
     private final JwtService jwtService;

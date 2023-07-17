@@ -1,7 +1,6 @@
 package com.example.tourism_management_system.bank.api.validation;
 
 public class ExchangeRate {
-
     private final double USD;
     private final double RUR;
     private final double AMD;

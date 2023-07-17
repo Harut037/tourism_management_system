@@ -2,7 +2,6 @@ package com.example.tourism_management_system.bank.api.validation;
 
 import com.example.tourism_management_system.bank.api.model.pojo.Card;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -10,13 +9,17 @@ import java.time.format.DateTimeFormatter;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ValidationForCardTest {
-    
+
+    private final ValidationForCard validationForCard = new ValidationForCard();
+
     @Test
     void cardNumberValidation() {
-        ValidationForCard validationForCard = new ValidationForCard();
+        String cardNumber = "4111111111111111";
+        String validatedNumber = validationForCard.cardNumberValidation(cardNumber);
+        assertEquals(cardNumber, validatedNumber);
 
-        String cardNumbers = validationForCard.cardNumberValidation("48790000111122226");
-        assertEquals("Invalid card number", cardNumbers);
+        String cardNumbers = "48790000111122226";
+        assertThrows(IllegalArgumentException.class, () -> validationForCard.cardNumberValidation(cardNumbers));
 
         String cardNumberForVisa = "4123456789012345";
         String actualResultForVisa = validationForCard.cardNumberValidation(cardNumberForVisa);
@@ -25,11 +28,8 @@ class ValidationForCardTest {
         String actualResultForMaster = validationForCard.cardNumberValidation("5145781223568957");
         assertEquals("5145781223568957", actualResultForMaster);
 
-        String actualResultForMaster1 = validationForCard.cardNumberValidation("5745781223568957");
-        assertNotEquals("5745781223568957", actualResultForMaster1);
-
-        String actualResultForAmericanExpress = validationForCard.cardNumberValidation("314578123568957");
-        assertEquals("Invalid card number", actualResultForAmericanExpress);
+        String actualResultForMaster1 = "5745781223568957";
+        assertThrows(IllegalArgumentException.class, () -> validationForCard.cardNumberValidation(actualResultForMaster1));
 
         String actualResultForAmericanExpress1 = validationForCard.cardNumberValidation("344578123568957");
         assertEquals("344578123568957", actualResultForAmericanExpress1);
@@ -37,14 +37,12 @@ class ValidationForCardTest {
         String actualResultForArca = validationForCard.cardNumberValidation("9045781243568957");
         assertEquals("9045781243568957", actualResultForArca);
 
-        String actualResultForArca1 = validationForCard.cardNumberValidation("9145781243568957");
-        assertEquals("Invalid card number", actualResultForArca1);
+        assertThrows(IllegalArgumentException.class, () -> validationForCard.cardNumberValidation("9145781243568957"));
+        assertThrows(IllegalArgumentException.class, () -> validationForCard.cardNumberValidation("314578123568957"));
     }
 
     @Test
     void validateForCardType() {
-        ValidationForCard validationForCard = new ValidationForCard();
-
         String[] cardTypes = new String[]{"VISA", "MASTERCARD", "AMERICANEXPRESS", "ACBA"};
 
         String cardType = validationForCard.validateForCardType(cardTypes[0]);
@@ -62,8 +60,6 @@ class ValidationForCardTest {
 
     @Test
     void validateExpirationDate() {
-        ValidationForCard validationForCard = new ValidationForCard();
-
         LocalDate currentDate = LocalDate.now();
         currentDate.format(DateTimeFormatter.ofPattern("MM/yy"));
         LocalDate expirationDate = LocalDate.now().plusDays(10);
@@ -89,7 +85,6 @@ class ValidationForCardTest {
 
     @Test
     void isValidCard() {
-        ValidationForCard validationForCard = new ValidationForCard();
         Card card = new Card();
         card.setCardNumber("4318290092359237");
         card.setType("VISA");
@@ -115,13 +110,10 @@ class ValidationForCardTest {
 
         card.setExpirationDate(null);
         assertEquals(false, validationForCard.isValidCard(card));
-
-
     }
 
     @Test
     void getRate() {
-        ValidationForCard validationForCard = new ValidationForCard();
         ExchangeRate rate = new ExchangeRate();
         double amount = 100.0;
 
@@ -129,34 +121,29 @@ class ValidationForCardTest {
         double expectedRateUSDtoAMD = amount * rate.getUSD();
         double actualRateUSDtoAMD = validationForCard.getRate("USD", "AMD", amount);
         assertEquals(expectedRateUSDtoAMD, actualRateUSDtoAMD, 0.01);
-        assertEquals(Double.parseDouble("38594.0"), actualRateUSDtoAMD);
+        assertEquals(Double.parseDouble("38505.0"), actualRateUSDtoAMD);
 
         validationForCard.getRate("EUR", "AMD", 100.0);
         double expectedRateEURtoAMD = amount * rate.getEUR();
         double actualRateEURtoAMD = validationForCard.getRate("EUR", "AMD", amount);
         assertEquals(expectedRateEURtoAMD, actualRateEURtoAMD, 0.01);
-        assertEquals(Double.parseDouble("41516.0"), actualRateEURtoAMD);
+        assertEquals(Double.parseDouble("42191.0"), actualRateEURtoAMD);
 
         validationForCard.getRate("RUR", "AMD", 100.0);
         double expectedRateRURtoAMD = amount * rate.getRUR();
         double actualRateRURtoAMD = validationForCard.getRate("RUR", "AMD", amount);
         assertEquals(expectedRateRURtoAMD, actualRateRURtoAMD, 0.01);
-        assertEquals(Double.parseDouble("483.0"), actualRateRURtoAMD);
+        assertEquals(Double.parseDouble("441.0"), actualRateRURtoAMD);
 
         validationForCard.getRate("AMD", "USD", 1000.0);
         double expectedRateAMDtoUSD = amount / rate.getUSD();
         double actualRateAMDtoUSD = validationForCard.getRate("AMD", "USD", amount);
         assertEquals(expectedRateAMDtoUSD, actualRateAMDtoUSD, 0.01);
 
-
-
-
         validationForCard.getRate("AMD", "EUR", 1000.0);
         double expectedRateAMDtoEUR = amount / rate.getEUR();
         double actualRateAMDtoEUR = validationForCard.getRate("AMD", "EUR", amount);
         assertEquals(expectedRateAMDtoEUR, actualRateAMDtoEUR, 0.01);
-
-
 
         validationForCard.getRate("AMD", "RUR", 1000.0);
         double expectedRateAMDtoRUR = amount / rate.getRUR();

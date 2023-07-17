@@ -44,8 +44,9 @@ public class TransactionServiceImpl implements TransactionService {
             transactionEntity.setCurrency("AMD");
             transactionRepository.save(transactionEntity);
             return transactionEntity.getTransactionNumber();
-        } else
+        } else {
             return "You don`t have enough money";
+        }
     }
 
     /**
@@ -61,12 +62,20 @@ public class TransactionServiceImpl implements TransactionService {
         if (transactionEntity.isPresent() && transactionEntity.get().getFlag()) {
             revert(transactionNumber, transactionEntity);
             return "Success";
+        } else {
+            throw new IllegalArgumentException("Transaction Is Already Reverted: Transaction Number - " + transactionEntity.get().getTransactionNumber());
         }
-        throw new IllegalArgumentException("Transaction Is Already Reverted: Transaction Number - " + transactionEntity.get().getTransactionNumber());
     }
-    
+
+    /**
+     * Reverts a list of transactions.
+     *
+     * @param transactionNumbers the list of transaction numbers to revert
+     * @return a string indicating the result of the operation
+     * @throws IllegalArgumentException if a transaction is already reverted or not found
+     */
     @Override
-    public String revertTransactionList (List <String> transactionNumbers) {
+    public String revertTransactionList(List<String> transactionNumbers) {
         for (String transactionNumber : transactionNumbers) {
             Optional<TransactionEntity> transactionEntity = transactionRepository.findTransaction(transactionNumber);
             if (transactionEntity.isPresent() && transactionEntity.get().getFlag()) {
@@ -77,11 +86,17 @@ public class TransactionServiceImpl implements TransactionService {
         }
         return "Success";
     }
-    
-    private void revert (String transactionNumber, Optional <TransactionEntity> transactionEntity) {
+
+    /**
+     * Reverts a specific transaction.
+     *
+     * @param transactionNumber the transaction number to revert
+     * @param transactionEntity an optional transaction entity containing the details of the transaction
+     */
+    private void revert(String transactionNumber, Optional<TransactionEntity> transactionEntity) {
         cardService.withdrawBalance(transactionEntity.get().getReceiver(), transactionEntity.get().getPrice());
         CardEntity cardEntity = cardService.getCard(transactionEntity.get().getSender()).get();
-        double     d          = validationForCard.getRate("AMD", cardEntity.getCurrency(), transactionEntity.get().getPrice());
+        double d = validationForCard.getRate("AMD", cardEntity.getCurrency(), transactionEntity.get().getPrice());
         cardService.rechargeBalance(transactionEntity.get().getSender(), d);
         transactionRepository.revert(transactionNumber);
     }

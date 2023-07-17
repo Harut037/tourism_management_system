@@ -15,14 +15,14 @@ import java.util.List;
 
 @Component
 public class ValidationForTour {
-    
+
     private final TourService tourService;
-    
+
     @Autowired
-    public ValidationForTour (TourService tourService) {
+    public ValidationForTour(TourService tourService) {
         this.tourService = tourService;
     }
-    
+
     /**
      * Retrieves the corresponding tour name based on the given tour type and tour name.
      *
@@ -251,8 +251,7 @@ public class ValidationForTour {
     public String forCarType(Integer quantity) {
         if (quantity == 0) {
             return Transport.UNDEFINED.toString();
-        }
-        else if (quantity >= 1 && quantity <= 7) {
+        } else if (quantity >= 1 && quantity <= 7) {
             return Transport.MINIVAN.toString();
         } else if (quantity >= 8 && quantity <= 18) {
             return Transport.MINIBUS.toString();
@@ -261,14 +260,19 @@ public class ValidationForTour {
         }
         throw new IllegalArgumentException();
     }
-    
+
     //TODO: Implement
-    public boolean isValidTourForEdit (Tour tour) {
+    public boolean isValidTourForEdit(Tour tour) {
         return false;
     }
-    
-    
-    public boolean isValidTourForRemove (Tour tour) {
+
+    /**
+     * Checks if a tour is valid for removal.
+     *
+     * @param tour the tour to check for validity
+     * @return true if the tour is valid for removal, false otherwise
+     */
+    public boolean isValidTourForRemove(Tour tour) {
         return tourService.getId(tour) != null && tourService.getId(tour) > 0;
     }
 }

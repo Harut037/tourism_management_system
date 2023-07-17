@@ -32,7 +32,6 @@ public class CardController {
             cards.add(new Card(cardEntity));
         }
         return cards;
-
     }
 
     @PostMapping("/create")

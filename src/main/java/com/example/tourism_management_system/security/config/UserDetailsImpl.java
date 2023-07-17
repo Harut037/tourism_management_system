@@ -52,7 +52,6 @@ public class UserDetailsImpl implements UserDetails {
         return password;
     }
 
-
     /**
      * Returns the username (email) of the user.
      *
@@ -63,7 +62,6 @@ public class UserDetailsImpl implements UserDetails {
         return email;
     }
 
-
     /**
      * Checks if the user account is non-expired.
      *
@@ -73,7 +71,6 @@ public class UserDetailsImpl implements UserDetails {
     public boolean isAccountNonExpired() {
         return status != Status.EXPIRED;
     }
-
 
     /**
      * Checks if the user account is non-locked.

@@ -5,7 +5,6 @@ import com.example.tourism_management_system.model.entities.UserEntity;
 import com.example.tourism_management_system.model.entities.UserInTourEntity;
 import com.example.tourism_management_system.model.enums.Status;
 import com.example.tourism_management_system.model.pojos.Tour;
-import com.example.tourism_management_system.model.pojos.User;
 import com.example.tourism_management_system.model.pojos.UserInTour;
 import com.example.tourism_management_system.repository.UserInTourRepository;
 import com.example.tourism_management_system.service.ReviewService;

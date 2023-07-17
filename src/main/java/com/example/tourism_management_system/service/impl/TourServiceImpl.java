@@ -14,6 +14,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -89,12 +90,19 @@ public class TourServiceImpl implements TourService {
         Optional<TourEntity> op = tourRepository.findById(id);
         return op.map(Tour::new).orElse(null);
     }
-    
+
+    /**
+     * Retrieves a tour entity by its ID.
+     *
+     * @param id the ID of the tour entity to retrieve
+     * @return the tour entity with the specified ID
+     * @throws NoSuchElementException if no tour entity is found with the given ID
+     */
     @Override
-    public TourEntity getEntityById (Long id) {
+    public TourEntity getEntityById(Long id) throws NoSuchElementException {
         return tourRepository.findById(id).get();
     }
-    
+
     /**
      * Deletes a tour by its ID.
      *
@@ -297,9 +305,14 @@ public class TourServiceImpl implements TourService {
         }
         throw new IllegalArgumentException("All Fields Are Null");
     }
-    
+
+    /**
+     * Marks a tour as done by its ID.
+     *
+     * @param id the ID of the tour to mark as done
+     */
     @Override
-    public void doneById (Long id) {
+    public void doneById(Long id) {
         tourRepository.done(id, Status.DONE);
     }
 }

@@ -69,7 +69,6 @@ public class SecurityConfig {
                 .build();
     }
 
-
     /**
      * Configures and returns the PasswordEncoder bean for encoding passwords.
      *
@@ -92,7 +91,6 @@ public class SecurityConfig {
         authenticationProvider.setPasswordEncoder(passwordEncoder());
         return authenticationProvider;
     }
-
 
     /**
      * Configures and returns the AuthenticationManager bean for managing authentication.

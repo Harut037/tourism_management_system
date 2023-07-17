@@ -22,7 +22,6 @@ import java.util.List;
 public class GuestController {
     
     final String EMAIL_REGEXP = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z]{2,}$";
-    
     private final TourService           tourService;
     private final UserService           userService;
     private final JwtService            jwtService;

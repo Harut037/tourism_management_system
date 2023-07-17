@@ -21,7 +21,9 @@ public class ValidationForCardForUser {
         try {
             if (currentDate.isBefore(expirationDate)) {
                 return expirationDate;
-            } else throw new NullPointerException();
+            } else {
+                throw new NullPointerException();
+            }
         } catch (NullPointerException e) {
             return null;
         }
