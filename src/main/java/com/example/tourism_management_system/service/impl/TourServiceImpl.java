@@ -66,7 +66,12 @@ public class TourServiceImpl implements TourService {
      */
     @Override
     public List<Tour> getAllActiveTours() {
-        return null;
+        List<Tour> list = new ArrayList<>();
+        List<TourEntity> listEntity = tourRepository.findAllActiveTours();
+        for (TourEntity i : listEntity) {
+            list.add(new Tour(i));
+        }
+        return list;
     }
 
     /**
